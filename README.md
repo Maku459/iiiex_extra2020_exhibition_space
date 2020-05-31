@@ -15,3 +15,36 @@
 * （初回のみ）別のターミナルで `docker-compose run web rake db:create`
     * tmp/dbというところにデータベースのファイルがおいてあるので一度作ってしまえば2回目以降起動するときはしなくて良い
 * ブラウザで `localhost:3000` を開く
+
+
+# フロントエンドのコードの書き方
+
+READMEの手順でサーバーを起動して `http://localhost:3000/space/index` または `http://localhost:3000/` （ルートに設定してあります）にアクセスすると，展示空間用のページを開けます
+
+## 以下を編集してください．
+
+HTMLに相当するファイル: `app/views/space/index.html.erb`
+JavaScript: `app/javascript/packs/space_index.js`
+
+JavaScriptはES6です．Rails 6のデフォルトの通り，yarnでパッケージ管理してwebpackがpackしてるので，space_index.jsの冒頭でthree.jsをimportしています．
+別のJSファイルを作るときは，`app/javascript/packs` の下に作成し，関数などを
+
+```
+export function hello(name) {
+  console.log("Hello " + name + "!");
+}
+```
+
+のように書いておいて
+
+```
+import { hello } from './hello';
+```
+
+とすれば読み込めます．
+
+パッケージを追加する際は，
+`docker-compose run web yarn add three`
+のようにやってください．
+
+詳しくは以下のページがわかりやすいです．dockerを使ってないのでコマンドの先頭に `docker-compose run web` がついていないのでその辺りは注意してください．
