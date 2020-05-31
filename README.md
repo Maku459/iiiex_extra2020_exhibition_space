@@ -45,6 +45,14 @@ import { hello } from './hello';
 
 とすれば読み込めます．
 
+UIフレームワークのような全ページに読み込むようなものは，`app/javascript/packs/application.js` に以下のようにしておけば実行されます．
+
+```javascript
+require("bootstrap");
+require("@fortawesome/fontawesome-free");
+
+```
+
 パッケージを追加する際は，
 `docker-compose run web yarn add three`
 のようにやってください．
