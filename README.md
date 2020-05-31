@@ -15,11 +15,13 @@
 * （初回のみ）別のターミナルで `docker-compose run web rake db:create`
     * tmp/dbというところにデータベースのファイルがおいてあるので一度作ってしまえば2回目以降起動するときはしなくて良い
 * ブラウザで `localhost:3000` を開く
+* 終了するときはCtrl-Cで停止する．
+* 終わったらDocker desktopは終了して良い．
 
 
 # フロントエンドのコードの書き方
 
-READMEの手順でサーバーを起動して `http://localhost:3000/space/index` または `http://localhost:3000/` （ルートに設定してあります）にアクセスすると，展示空間用のページを開けます
+How to startの手順でサーバーを起動して `http://localhost:3000/space/index` または `http://localhost:3000/` （ルートに設定してあります）にアクセスすると，展示空間用のページを開けます
 
 ## 以下を編集してください．
 
