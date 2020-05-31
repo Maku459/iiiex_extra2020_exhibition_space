@@ -50,3 +50,4 @@ import { hello } from './hello';
 のようにやってください．
 
 詳しくは以下のページがわかりやすいです．dockerを使ってないのでコマンドの先頭に `docker-compose run web` がついていないのでその辺りは注意してください．
+https://techracho.bpsinc.jp/hachi8833/2020_01_16/85940
