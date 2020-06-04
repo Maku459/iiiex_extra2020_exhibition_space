@@ -1,12 +1,12 @@
 import * as THREE from 'three'
-import {OrbitControls} from './module/OrbitControls.js';
-import {GLTFLoader} from './module/GLTFLoader.js';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 
 let W, H;
-const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true}), camera = new THREE.PerspectiveCamera(90, W/H, 1, 3000), controls = new THREE.OrbitControls(camera, renderer.domElement);
+const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true}), camera = new THREE.PerspectiveCamera(90, W/H, 1, 3000), controls = new OrbitControls(camera, renderer.domElement);
 const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
-const　gltfLoader = new THREE.GLTFLoader();
+const　gltfLoader = new GLTFLoader();
 
 renderer.setClearColor(0x000000);
 
@@ -41,24 +41,24 @@ document.addEventListener('DOMContentLoaded', () => {
 		sphere.position.set(Math.random()*100-50, Math.random()*5, Math.random()*100-50);
 	}
 	
-	
-	const obj0 = new THREE.Mesh(geometry = new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
-	obj0.position.set(25, 5, 25);
-	color[0].obj.add(obj0);
-	scene.add(color[0].obj);
-	const obj1 = new THREE.Mesh(geometry = new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
-	obj1.position.set(25, 5, -25);
-	color[1].obj.add(obj1);
-	scene.add(color[1].obj);
-	const obj2 = new THREE.Mesh(geometry = new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
-	obj2.position.set(-25, 5, 25);
-	color[2].obj.add(obj2);
-	scene.add(color[2].obj);
-	const obj3 = new THREE.Mesh(geometry = new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
-	obj3.position.set(-25, 5, -25);
-	color[3].obj.add(obj3);
-	scene.add(color[3].obj);
-	
+	// geometryが見つからないということで以下のコードが実行できない
+	// const obj0 = new THREE.Mesh(geometry = new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
+	// obj0.position.set(25, 5, 25);
+	// color[0].obj.add(obj0);
+	// scene.add(color[0].obj);
+	// const obj1 = new THREE.Mesh(geometry = new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
+	// obj1.position.set(25, 5, -25);
+	// color[1].obj.add(obj1);
+	// scene.add(color[1].obj);
+	// const obj2 = new THREE.Mesh(geometry = new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
+	// obj2.position.set(-25, 5, 25);
+	// color[2].obj.add(obj2);
+	// scene.add(color[2].obj);
+	// const obj3 = new THREE.Mesh(geometry = new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
+	// obj3.position.set(-25, 5, -25);
+	// color[3].obj.add(obj3);
+	// scene.add(color[3].obj);
+
 	for (let i=0; i<color.length; i++) {
 		color[i].obj.visible = false;
 	}
