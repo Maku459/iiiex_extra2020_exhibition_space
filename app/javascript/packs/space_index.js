@@ -41,23 +41,22 @@ document.addEventListener('DOMContentLoaded', () => {
 		sphere.position.set(Math.random()*100-50, Math.random()*5, Math.random()*100-50);
 	}
 	
-	// geometryが見つからないということで以下のコードが実行できない
-	// const obj0 = new THREE.Mesh(geometry = new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
-	// obj0.position.set(25, 5, 25);
-	// color[0].obj.add(obj0);
-	// scene.add(color[0].obj);
-	// const obj1 = new THREE.Mesh(geometry = new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
-	// obj1.position.set(25, 5, -25);
-	// color[1].obj.add(obj1);
-	// scene.add(color[1].obj);
-	// const obj2 = new THREE.Mesh(geometry = new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
-	// obj2.position.set(-25, 5, 25);
-	// color[2].obj.add(obj2);
-	// scene.add(color[2].obj);
-	// const obj3 = new THREE.Mesh(geometry = new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
-	// obj3.position.set(-25, 5, -25);
-	// color[3].obj.add(obj3);
-	// scene.add(color[3].obj);
+	const obj0 = new THREE.Mesh(new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
+	obj0.position.set(25, 5, 25);
+	color[0].obj.add(obj0);
+	scene.add(color[0].obj);
+	const obj1 = new THREE.Mesh(new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
+	obj1.position.set(25, 5, -25);
+	color[1].obj.add(obj1);
+	scene.add(color[1].obj);
+	const obj2 = new THREE.Mesh(new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
+	obj2.position.set(-25, 5, 25);
+	color[2].obj.add(obj2);
+	scene.add(color[2].obj);
+	const obj3 = new THREE.Mesh(new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
+	obj3.position.set(-25, 5, -25);
+	color[3].obj.add(obj3);
+	scene.add(color[3].obj);
 
 	for (let i=0; i<color.length; i++) {
 		color[i].obj.visible = false;
