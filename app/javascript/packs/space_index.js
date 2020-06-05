@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const directionalLightHelper = new THREE.DirectionalLightHelper(light);
 	scene.add(directionalLightHelper);
 	
-	gltfLoader.load('model/iiiEx_field.gltf', (data) => {
+	gltfLoader.load('/model/iiiEx_field.gltf', (data) => {
 	    const gltf = data;
 	    const obj = gltf.scene;
 		obj.scale.set(10, 10, 10);

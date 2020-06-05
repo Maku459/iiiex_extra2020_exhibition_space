@@ -25,7 +25,10 @@ How to startの手順でサーバーを起動して `http://localhost:3000/space
 
 ## 以下を編集してください．
 
+### HTML
 HTMLに相当するファイル: `app/views/space/index.html.erb`
+
+### JavaScript
 JavaScript: `app/javascript/packs/space_index.js`
 
 JavaScriptはES6です．Rails 6のデフォルトの通り，yarnでパッケージ管理してwebpackがpackしてるので，space_index.jsの冒頭でthree.jsをimportしています．
@@ -59,3 +62,26 @@ require("@fortawesome/fontawesome-free");
 
 詳しくは以下のページがわかりやすいです．dockerを使ってないのでコマンドの先頭に `docker-compose run web` がついていないのでその辺りは注意してください．
 https://techracho.bpsinc.jp/hachi8833/2020_01_16/85940
+
+### SCSS
+
+#### 基本
+
+* 全てのページで共通するスタイルを記述する: `/app/assets/stylesheets/application.css`にかく
+* 展示空間ページのみのスタイルを記述する: `/app/assets/stylesheets/space.scss`にかく
+
+#### 外部のスタイルシートを追加するとき
+
+Bootstrapみたいなものはyarnでパッケージとして追加できるので，できれば使用してください．
+
+特にパッケージがなくて，cssだけ配られているようなものは，`/public/css`においてください．
+読み込むときは`space.html.erb`などで以下のように記述してください．
+
+```ruby
+<%= stylesheet_link_tag '/css/your_stylesheet.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+```
+
+### モデル
+
+`/public/model`においてください．読み込むときは`/model/iiiEx_field.gltf`のように，`public` を除いたパスを指定して読み込んでください．
+このとき，必ず絶対パス (`/`で始まるパス) で書いてください．先頭に `/` がつかない相対パスはだと正しく読み込まれない場合があります．
