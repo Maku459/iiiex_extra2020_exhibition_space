@@ -63,6 +63,16 @@ require("@fortawesome/fontawesome-free");
 詳しくは以下のページがわかりやすいです．dockerを使ってないのでコマンドの先頭に `docker-compose run web` がついていないのでその辺りは注意してください．
 https://techracho.bpsinc.jp/hachi8833/2020_01_16/85940
 
+
+JavaScriptは，View(HTML)のファイルで，以下のように読み込みます．
+JavaScriptのなかでimportする形ではなくファイルを追加する場合は，これを使います．
+普通は`javascript_pack_tag`を使うのですが，packした時にchunkに分割するようにしているので，
+こちらを使うよう注意してください．
+
+```ruby
+<%= javascript_packs_with_chunks_tag 'space_index' %>
+```
+
 ### SCSS
 
 #### 基本
@@ -85,3 +95,7 @@ Bootstrapみたいなものはyarnでパッケージとして追加できるの�
 
 `/public/model`においてください．読み込むときは`/model/iiiEx_field.gltf`のように，`public` を除いたパスを指定して読み込んでください．
 このとき，必ず絶対パス (`/`で始まるパス) で書いてください．先頭に `/` がつかない相対パスはだと正しく読み込まれない場合があります．
+
+### 画像ファイル等
+
+モデルと同様に、`/public/images`において読み込んでください。動画などを置く場合も適宜`/public`の下にフォルダを作っておけば大丈夫です。
