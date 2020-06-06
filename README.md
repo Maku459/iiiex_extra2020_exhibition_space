@@ -63,6 +63,16 @@ require("@fortawesome/fontawesome-free");
 詳しくは以下のページがわかりやすいです．dockerを使ってないのでコマンドの先頭に `docker-compose run web` がついていないのでその辺りは注意してください．
 https://techracho.bpsinc.jp/hachi8833/2020_01_16/85940
 
+
+JavaScriptは，View(HTML)のファイルで，以下のように読み込みます．
+JavaScriptのなかでimportする形ではなくファイルを追加する場合は，これを使います．
+普通は`javascript_pack_tag`を使うのですが，packした時にchunkに分割するようにしているので，
+こちらを使うよう注意してください．
+
+```ruby
+<%= javascript_packs_with_chunks_tag 'space_index' %>
+```
+
 ### SCSS
 
 #### 基本

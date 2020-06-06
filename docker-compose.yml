@@ -5,12 +5,12 @@ services:
     environment:
       POSTGRES_PASSWORD: dc49ff98
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data:cached
+      - ./tmp/db:/var/lib/postgresql/data
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - .:/myapp:cached
+      - .:/myapp
       - /myapp/.git
       - /myapp/log
       - /myapp/vendor
@@ -18,3 +18,16 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - frontend
+    environment:
+      WEBPACKER_DEV_SERVER_HOST: "frontend"
+  frontend:
+    build: .
+    command: bash -c "/myapp/bin/webpack-dev-server --config /myapp/config/webpack/development --host 0.0.0.0 --port 3035"
+    volumes:
+      - .:/myapp
+      - /myapp/.git
+      - /myapp/log
+      - /myapp/vendor
+    ports:
+      - "3035:3035"
