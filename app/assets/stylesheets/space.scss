@@ -23,25 +23,33 @@ a {
 	pointer-events: none;
 }
 #ui {
-	#glass {
+	#glass__container{
 		position: absolute;
 		top: 10px;
 		left: 10px;
-		overflow: hidden;
 
-		li {
-			float: left;
-			margin-right: 20px;
+		#glass__buttons {
+			overflow: hidden;
 			background: rgba(255, 255, 255, 0.3);
-
-			a {
-				display: block;
-				width: 80px;
-				height:40px;
-				color: #ffffff;
-				font-sie: 24px;
-				text-align: center;
-				line-height: 40px;
+			padding-left: 0px;
+	
+			li {
+				float: none;
+				padding-top: 5px;
+				padding-bottom: 5px;
+				margin-right: 10px;
+				margin-left: 10px;
+				list-style: none;
+	
+				a {
+					display: block;
+					width: 80px;
+					height:40px;
+					color: #ffffff;
+					font-size: 24px;
+					text-align: center;
+					line-height: 40px;
+				}
 			}
 		}
 	}
