@@ -3,7 +3,7 @@ import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 let W, H;
 const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(90, W/H, 1, 3000), clock = new THREE.Clock();
-const　gltfLoader = new GLTFLoader();
+const gltfLoader = new GLTFLoader();
 const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
 let rot = 0, dirLR = 0, dirFB = 0, dirUD = 0, dragging = false;
 const speed = 20, angle = 0.4, tilt = 0.4, max = 30;
