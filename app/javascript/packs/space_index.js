@@ -1,13 +1,16 @@
 import * as THREE from 'three'
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 let W, H;
-const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(90, W/H, 1, 3000), controls = new OrbitControls(camera, renderer.domElement);
-const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
+const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(90, W/H, 1, 3000), clock = new THREE.Clock();
 const　gltfLoader = new GLTFLoader();
-renderer.setPixelRatio(window.devicePixelRatio);
+const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
+let rot = 0, dirLR = 0, dirFB = 0, dirUD = 0, dragging = false;
+const speed = 20, angle = 0.4, tilt = 0.4, max = 30;
+let LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 
+
+renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setClearColor(0x000000);
 
 
@@ -17,14 +20,51 @@ document.addEventListener('DOMContentLoaded', () => {
 	window.addEventListener("orientationchange", setMain);
 	document.querySelector("#world").appendChild(renderer.domElement);
 	
-	camera.position.set(0, 5, 100);
-//	controls = new THREE.OrbitControls(camera, renderer.domElement);
-	controls.enableKeys = true;
-	const light = new THREE.DirectionalLight(0xFFFFFF, 1);
-	light.position.set(0, 50, 0);
-	scene.add(light);
-	const directionalLightHelper = new THREE.DirectionalLightHelper(light);
-	scene.add(directionalLightHelper);
+	camera.position.set(0, 5, 10);
+	
+	const lights = new THREE.Group();
+	const light0 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	light0.position.set(0, 50, 0);
+	lights.add(light0);
+	const directionalLightHelper0 = new THREE.DirectionalLightHelper(light0);
+	lights.add(directionalLightHelper0);
+	scene.add(lights);
+
+	const light1 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	light1.position.set(50, 50, 0);
+	lights.add(light1);
+	const directionalLightHelper1 = new THREE.DirectionalLightHelper(light1);
+	lights.add(directionalLightHelper1);
+	scene.add(lights);
+
+	const light2 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	light2.position.set(-50, 50, 0);
+	lights.add(light2);
+	const directionalLightHelper2 = new THREE.DirectionalLightHelper(light2);
+	lights.add(directionalLightHelper2);
+	scene.add(lights);
+
+	const light3 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	light3.position.set(0, 50, 50);
+	lights.add(light3);
+	const directionalLightHelper3 = new THREE.DirectionalLightHelper(light3);
+	lights.add(directionalLightHelper3);
+	scene.add(lights);
+
+	const light4 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	light4.position.set(0, 50, -50);
+	lights.add(light4);
+	const directionalLightHelper4 = new THREE.DirectionalLightHelper(light4);
+	lights.add(directionalLightHelper4);
+	scene.add(lights);
+	
+	const light5 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	light5.position.set(0, -50, 0);
+	lights.add(light5);
+	const directionalLightHelper5 = new THREE.DirectionalLightHelper(light5);
+	lights.add(directionalLightHelper5);
+	scene.add(lights);
+	
 	
 	gltfLoader.load('/model/iiiEx_field.gltf', (data) => {
 	    const gltf = data;
@@ -35,11 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	const axes = new THREE.AxesHelper(100);
 	scene.add(axes);
-	for (let i=0; i<20; i++) {
-		const sphere = new THREE.Mesh(new THREE.SphereGeometry(1), new THREE.MeshStandardMaterial({color: 0xffff00, roughness:0.5}));
-		scene.add(sphere);
-		sphere.position.set(Math.random()*100-50, Math.random()*5, Math.random()*100-50);
-	}
 	
 	const obj0 = new THREE.Mesh(new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
 	obj0.position.set(25, 5, 25);
@@ -62,6 +97,85 @@ document.addEventListener('DOMContentLoaded', () => {
 		color[i].obj.visible = false;
 	}
 	color[0].obj.visible = true;
+	
+	document.addEventListener("keydown", (e) => {
+		switch (e.code) {
+			case "ArrowRight" :
+			case "KeyD" :
+				dirs[0] = true;
+			break;
+			case "ArrowLeft" :
+			case "KeyA" :
+				dirs[1] = true;
+			break;
+			case "ArrowUp" :
+			case "KeyW" :
+				dirs[2] = true;
+			break;
+			case "ArrowDown" :
+			case "KeyS" :
+				dirs[3] = true;
+			break;
+		}
+	});
+	
+	document.addEventListener("keyup", (e) => {
+		switch (e.code) {
+			case "ArrowRight" :
+			case "KeyD" :
+				dirs[0] = false;
+			break;
+			case "ArrowLeft" :
+			case "KeyA" :
+				dirs[1] = false;
+			break;
+			case "ArrowUp" :
+			case "KeyW" :
+				dirs[2] = false;
+			break;
+			case "ArrowDown" :
+			case "KeyS" :
+				dirs[3] = false;
+			break;
+		}
+	});
+	
+	document.querySelector("#world").addEventListener("mousedown", (e) => {
+		dragging = true;
+		if (e.pageX > W*2/3) {
+			dirs[0] = true;
+		} else if (e.pageX < W/3) {
+			dirs[1] = true;
+		} else if (e.pageY < H/2) {
+			dirs[5] = true;
+		} else {
+			dirs[6] = true;
+		}
+	});
+	
+	document.querySelector("#world").addEventListener("mousemove", (e) => {
+		if (dragging) {
+			for (let i=0; i<dirs.length; i++) {
+				dirs[i] = false;
+			}
+			if (e.pageX > W*2/3) {
+				dirs[0] = true;
+			} else if (e.pageX < W/3) {
+				dirs[1] = true;
+			} else if (e.pageY < H/2) {
+				dirs[5] = true;
+			} else {
+				dirs[6] = true;
+			}
+		}
+	});
+	
+	document.querySelector("#world").addEventListener("mouseup", (e) => {
+		dragging = false;
+		for (let i=0; i<dirs.length; i++) {
+			dirs[i] = false;
+		}
+	});
 	
 	document.querySelectorAll("#glass a").forEach((target) => {
 		target.addEventListener("click", (e) => {
@@ -91,8 +205,44 @@ const setMain = () => {
 	}
 }
 
+const getSum = (array, value) => {
+	array.push(value);
+	if (array.length > max) {
+		array.shift();
+	}
+	let sum = 0;
+	for (let i=0; i<array.length; i++) {
+		sum += array[i];
+	}
+	sum /= array.length;
+	return sum;
+}
+
+const movieg = () => {
+	const delta = clock.getDelta();
+	rot += getSum(LRs, dirLR) * Math.PI * angle * delta;
+	
+	const offset = getSum(FBs, dirFB) * speed * delta;
+	let offsetx = offset * Math.cos(rot);
+	let offsetz = offset * Math.sin(rot);
+	camera.position.set(camera.position.x + offsetx, camera.position.y, camera.position.z + offsetz);
+	dirFB = 0;
+	
+	offsetx = speed * Math.cos(rot);
+	offsetz = speed * Math.sin(rot);
+	camera.lookAt(new THREE.Vector3(camera.position.x + offsetx, camera.position.y + getSum(UDs, dirUD) * tilt, camera.position.z + offsetz));
+	dirLR = 0;
+}
+
 const update = () =>  {
-	controls.update();
+	if (dirs[0]) dirLR++;
+	if (dirs[1]) dirLR--;
+	if (dirs[2]) dirFB++;
+	if (dirs[3]) dirFB--;
+	if (dirs[5]) dirUD++;
+	if (dirs[6]) dirUD--;
+	movieg();
+	
 	renderer.render(scene, camera);
 	requestAnimationFrame(update);
 }
