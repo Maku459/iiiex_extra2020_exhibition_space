@@ -1,11 +1,12 @@
 <%= stylesheet_link_tag 'space', media: 'all', 'data-turbolinks-track': 'reload' %>
 <%= javascript_packs_with_chunks_tag 'space_index' %>
+<%= javascript_packs_with_chunks_tag 'space_ui' %>
 
 		<div id="world"></div>
 		<div id="screen"></div>
 		<div id="ui">
 			<div id="glass__container">
-				<img src="/images/colorglass_transparent.png" alt="" width="80px" height="" border="0" />
+				<button id="glass__now" type="button"><img src="/images/colorglass_transparent.png" alt="" width="80px" height="" border="0" /></button>
 				<ul id="glass__buttons">
 					<li><a href="#" data-no="0"><img src="/images/colorglass_transparent.png" alt="" width="80px" height="" border="0" /></a></li>
 					<li><a href="#" data-no="1"><img src="/images/colorglass_red.png" alt="" width="80px" height="" border="0" /></a></li>
