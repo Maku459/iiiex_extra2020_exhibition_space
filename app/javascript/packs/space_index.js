@@ -2,12 +2,13 @@ import * as THREE from 'three'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 let W, H;
-const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(90, W/H, 1, 3000), clock = new THREE.Clock();
+const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
 const gltfLoader = new GLTFLoader();
 const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
-let yaw = 0, dirLR = 0, dirFB = 0, dirUD = 0, pitch = 0, dragging = false;
-const spFB = 15, spLR = 0.2, spUD = 15, max = 30;
+let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, dragging = false;
+const spFB = 15, spLR = 0.1, spUD = 7, exLR = 1.5, max = 30;
 let LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
+const pmouse = new THREE.Vector3();
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setClearColor(0x000000);
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	gltfLoader.load('/model/iiiEx_field.gltf', (data) => {
 	    const gltf = data;
 	    const obj = gltf.scene;
-		obj.scale.set(10, 10, 10);
+		obj.scale.set(20, 20, 20);
 		scene.add(obj);
 	});
 	
@@ -135,39 +136,20 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	document.querySelector("#world").addEventListener("mousedown", (e) => {
 		dragging = true;
-		if (e.pageX > W*2/3) {
-			dirs[0] = true;
-		} else if (e.pageX < W/3) {
-			dirs[1] = true;
-		} else if (e.pageY < H/2) {
-			dirs[4] = true;
-		} else {
-			dirs[5] = true;
-		}
+		pmouse.x = e.pageX;
+		pmouse.y = e.pageY;
 	});
 	
 	document.querySelector("#world").addEventListener("mousemove", (e) => {
 		if (dragging) {
-			for (let i=0; i<dirs.length; i++) {
-				dirs[i] = false;
-			}
-			if (e.pageX > W*2/3) {
-				dirs[0] = true;
-			} else if (e.pageX < W/3) {
-				dirs[1] = true;
-			} else if (e.pageY < H/2) {
-				dirs[4] = true;
-			} else {
-				dirs[5] = true;
-			}
+			const rot = Math.atan2(e.pageY - pmouse.y, e.pageX - pmouse.x);
+			dirLR += -Math.cos(rot) * exLR;
+			dirUD += Math.sin(rot);
 		}
 	});
 	
 	document.querySelector("#world").addEventListener("mouseup", (e) => {
 		dragging = false;
-		for (let i=0; i<dirs.length; i++) {
-			dirs[i] = false;
-		}
 	});
 	
 	document.querySelectorAll("#glass a").forEach((target) => {
@@ -237,7 +219,6 @@ const movieg = () => {
 
 const update = () =>  {
 	movieg();
-	
 	renderer.render(scene, camera);
 	requestAnimationFrame(update);
 }
