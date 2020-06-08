@@ -8,4 +8,8 @@ $(document).ready(function(){
 			$('#glass__buttons').fadeIn();
 		}
 	});
+	//e.preventDefalt()でリンク無効にしました
+	$('#glass__buttons a').on('click',function(e){
+		e.preventDefault();
+	});
 })
