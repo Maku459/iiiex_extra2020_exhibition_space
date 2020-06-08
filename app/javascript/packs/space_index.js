@@ -5,14 +5,12 @@ let W, H;
 const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(90, W/H, 1, 3000), clock = new THREE.Clock();
 const gltfLoader = new GLTFLoader();
 const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
-let rot = 0, dirLR = 0, dirFB = 0, dirUD = 0, dragging = false;
-const speed = 20, angle = 0.4, tilt = 0.4, max = 30;
+let yaw = 0, dirLR = 0, dirFB = 0, dirUD = 0, pitch = 0, dragging = false;
+const spFB = 15, spLR = 0.2, spUD = 15, max = 30;
 let LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
-
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setClearColor(0x000000);
-
 
 document.addEventListener('DOMContentLoaded', () => {
 	setMain();
@@ -21,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.querySelector("#world").appendChild(renderer.domElement);
 	
 	camera.position.set(0, 5, 10);
+	pitch = camera.position.y;
 	
 	const lights = new THREE.Group();
 	const light0 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
@@ -29,42 +28,36 @@ document.addEventListener('DOMContentLoaded', () => {
 	const directionalLightHelper0 = new THREE.DirectionalLightHelper(light0);
 	lights.add(directionalLightHelper0);
 	scene.add(lights);
-
 	const light1 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
 	light1.position.set(50, 50, 0);
 	lights.add(light1);
 	const directionalLightHelper1 = new THREE.DirectionalLightHelper(light1);
 	lights.add(directionalLightHelper1);
 	scene.add(lights);
-
 	const light2 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
 	light2.position.set(-50, 50, 0);
 	lights.add(light2);
 	const directionalLightHelper2 = new THREE.DirectionalLightHelper(light2);
 	lights.add(directionalLightHelper2);
 	scene.add(lights);
-
 	const light3 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
 	light3.position.set(0, 50, 50);
 	lights.add(light3);
 	const directionalLightHelper3 = new THREE.DirectionalLightHelper(light3);
 	lights.add(directionalLightHelper3);
 	scene.add(lights);
-
 	const light4 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
 	light4.position.set(0, 50, -50);
 	lights.add(light4);
 	const directionalLightHelper4 = new THREE.DirectionalLightHelper(light4);
 	lights.add(directionalLightHelper4);
 	scene.add(lights);
-	
 	const light5 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
 	light5.position.set(0, -50, 0);
 	lights.add(light5);
 	const directionalLightHelper5 = new THREE.DirectionalLightHelper(light5);
 	lights.add(directionalLightHelper5);
 	scene.add(lights);
-	
 	
 	gltfLoader.load('/model/iiiEx_field.gltf', (data) => {
 	    const gltf = data;
@@ -147,9 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		} else if (e.pageX < W/3) {
 			dirs[1] = true;
 		} else if (e.pageY < H/2) {
-			dirs[5] = true;
+			dirs[4] = true;
 		} else {
-			dirs[6] = true;
+			dirs[5] = true;
 		}
 	});
 	
@@ -163,9 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			} else if (e.pageX < W/3) {
 				dirs[1] = true;
 			} else if (e.pageY < H/2) {
-				dirs[5] = true;
+				dirs[4] = true;
 			} else {
-				dirs[6] = true;
+				dirs[5] = true;
 			}
 		}
 	});
@@ -220,27 +213,29 @@ const getSum = (array, value) => {
 
 const movieg = () => {
 	const delta = clock.getDelta();
-	rot += getSum(LRs, dirLR) * Math.PI * angle * delta;
-	
-	const offset = getSum(FBs, dirFB) * speed * delta;
-	let offsetx = offset * Math.cos(rot);
-	let offsetz = offset * Math.sin(rot);
-	camera.position.set(camera.position.x + offsetx, camera.position.y, camera.position.z + offsetz);
-	dirFB = 0;
-	
-	offsetx = speed * Math.cos(rot);
-	offsetz = speed * Math.sin(rot);
-	camera.lookAt(new THREE.Vector3(camera.position.x + offsetx, camera.position.y + getSum(UDs, dirUD) * tilt, camera.position.z + offsetz));
-	dirLR = 0;
-}
-
-const update = () =>  {
 	if (dirs[0]) dirLR++;
 	if (dirs[1]) dirLR--;
 	if (dirs[2]) dirFB++;
 	if (dirs[3]) dirFB--;
-	if (dirs[5]) dirUD++;
-	if (dirs[6]) dirUD--;
+	if (dirs[4]) dirUD++;
+	if (dirs[5]) dirUD--;
+	yaw += getSum(LRs, dirLR) * Math.PI * spLR * delta;
+	pitch += getSum(UDs, dirUD) * spUD * delta
+	
+	const offset = getSum(FBs, dirFB) * spFB * delta;
+	let offsetX = offset * Math.cos(yaw);
+	let offsetZ = offset * Math.sin(yaw);
+	camera.position.set(camera.position.x + offsetX, camera.position.y, camera.position.z + offsetZ);
+	
+	offsetX = spFB * Math.cos(yaw);
+	offsetZ = spFB * Math.sin(yaw);
+	camera.lookAt(new THREE.Vector3(camera.position.x + offsetX, pitch, camera.position.z + offsetZ));
+	dirFB = 0;
+	dirLR = 0;
+	dirUD = 0;
+}
+
+const update = () =>  {
 	movieg();
 	
 	renderer.render(scene, camera);
