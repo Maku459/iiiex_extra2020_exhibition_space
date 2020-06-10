@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :userpositions
   get 'space/index'
   get 'space/feedback1'
 
