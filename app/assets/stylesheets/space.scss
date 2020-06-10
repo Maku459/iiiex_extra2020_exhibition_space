@@ -25,8 +25,8 @@ a {
 #ui {
 	#glass__container{
 		position: absolute;
-		top: 10px;
-		left: 10px;
+		top: 120px;
+		right: 10px;
 
 		#glass__buttons {
 			overflow: hidden;
@@ -53,5 +53,10 @@ a {
 				}
 			}
 		}
+	}
+	#map__container{
+		position: absolute;
+		top: 10px;
+		right: 10px;
 	}
 }
