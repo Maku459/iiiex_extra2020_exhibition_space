@@ -10,6 +10,8 @@ $(document).ready(function(){
 	});
 	//e.preventDefalt()でリンク無効にしました
 	$('#glass__buttons a').on('click',function(e){
-		e.preventDefault();
+        e.preventDefault();
+        let src = $(this).children('img').attr('src');
+        $('#glass__now').children('img').attr('src', src);
 	});
 })
