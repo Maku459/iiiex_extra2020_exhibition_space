@@ -1,14 +1,40 @@
 import * as THREE from 'three'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+import * as OIMO from './oimo';
+//import * as MW from './meshwalk';
 
 let W, H;
 const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
 const gltfLoader = new GLTFLoader();
 const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
-let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, dragging = false;
+let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 5, dragging = false;
 const spFB = 15, spLR = 0.1, spUD = 7, exLR = 1.5, max = 30;
 let LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 const pmouse = new THREE.Vector3();
+
+/*const oimo = new OIMO.World({ 
+    timestep: 1/60, 
+    iterations: 8, 
+    broadphase: 2, // 1 brute force, 2 sweep and prune, 3 volume tree
+    worldscale: 1, // scale full world 
+    random: true,  // randomize sample
+    info: true,   // calculate statistic or not
+    gravity: [0, -9.8 ,0] 
+});
+
+var body = oimo.add({ 
+    type:'sphere', // type of shape : sphere, box, cylinder 
+    size:[1,1,1], // size of shape
+    pos:[0,0,0], // start position in degree
+    rot:[0,0,90], // start rotation in degree
+    move:true, // dynamic or statique
+    density: 1,
+    friction: 0.2,
+    restitution: 0.2,
+    belongsTo: 1, // The bits of the collision groups to which the shape belongs.
+    collidesWith: 0xffffffff // The bits of the collision groups with which the shape collides.
+});*/
+
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setClearColor(0x000000);
@@ -20,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.querySelector("#world").appendChild(renderer.domElement);
 	
 	camera.position.set(0, 5, 10);
-	pitch = camera.position.y;
+	pitch = camY;
 	
 	const lights = new THREE.Group();
 	const light0 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
@@ -63,6 +89,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	gltfLoader.load('/model/iiiEx_field.gltf', (data) => {
 	    const gltf = data;
 	    const obj = gltf.scene;
+/*	    for (let i=0; i<obj.children.length; i++) {
+		    console.log(obj.children[i]);
+		    let geometry = new THREE.Geometry();
+//		    console.log(obj.children[i].geometry.attributes.position.array)
+		    for (let j=0; j<obj.children[i].geometry.attributes.position.count; j++) {
+//			    console.log(obj.children[i].geometry.attributes.position.array[j*3])
+			    geometry.vertices.push(new THREE.Vector3(obj.children[i].geometry.attributes.position.array[j*3], obj.children[i].geometry.attributes.position.array[j*3+1], obj.children[i].geometry.attributes.position.array[j*3+2]));
+		    }
+		    let terrain = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: true}));
+		    terrain.scale.set(20, 20, 20);
+//		    console.log(terrain);
+			scene.add(terrain);
+	    }*/
 		obj.scale.set(20, 20, 20);
 		scene.add(obj);
 	});
@@ -131,6 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			case "KeyS" :
 				dirs[3] = false;
 			break;
+			case "Space" :
+				pitch = camY;
+			break;
 		}
 	});
 	
@@ -145,6 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			const rot = Math.atan2(e.pageY - pmouse.y, e.pageX - pmouse.x);
 			dirLR += -Math.cos(rot) * exLR;
 			dirUD += Math.sin(rot);
+			pmouse.x = e.pageX;
+			pmouse.y = e.pageY;
 		}
 	});
 	
@@ -193,7 +237,7 @@ const getSum = (array, value) => {
 	return sum;
 }
 
-const movieg = () => {
+const moving = () => {
 	const delta = clock.getDelta();
 	if (dirs[0]) dirLR++;
 	if (dirs[1]) dirLR--;
@@ -218,7 +262,9 @@ const movieg = () => {
 }
 
 const update = () =>  {
-	movieg();
+	moving();
 	renderer.render(scene, camera);
+//	oimo.step();
+//	camera.position.copy( body.getPosition() );
 	requestAnimationFrame(update);
 }
