@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
-import * as OIMO from './oimo';
-//import * as MW from './meshwalk';
+import * as MW from 'meshwalk';
+// import * as OIMO from './oimo';
 
 let W, H;
 const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
@@ -11,6 +11,11 @@ let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 5, dragging = fa
 const spFB = 15, spLR = 0.1, spUD = 7, exLR = 1.5, max = 30;
 let LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 const pmouse = new THREE.Vector3();
+
+console.log(MW)
+MW.install( THREE )
+let world = new MW.World();
+console.log(world)
 
 /*const oimo = new OIMO.World({ 
     timestep: 1/60, 
