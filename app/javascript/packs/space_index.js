@@ -23,8 +23,8 @@ scene.add(playerObjectHolder);
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(playerRadius, 16, 16), new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true}));
 playerObjectHolder.add(sphere);
 
-//const playerController = new MW.CharacterController(playerObjectHolder, playerRadius);
-//world.add(playerController);
+const playerController = new MW.CharacterController(playerObjectHolder, playerRadius);
+world.add(playerController);
 
 
 renderer.setPixelRatio(window.devicePixelRatio);

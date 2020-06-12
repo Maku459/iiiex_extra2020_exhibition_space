@@ -7,7 +7,7 @@
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.2.2",
-    "meshwalk": "https://github.com/FlechaMaker/meshwalk.js.git#e6e923bf9a66d5395d0e9c58ca1de77c871a8284",
+    "meshwalk": "https://github.com/FlechaMaker/meshwalk.js#master",
     "three": "^0.117.1",
     "turbolinks": "^5.2.0"
   },
