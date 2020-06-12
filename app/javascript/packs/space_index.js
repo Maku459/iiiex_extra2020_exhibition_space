@@ -1,44 +1,30 @@
 import * as THREE from 'three'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as MW from 'meshwalk';
-// import * as OIMO from './oimo';
 
 let W, H;
 const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
 const gltfLoader = new GLTFLoader();
 const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
-let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 5, dragging = false;
-const spFB = 15, spLR = 0.1, spUD = 7, exLR = 1.5, max = 30;
+let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 10, dragging = false;
+const spFB = 20, spLR = 0.2, spUD = 10, exLR = 1, len = 30;
 let LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 const pmouse = new THREE.Vector3();
 
-console.log(MW)
-MW.install( THREE )
-let world = new MW.World();
-console.log(world)
+MW.install(THREE);
+const world = new MW.World(), min = new THREE.Vector3(-50, -1, -50), max = new THREE.Vector3(50, 50, 50), partition = 5, playerRadius = 1;
+const octree = new MW.Octree(min, max, partition);
+world.add(octree);
 
-/*const oimo = new OIMO.World({ 
-    timestep: 1/60, 
-    iterations: 8, 
-    broadphase: 2, // 1 brute force, 2 sweep and prune, 3 volume tree
-    worldscale: 1, // scale full world 
-    random: true,  // randomize sample
-    info: true,   // calculate statistic or not
-    gravity: [0, -9.8 ,0] 
-});
+const playerObjectHolder = new THREE.Object3D();
+playerObjectHolder.position.set(0, camY, 0);
+scene.add(playerObjectHolder);
 
-var body = oimo.add({ 
-    type:'sphere', // type of shape : sphere, box, cylinder 
-    size:[1,1,1], // size of shape
-    pos:[0,0,0], // start position in degree
-    rot:[0,0,90], // start rotation in degree
-    move:true, // dynamic or statique
-    density: 1,
-    friction: 0.2,
-    restitution: 0.2,
-    belongsTo: 1, // The bits of the collision groups to which the shape belongs.
-    collidesWith: 0xffffffff // The bits of the collision groups with which the shape collides.
-});*/
+const sphere = new THREE.Mesh(new THREE.SphereGeometry(playerRadius, 16, 16), new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true}));
+playerObjectHolder.add(sphere);
+
+//const playerController = new MW.CharacterController(playerObjectHolder, playerRadius);
+//world.add(playerController);
 
 
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -50,50 +36,52 @@ document.addEventListener('DOMContentLoaded', () => {
 	window.addEventListener("orientationchange", setMain);
 	document.querySelector("#world").appendChild(renderer.domElement);
 	
-	camera.position.set(0, 5, 10);
+	camera.position.set(0, camY, 10);
 	pitch = camY;
 	
 	const lights = new THREE.Group();
-	const light0 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	const light0 = new THREE.DirectionalLight(0xFFFFFF, 0.2);
 	light0.position.set(0, 50, 0);
 	lights.add(light0);
 	const directionalLightHelper0 = new THREE.DirectionalLightHelper(light0);
 	lights.add(directionalLightHelper0);
 	scene.add(lights);
-	const light1 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	const light1 = new THREE.DirectionalLight(0xFFFFFF, 0.2);
 	light1.position.set(50, 50, 0);
 	lights.add(light1);
 	const directionalLightHelper1 = new THREE.DirectionalLightHelper(light1);
 	lights.add(directionalLightHelper1);
 	scene.add(lights);
-	const light2 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	const light2 = new THREE.DirectionalLight(0xFFFFFF, 0.2);
 	light2.position.set(-50, 50, 0);
 	lights.add(light2);
 	const directionalLightHelper2 = new THREE.DirectionalLightHelper(light2);
 	lights.add(directionalLightHelper2);
 	scene.add(lights);
-	const light3 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	const light3 = new THREE.DirectionalLight(0xFFFFFF, 0.2);
 	light3.position.set(0, 50, 50);
 	lights.add(light3);
 	const directionalLightHelper3 = new THREE.DirectionalLightHelper(light3);
 	lights.add(directionalLightHelper3);
 	scene.add(lights);
-	const light4 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	const light4 = new THREE.DirectionalLight(0xFFFFFF, 0.2);
 	light4.position.set(0, 50, -50);
 	lights.add(light4);
 	const directionalLightHelper4 = new THREE.DirectionalLightHelper(light4);
 	lights.add(directionalLightHelper4);
 	scene.add(lights);
-	const light5 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	const light5 = new THREE.DirectionalLight(0xFFFFFF, 0.2);
 	light5.position.set(0, -50, 0);
 	lights.add(light5);
 	const directionalLightHelper5 = new THREE.DirectionalLightHelper(light5);
 	lights.add(directionalLightHelper5);
 	scene.add(lights);
 	
-	gltfLoader.load('/model/iiiEx_field.gltf', (data) => {
+	gltfLoader.load('/model/iiiEx_field_only.gltf', (data) => {
 	    const gltf = data;
 	    const obj = gltf.scene;
+//		console.log(obj.children[2]);
+		scene.add(obj.children[2]);
 /*	    for (let i=0; i<obj.children.length; i++) {
 		    console.log(obj.children[i]);
 		    let geometry = new THREE.Geometry();
@@ -107,10 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
 //		    console.log(terrain);
 			scene.add(terrain);
 	    }*/
-		obj.scale.set(20, 20, 20);
-		scene.add(obj);
+//		obj.scale.set(20, 20, 20);
 	});
-	
+	const geo = new THREE.SphereGeometry(0.1), mat = new THREE.MeshBasicMaterial({color: "#ffff00"});
+	for (var i=0; i<5000; i++) {
+		const sphere = new THREE.Mesh(geo, mat);
+		sphere.position.set(Math.random()*100-50, Math.random()*100-50, Math.random()*100-50);
+		scene.add(sphere);
+	}
+		
 	const axes = new THREE.AxesHelper(100);
 	scene.add(axes);
 	
@@ -135,6 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		color[i].obj.visible = false;
 	}
 	color[0].obj.visible = true;
+	
+	update();
 	
 	document.addEventListener("keydown", (e) => {
 		switch (e.code) {
@@ -212,8 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			color[n].obj.visible = true;
 		});
 	});
-	
-	update();
 });
 
 const setMain = () => {
@@ -231,7 +224,7 @@ const setMain = () => {
 
 const getSum = (array, value) => {
 	array.push(value);
-	if (array.length > max) {
+	if (array.length > len) {
 		array.shift();
 	}
 	let sum = 0;
@@ -269,7 +262,5 @@ const moving = () => {
 const update = () =>  {
 	moving();
 	renderer.render(scene, camera);
-//	oimo.step();
-//	camera.position.copy( body.getPosition() );
 	requestAnimationFrame(update);
 }
