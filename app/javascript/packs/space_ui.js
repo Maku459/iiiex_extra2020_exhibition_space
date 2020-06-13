@@ -15,5 +15,9 @@ $(document).ready(function(){
         let src = $(this).children('img').attr('src');
         $('#glass__now').children('img').attr('src', src);
     });
+
+    $('.inline').modaal({
+        content_source: '#inline'
+    });
     
 })

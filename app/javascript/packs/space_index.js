@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	color[0].obj.visible = true;
 	
-	document.querySelectorAll("#glass a").forEach((target) => {
+	document.querySelectorAll("#glass__buttons a").forEach((target) => {
 		target.addEventListener("click", (e) => {
 			e.preventDefault();
 			let n = target.dataset.no;
