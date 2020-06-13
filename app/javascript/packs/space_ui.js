@@ -1,6 +1,5 @@
-import $ from 'jquery';
 import Swal from 'sweetalert2';
-import modaal from 'modaal';
+import 'modaal';
 
 $(document).ready(function(){
 	$('#glass__now').on('click',function(){
@@ -16,13 +15,16 @@ $(document).ready(function(){
         let src = $(this).children('img').attr('src');
         $('#glass__now').children('img').attr('src', src);
     });
-
-    $('.inline').on('click',function(e){
-        Swal.fire(
-            'Good job!',
-            'You clicked the button!',
-            'success'
-        )
+    $('.inline').modaal({
+        content_source: '#inline'
     });
+
+    // $('.inline').on('click',function(e){
+    //     Swal.fire(
+    //         'Good job!',
+    //         'You clicked the button!',
+    //         'success'
+    //     )
+    // });
     
 })
