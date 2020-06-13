@@ -1,6 +1,6 @@
-import $ from 'jquery';
 import Swal from 'sweetalert2';
-import modaal from 'modaal';
+import 'modaal';
+import 'modaal/dist/css/modaal.css'
 
 $(document).ready(function(){
 	$('#glass__now').on('click',function(){
@@ -10,14 +10,6 @@ $(document).ready(function(){
             $('#glass__buttons').fadeIn();
 		}
     });
-
-    /*
-    $('#glass__now').on('click',function(){
-        Swal.fire({
-            html: '<ul class="glass__buttons"><li><a href="#" data-no="0" id="button__normal"><img src="/images/colorglass_transparent.png" alt="" width="80px" height="" border="0" /></a></li><li><a href="#" data-no="1" id="button__red"><img src="/images/colorglass_red.png" alt="" width="80px" height="" border="0" /></a></li><li><a href="#" data-no="2" id="button__green"><img src="/images/colorglass_green.png" alt="" width="80px" height="" border="0" /></a></li><li><a href="#" data-no="3" id="button__blue"><img src="/images/colorglass_blue.png" alt="" width="80px" height="" border="0" /></a></li></ul>'
-        })
-    });
-    */
 
 	$('#glass__buttons a').on('click',function(e){
         e.preventDefault();
