@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
 import 'modaal';
+import 'modaal/dist/css/modaal.css'
 
 $(document).ready(function(){
 	$('#glass__now').on('click',function(){
