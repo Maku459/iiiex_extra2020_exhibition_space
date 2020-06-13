@@ -11,6 +11,14 @@ body {
 a {
 	text-decoration: none;
 }
+button {
+	visibility: hidden;
+
+	img {
+		visibility: visible;
+	}
+}
+
 #world {
 	width: 100%;
 	overflow: hidden;
