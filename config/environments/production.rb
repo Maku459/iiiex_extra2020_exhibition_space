@@ -29,10 +29,10 @@ Rails.application.configure do
   config.assets.compile = false
 
   # Disable asset digest
-  config.assets.digest = false
+  # config.assets.digest = false
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = 'https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/'
+  # config.action_controller.asset_host = 'https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/'
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
