@@ -7,13 +7,37 @@ const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true
 const gltfLoader = new GLTFLoader();
 const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
 let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 10, dragging = false;
-const spFB = 20, spLR = 0.2, spUD = 10, exLR = 1, len = 30;
+const spFB = 40, spLR = 0.3, spUD = 10, exLR = 1, len = 30;
 let LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 const pmouse = new THREE.Vector3();
 
 iNoBounce.enable();
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setClearColor(0x000000);
+
+
+/*
+// instantiate a loader
+var loader = new THREE.TextureLoader();
+// load a resource
+loader.load(
+	// resource URL
+	'textures/land_ocean_ice_cloud_2048.jpg',
+	// onLoad callback
+	function ( texture ) {
+		// in this example we create the material when the texture is loaded
+		var material = new THREE.MeshBasicMaterial( { map: texture } );
+	},
+	// onProgress callback currently not supported undefined,
+	// onError callback
+	function ( err ) { console.error( 'An error happened.' );
+		
+	}
+);
+*/
+
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
 	setMain();
@@ -52,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const geo = new THREE.SphereGeometry(0.1), mat = new THREE.MeshBasicMaterial({color: "#ffff00"});
 	for (var i=0; i<3000; i++) {
 		const sphere = new THREE.Mesh(geo, mat);
-		sphere.position.set(Math.random()*200-100, Math.random()*200-100, Math.random()*200-100);
+		sphere.position.set(Math.random()*400-200, Math.random()*200, Math.random()*400-200);
 		scene.add(sphere);
 	}
 		
