@@ -4,39 +4,18 @@ import * as iNoBounce from './inobounce.min';
 
 let W, H;
 const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
-const gltfLoader = new GLTFLoader();
+const gltfLoader = new GLTFLoader(), txLoader = new THREE.TextureLoader();
+const zipMat = new THREE.MeshBasicMaterial({color: 0xffffff}), zipGeo = new THREE.PlaneGeometry(20, 20), zips = new THREE.Group();
 const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
 let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 10, dragging = false;
 const spFB = 40, spLR = 0.3, spUD = 10, exLR = 1, len = 30;
 let LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 const pmouse = new THREE.Vector3();
+const hitDist = 20;
 
 iNoBounce.enable();
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setClearColor(0x000000);
-
-
-/*
-// instantiate a loader
-var loader = new THREE.TextureLoader();
-// load a resource
-loader.load(
-	// resource URL
-	'textures/land_ocean_ice_cloud_2048.jpg',
-	// onLoad callback
-	function ( texture ) {
-		// in this example we create the material when the texture is loaded
-		var material = new THREE.MeshBasicMaterial( { map: texture } );
-	},
-	// onProgress callback currently not supported undefined,
-	// onError callback
-	function ( err ) { console.error( 'An error happened.' );
-		
-	}
-);
-*/
-
-
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -54,9 +33,21 @@ document.addEventListener('DOMContentLoaded', () => {
 	lights.add(light0);
 	scene.add(lights);
 	
-	gltfLoader.load('/model/iiiEx_doom.gltf', (data) => {
+	txLoader.load("/texture/zipper.png", function (texture) {
+		zipMat.map = texture;
+		zipMat.transparent = true;
+		zipMat.side = THREE.DoubleSide;
+		zipMat.needsUpdate = true;
+	});
+	let tmp = new THREE.Mesh(zipGeo, zipMat);
+	tmp.position.set(80, 10, 0);
+	tmp.rotation.set(0, 180, 0);
+	zips.add(tmp);
+	scene.add(zips);
+	console.log(zips);
+	
+	gltfLoader.load("/model/iiiEx_doom.gltf", (data) => {
 	    const gltf = data.scene;
-	    console.log(gltf)
 	    gltf.position.set(0, -30, 0);
 		scene.add(gltf);
 		
@@ -237,6 +228,18 @@ const moving = () => {
 	offsetX = spFB * Math.cos(yaw);
 	offsetZ = spFB * Math.sin(yaw);
 	camera.lookAt(new THREE.Vector3(camera.position.x + offsetX, pitch, camera.position.z + offsetZ));
+	
+	for (let i=0; i<zips.children.length; i++) {
+		let c = camera.position;
+		let z = zips.children[i].position;
+		if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(hitDist, 2)) {
+			console.log("hit");
+			document.querySelector("#plate").style.display = "block";
+		} else {
+			document.querySelector("#plate").style.display = "none";
+		}
+	}
+	
 	dirFB = 0;
 	dirLR = 0;
 	dirUD = 0;
