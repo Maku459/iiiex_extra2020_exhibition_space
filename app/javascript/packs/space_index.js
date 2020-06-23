@@ -14,15 +14,51 @@ const pmouse = new THREE.Vector3();
 const hitDist = 20;
 
 iNoBounce.enable();
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setClearColor(0x000000);
-
 
 document.addEventListener('DOMContentLoaded', () => {
+	renderer.setPixelRatio(window.devicePixelRatio);
+	renderer.setClearColor(0x000000);
+	
 	setMain();
 	window.addEventListener("resize", setMain);
 	window.addEventListener("orientationchange", setMain);
 	document.querySelector("#world").appendChild(renderer.domElement);
+	
+	gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_doom.gltf", (data) => {
+	    const gltf = data.scene;
+	    gltf.position.set(0, -30, 0);
+		scene.add(gltf);
+		
+		gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/landmark.gltf", (data) => {
+			const model = data.scene;
+			model.position.set(0, 0, 16);
+			model.scale.set(16, 16, 16);
+			scene.add(model);
+			
+			for (var i=0; i<3; i++) {
+				loadModel("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_primitive_bird_niren.gltf");
+				loadModel("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_primitive_fish_niren.gltf");
+				loadModel("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_primitive_snake_niren.gltf");
+			}
+			
+			txLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/texture/zipper.png", function (texture) {
+				zipMat.map = texture;
+				zipMat.transparent = true;
+				zipMat.side = THREE.DoubleSide;
+				zipMat.needsUpdate = true;
+				let tmp = new THREE.Mesh(zipGeo, zipMat);
+				tmp.position.set(80, 10, 0);
+				tmp.rotation.set(0, 180, 0);
+				zips.add(tmp);
+				scene.add(zips);
+				
+				init();
+			});
+		});
+	});
+});
+
+const init = () => {
 	
 	camera.position.set(0, camY, 0);
 	pitch = camY;
@@ -32,37 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	light0.position.set(0, 150, 0);
 	lights.add(light0);
 	scene.add(lights);
-	
-	txLoader.load("/texture/zipper.png", function (texture) {
-		zipMat.map = texture;
-		zipMat.transparent = true;
-		zipMat.side = THREE.DoubleSide;
-		zipMat.needsUpdate = true;
-	});
-	let tmp = new THREE.Mesh(zipGeo, zipMat);
-	tmp.position.set(80, 10, 0);
-	tmp.rotation.set(0, 180, 0);
-	zips.add(tmp);
-	scene.add(zips);
-	console.log(zips);
-	
-	gltfLoader.load("/model/iiiEx_doom.gltf", (data) => {
-	    const gltf = data.scene;
-	    gltf.position.set(0, -30, 0);
-		scene.add(gltf);
-		
-		gltfLoader.load("/model/landmark.gltf", (data) => {
-			const model = data.scene;
-			model.position.set(0, 0, 16);
-			model.scale.set(16, 16, 16);
-			scene.add(model);
-		});
-		for (var i=0; i<3; i++) {
-			loadModel("/model/iiiEx_primitive_bird_niren.gltf");
-			loadModel("/model/iiiEx_primitive_fish_niren.gltf");
-			loadModel("/model/iiiEx_primitive_snake_niren.gltf");
-		}
-	});
 	
 	const geo = new THREE.SphereGeometry(0.1), mat = new THREE.MeshBasicMaterial({color: "#ffff00"});
 	for (var i=0; i<3000; i++) {
@@ -174,8 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			color[n].obj.visible = true;
 		});
 	});
-});
-	
+}
+
 const loadModel = (pass) => {
 	gltfLoader.load(pass, (data) => {
 		const model = data.scene;
@@ -233,7 +238,6 @@ const moving = () => {
 		let c = camera.position;
 		let z = zips.children[i].position;
 		if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(hitDist, 2)) {
-			console.log("hit");
 			document.querySelector("#plate").style.display = "block";
 		} else {
 			document.querySelector("#plate").style.display = "none";
