@@ -6,13 +6,15 @@ import * as iNoBounce from './inobounce.min';
 	let W, H;
 	const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
 	const gltfLoader = new GLTFLoader(), txLoader = new THREE.TextureLoader();
-	const zipMat = new THREE.MeshBasicMaterial({color: 0xffffff}), zipGeo = new THREE.PlaneGeometry(20, 20), zips = new THREE.Group();
+	const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
+	const zips = new THREE.Group(), obsts = new THREE.Group();
+	const matArray = [new THREE.MeshBasicMaterial({color: 0xff4444, roughness: 0.5}), new THREE.MeshBasicMaterial({ color: 0x44ff44, roughness: 0.5 }), new THREE.MeshBasicMaterial({ color: 0x4444ff, roughness: 0.5 })];
 	const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
 	let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 10, dragging = false;
 	const spFB = 40, spLR = 0.3, spUD = 10, exLR = 1, len = 30;
 	let LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 	const pmouse = new THREE.Vector3();
-	const hitDist = 20;
+	const dist = {zip: 20, area: 203 - 10, obst: 20};
 	
 	iNoBounce.enable();
 	
@@ -25,32 +27,37 @@ import * as iNoBounce from './inobounce.min';
 		window.addEventListener("orientationchange", setMain);
 		document.querySelector("#world").appendChild(renderer.domElement);
 		
-		gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_doom.gltf", (data) => {
-		    const gltf = data.scene;
-		    gltf.position.set(0, -30, 0);
+		gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_doom3.gltf", (data) => {
+			const gltf = data.scene;
 			scene.add(gltf);
 			
-			gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/landmark.gltf", (data) => {
-				const model = data.scene;
-				model.position.set(0, 0, 16);
-				model.scale.set(16, 16, 16);
-				scene.add(model);
-				
-				for (var i=0; i<3; i++) {
-					loadModel("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_primitive_bird_niren.gltf");
-					loadModel("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_primitive_fish_niren.gltf");
-					loadModel("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_primitive_snake_niren.gltf");
+			gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_landmark7.gltf", (data) => {
+				const landmark = data.scene;
+				for (let i=0; i <landmark.children.length; i++){
+					if (landmark.children[i].name != "tree") {
+						landmark.children[i].material = matArray[i%3];
+					} else {
+						landmark.children[i].material = new THREE.MeshBasicMaterial({color: 0x8F4B38, roughness: 0.5});
+					}
 				}
+				landmark.scale.set(10, 10, 10);
+				obsts.add(landmark);
+				scene.add(obsts);
 				
 				txLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/texture/zipper.png", function (texture) {
-					zipMat.map = texture;
-					zipMat.transparent = true;
-					zipMat.side = THREE.DoubleSide;
-					zipMat.needsUpdate = true;
-					let tmp = new THREE.Mesh(zipGeo, zipMat);
-					tmp.position.set(80, 10, 0);
-					tmp.rotation.set(0, 180, 0);
-					zips.add(tmp);
+					for (let i=0; i<10; i++){
+						zipMat.map = texture;
+						zipMat.needsUpdate = true;
+						const w = 25;
+						const h = texture.image.height/(texture.image.width/w);
+						const plane = new THREE.Mesh(zipGeo, zipMat);
+						const radius = 80;
+						plane.position.set(radius*Math.sin(i*2*Math.PI/10),10,radius*Math.cos(i*2*Math.PI/10));
+						plane.rotation.y = i*2*Math.PI/10;
+						plane.rotation.z = - Math.PI / 2;
+						plane.scale.set(w, h, 1);
+						zips.add(plane);
+					}
 					scene.add(zips);
 					
 					init();
@@ -60,23 +67,24 @@ import * as iNoBounce from './inobounce.min';
 	});
 	
 	const init = () => {
-		
 		camera.position.set(0, camY, 0);
 		pitch = camY;
 		
-		const lights = new THREE.Group();
-		const light0 = new THREE.PointLight(0xffffff, 0.8, 0, 0);
-		light0.position.set(0, 150, 0);
-		lights.add(light0);
-		scene.add(lights);
-		
-		const geo = new THREE.SphereGeometry(0.1), mat = new THREE.MeshBasicMaterial({color: "#ffff00"});
+		const geo = new THREE.SphereGeometry(0.2), mat = new THREE.MeshBasicMaterial({color: "#3366ff"});
 		for (var i=0; i<3000; i++) {
 			const sphere = new THREE.Mesh(geo, mat);
-			sphere.position.set(Math.random()*400-200, Math.random()*200, Math.random()*400-200);
+			let rot = Math.random() * Math.PI * 2;
+			let range = Math.random() * dist.area;
+			sphere.position.set(Math.cos(rot)*range, Math.random()*150, Math.sin(rot)*range);
 			scene.add(sphere);
 		}
-			
+		
+		const light = new THREE.PointLight(0xFFFFFF, 1.4, 0, 0);
+		light.position.set(0, 150, 0);
+		scene.add(light);
+		renderer.gammaInput = true;
+		renderer.gammaOutput = true;
+
 		const axes = new THREE.AxesHelper(100);
 		scene.add(axes);
 		
@@ -235,14 +243,34 @@ import * as iNoBounce from './inobounce.min';
 		offsetZ = spFB * Math.sin(yaw);
 		camera.lookAt(new THREE.Vector3(camera.position.x + offsetX, pitch, camera.position.z + offsetZ));
 		
-		for (let i=0; i<zips.children.length; i++) {
-			let c = camera.position;
-			let z = zips.children[i].position;
-			if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(hitDist, 2)) {
-				document.querySelector("#plate").style.display = "block";
-			} else {
-				document.querySelector("#plate").style.display = "none";
+		let c = camera.position;
+		if (Math.pow(c.x, 2) + Math.pow(c.z, 2) > Math.pow(dist.area, 2)) {
+			let rot = Math.atan2(c.z, c.x);
+			c.x = Math.cos(rot) * dist.area;
+			c.z = Math.sin(rot) * dist.area;
+		}
+		
+		for (let i=0; i<obsts.children.length; i++) {
+			let o = obsts.children[i].position;
+			if (Math.pow(o.x - c.x, 2) + Math.pow(o.z - c.z, 2) <= Math.pow(dist.obst, 2)) {
+				let rot = Math.atan2(c.z-o.z, c.x-o.x);
+				c.x = Math.cos(rot) * dist.obst;
+				c.z = Math.sin(rot) * dist.obst;
 			}
+		}
+		
+		let hit = false;
+		for (let i=0; i<zips.children.length; i++) {
+			let z = zips.children[i].position;
+			if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(dist.zip, 2)) {
+				hit = true;
+				break;
+			}
+		}
+		if (hit) {
+			document.querySelector("#plate").style.display = "block";
+		} else {
+			document.querySelector("#plate").style.display = "none";
 		}
 		
 		dirFB = 0;
