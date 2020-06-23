@@ -24,39 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	window.addEventListener("orientationchange", setMain);
 	document.querySelector("#world").appendChild(renderer.domElement);
 	
-	gltfLoader.load("/model/iiiEx_doom.gltf", (data) => {
-	    const gltf = data.scene;
-	    gltf.position.set(0, -30, 0);
-		scene.add(gltf);
-		
-		gltfLoader.load("/model/landmark.gltf", (data) => {
-			const model = data.scene;
-			model.position.set(0, 0, 16);
-			model.scale.set(16, 16, 16);
-			scene.add(model);
-			
-			for (var i=0; i<3; i++) {
-				loadModel("/model/iiiEx_primitive_bird_niren.gltf");
-				loadModel("/model/iiiEx_primitive_fish_niren.gltf");
-				loadModel("/model/iiiEx_primitive_snake_niren.gltf");
-			}
-			
-			txLoader.load("/texture/zipper.png", function (texture) {
-				zipMat.map = texture;
-				zipMat.transparent = true;
-				zipMat.side = THREE.DoubleSide;
-				zipMat.needsUpdate = true;
-				let tmp = new THREE.Mesh(zipGeo, zipMat);
-				tmp.position.set(80, 10, 0);
-				tmp.rotation.set(0, 180, 0);
-				zips.add(tmp);
-				scene.add(zips);
-				
-				init();
-			});
-		});
-	});
-/*	gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_doom.gltf", (data) => {
+	gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_doom.gltf", (data) => {
 	    const gltf = data.scene;
 	    gltf.position.set(0, -30, 0);
 		scene.add(gltf);
@@ -87,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				init();
 			});
 		});
-	});*/
+	});
 });
 
 const init = () => {
