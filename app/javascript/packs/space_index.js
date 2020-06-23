@@ -31,7 +31,7 @@ import * as iNoBounce from './inobounce.min';
 			const gltf = data.scene;
 			scene.add(gltf);
 			
-			gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_landmark7.gltf", (data) => {
+			gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_landmark8.gltf", (data) => {
 				const landmark = data.scene;
 				for (let i=0; i <landmark.children.length; i++){
 					if (landmark.children[i].name != "tree") {
@@ -261,6 +261,12 @@ import * as iNoBounce from './inobounce.min';
 		
 		let hit = false;
 		for (let i=0; i<zips.children.length; i++) {
+/*			zips.children[i].lookAt(c);
+			if (i == 0) console.log(zips.children[i].rotation)
+			zips.children[i].rotation.z = - Math.PI / 2;
+			if (zips.children[i].rotation.y >= 0) {
+				zips.children[i].rotation.z *= -1;
+			}*/
 			let z = zips.children[i].position;
 			if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(dist.zip, 2)) {
 				hit = true;
