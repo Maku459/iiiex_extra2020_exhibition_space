@@ -58,7 +58,6 @@ import * as iNoBounce from './inobounce.min';
 //						plane.rotation.z = - Math.PI / 2;
 						plane.scale.set(w, h, 1);
 						zips.add(plane);
-						console.log(plane.rotations);
 					}
 					scene.add(zips);
 					
