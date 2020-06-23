@@ -44,7 +44,8 @@ import * as iNoBounce from './inobounce.min';
 				obsts.add(landmark);
 				scene.add(obsts);
 				
-				txLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/texture/zipper.png", function (texture) {
+				txLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/texture/zipper__.png", function (texture) {
+//				txLoader.load("/texture/zipper.png", function (texture) {
 					for (let i=0; i<10; i++){
 						zipMat.map = texture;
 						zipMat.needsUpdate = true;
@@ -53,10 +54,11 @@ import * as iNoBounce from './inobounce.min';
 						const plane = new THREE.Mesh(zipGeo, zipMat);
 						const radius = 80;
 						plane.position.set(radius*Math.sin(i*2*Math.PI/10),10,radius*Math.cos(i*2*Math.PI/10));
-						plane.rotation.y = i*2*Math.PI/10;
-						plane.rotation.z = - Math.PI / 2;
+//						plane.rotation.y = i*2*Math.PI/10;
+//						plane.rotation.z = - Math.PI / 2;
 						plane.scale.set(w, h, 1);
 						zips.add(plane);
+						console.log(plane.rotations);
 					}
 					scene.add(zips);
 					
@@ -252,7 +254,7 @@ import * as iNoBounce from './inobounce.min';
 		
 		for (let i=0; i<obsts.children.length; i++) {
 			let o = obsts.children[i].position;
-			if (Math.pow(o.x - c.x, 2) + Math.pow(o.z - c.z, 2) <= Math.pow(dist.obst, 2)) {
+			if (Math.pow(o.x-c.x, 2) + Math.pow(o.z-c.z, 2) <= Math.pow(dist.obst, 2)) {
 				let rot = Math.atan2(c.z-o.z, c.x-o.x);
 				c.x = Math.cos(rot) * dist.obst;
 				c.z = Math.sin(rot) * dist.obst;
@@ -261,12 +263,7 @@ import * as iNoBounce from './inobounce.min';
 		
 		let hit = false;
 		for (let i=0; i<zips.children.length; i++) {
-/*			zips.children[i].lookAt(c);
-			if (i == 0) console.log(zips.children[i].rotation)
-			zips.children[i].rotation.z = - Math.PI / 2;
-			if (zips.children[i].rotation.y >= 0) {
-				zips.children[i].rotation.z *= -1;
-			}*/
+			zips.children[i].lookAt(c);
 			let z = zips.children[i].position;
 			if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(dist.zip, 2)) {
 				hit = true;
