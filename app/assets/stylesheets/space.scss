@@ -87,6 +87,11 @@ button {
 		right: 10px;
 	}
 
+	#map__modal{
+		overflow: hidden;
+		display: none;
+	}
+
 	#stickpad__container{
 		position: absolute;
 		bottom: 10px;
@@ -103,13 +108,9 @@ button {
 		width: 88px;
 	}
 
-.swal2-content ul{
-	list-style: none;
-}
-
-.stick-cursor img{
-	border-radius: 50%;
-}
+	.stick-cursor img{
+		border-radius: 50%;
+	}
 }
 
 #plate {
