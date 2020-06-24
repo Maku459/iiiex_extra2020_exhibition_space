@@ -178,6 +178,7 @@ import * as iNoBounce from './inobounce.min';
 			dragging = false;
 		});
 		
+		/*
 		document.querySelectorAll("#glass a").forEach((target) => {
 			target.addEventListener("click", (e) => {
 				e.preventDefault();
@@ -187,6 +188,18 @@ import * as iNoBounce from './inobounce.min';
 					color[i].obj.visible = false;
 				}
 				color[n].obj.visible = true;
+			});
+		});
+		*/
+
+		document.querySelectorAll("#glass__buttons a").forEach((target) => {
+			target.addEventListener("click", (e) => {
+				e.preventDefault();
+				let n = target.dataset.no;
+				document.querySelector("#screen").style.backgroundColor = color[n].bg;
+				for (let i=0; i<color.length; i++) {
+					color[i].obj.visible = false;
+				}
 			});
 		});
 	}
@@ -222,17 +235,8 @@ import * as iNoBounce from './inobounce.min';
 		}
 		sum /= array.length;
 		return sum;
-	}
+	}	       
 	
-	document.querySelectorAll("#glass__buttons a").forEach((target) => {
-		target.addEventListener("click", (e) => {
-			e.preventDefault();
-			let n = target.dataset.no;
-			document.querySelector("#screen").style.backgroundColor = color[n].bg;
-			for (let i=0; i<color.length; i++) {
-				color[i].obj.visible = false;
-			}
-		}       
 	const moving = () => {
 		const delta = clock.getDelta();
 		if (dirs[0]) dirLR++;
