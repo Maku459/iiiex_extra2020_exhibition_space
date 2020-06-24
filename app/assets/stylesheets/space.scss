@@ -7,9 +7,34 @@ body {
 	background: #000000;
     margin: 0;
 	-webkit-text-size-adjust: 100%;
+	font-family: dnp-shuei-mgothic-std, sans-serif;
 }
 a {
 	text-decoration: none;
+}
+
+button {
+	visibility: hidden;
+
+	img {
+		visibility: visible;
+	}
+}
+
+.modaal-content-container {
+	list-style: none;
+	display: flex;
+	justify-content: space-between;
+
+	ul{
+		list-style: none;
+		padding-right: 100px;
+
+		li {
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+	}
 }
 
 #world {
@@ -24,29 +49,70 @@ a {
 	pointer-events: none;
 }
 #ui {
-	#glass {
+	#glass__container{
 		position: absolute;
-		top: 10px;
-		left: 10px;
-		overflow: hidden;
+		top: 120px;
+		right: 10px;
 
-		li {
-			float: left;
-			margin-right: 20px;
-			background: rgba(0, 0, 0, 0.3);
-
-			a {
-				display: block;
-				width: 80px;
-				height:40px;
-				color: #ffffff;
-				font-sie: 24px;
-				text-align: center;
-				line-height: 40px;
+		#glass__buttons {
+			overflow: hidden;
+			background: rgba(255, 255, 255, 0.3);
+			padding-left: 0px;
+			display: none;
+			list-style: none;
+	
+			li {
+				float: none;
+				padding-top: 5px;
+				padding-bottom: 5px;
+				margin-right: 10px;
+				margin-left: 10px;
+	
+				a {
+					display: block;
+					width: 80px;
+					height:40px;
+					color: #ffffff;
+					font-size: 24px;
+					text-align: center;
+					line-height: 40px;
+				}
 			}
 		}
 	}
+
+	.map__modal{
+		position: absolute;
+		top: 10px;
+		right: 10px;
+	}
+
+	#map__modal{
+		overflow: hidden;
+		display: none;
+	}
+
+	#stickpad__container{
+		position: absolute;
+		bottom: 10px;
+		left: 10px;
+		height: 160px;
+		width: 160px;
+	}
+
+	#stick__container{
+		position: absolute;
+		bottom: 46px;
+		left: 46px;
+		height: 88px;
+		width: 88px;
+	}
+
+	.stick-cursor img{
+		border-radius: 50%;
+	}
 }
+
 #plate {
 	display: none;
 	position: absolute;
