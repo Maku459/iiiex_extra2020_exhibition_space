@@ -5,14 +5,11 @@ import * as iNoBounce from './inobounce.min';
 (function() {
 	let W, H;
 	const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
-	const gltfLoader = new GLTFLoader(), txLoader = new THREE.TextureLoader();
-	const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
 	const zips = new THREE.Group(), obsts = new THREE.Group();
-	const matArray = [new THREE.MeshBasicMaterial({color: 0xff4444, roughness: 0.5}), new THREE.MeshBasicMaterial({ color: 0x44ff44, roughness: 0.5 }), new THREE.MeshBasicMaterial({ color: 0x4444ff, roughness: 0.5 })];
 	const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
 	let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 10, dragging = false;
 	const spFB = 40, spLR = 0.3, spUD = 10, exLR = 1, len = 30;
-	let LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
+	const LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 	const pmouse = new THREE.Vector3();
 	const dist = {zip: 20, area: 203 - 10, obst: 20};
 	
@@ -27,32 +24,36 @@ import * as iNoBounce from './inobounce.min';
 		window.addEventListener("orientationchange", setMain);
 		document.querySelector("#world").appendChild(renderer.domElement);
 		
+		const gltfLoader = new GLTFLoader();
 		gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_doom3.gltf", (data) => {
 			const gltf = data.scene;
 			scene.add(gltf);
 			
 			gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_landmark8.gltf", (data) => {
 				const landmark = data.scene;
+				const matArray = [new THREE.MeshBasicMaterial({color: 0xff4444, roughness: 0.5}), new THREE.MeshBasicMaterial({ color: 0x44ff44, roughness: 0.5 }), new THREE.MeshBasicMaterial({ color: 0x4444ff, roughness: 0.5 })];
 				for (let i=0; i <landmark.children.length; i++){
-					if (landmark.children[i].name != "tree") {
-						landmark.children[i].material = matArray[i%3];
-					} else {
+					if (landmark.children[i].name == "tree") {
 						landmark.children[i].material = new THREE.MeshBasicMaterial({color: 0x8F4B38, roughness: 0.5});
+					} else {
+						landmark.children[i].material = matArray[i%3];
 					}
 				}
 				landmark.scale.set(10, 10, 10);
 				obsts.add(landmark);
 				scene.add(obsts);
 				
+				const txLoader = new THREE.TextureLoader();
 				txLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/texture/zipper__.png", function (texture) {
 //				txLoader.load("/texture/zipper.png", function (texture) {
+					const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
 					for (let i=0; i<10; i++){
 						zipMat.map = texture;
 						zipMat.needsUpdate = true;
 						const w = 25;
 						const h = texture.image.height/(texture.image.width/w);
 						const plane = new THREE.Mesh(zipGeo, zipMat);
-						const radius = 80;
+						const radius = 120;
 						plane.position.set(radius*Math.sin(i*2*Math.PI/10),10,radius*Math.cos(i*2*Math.PI/10));
 //						plane.rotation.y = i*2*Math.PI/10;
 //						plane.rotation.z = - Math.PI / 2;
@@ -204,12 +205,12 @@ import * as iNoBounce from './inobounce.min';
 		});
 	}
 	
-	const loadModel = (pass) => {
+/*	const loadModel = (pass) => {
 		gltfLoader.load(pass, (data) => {
 			const model = data.scene;
 			scene.add(model);
 		});
-	}
+	}*/
 	
 	const setMain = () => {
 		W = document.getElementById("world").clientWidth;
@@ -257,32 +258,32 @@ import * as iNoBounce from './inobounce.min';
 		offsetZ = spFB * Math.sin(yaw);
 		camera.lookAt(new THREE.Vector3(camera.position.x + offsetX, pitch, camera.position.z + offsetZ));
 		
-		let c = camera.position;
+		const c = camera.position;
 		if (Math.pow(c.x, 2) + Math.pow(c.z, 2) > Math.pow(dist.area, 2)) {
-			let rot = Math.atan2(c.z, c.x);
+			const rot = Math.atan2(c.z, c.x);
 			c.x = Math.cos(rot) * dist.area;
 			c.z = Math.sin(rot) * dist.area;
 		}
 		
 		for (let i=0; i<obsts.children.length; i++) {
-			let o = obsts.children[i].position;
+			const o = obsts.children[i].position;
 			if (Math.pow(o.x-c.x, 2) + Math.pow(o.z-c.z, 2) <= Math.pow(dist.obst, 2)) {
-				let rot = Math.atan2(c.z-o.z, c.x-o.x);
+				const rot = Math.atan2(c.z-o.z, c.x-o.x);
 				c.x = Math.cos(rot) * dist.obst;
 				c.z = Math.sin(rot) * dist.obst;
 			}
 		}
 		
-		let hit = false;
+		let hit = zips.children.length;
 		for (let i=0; i<zips.children.length; i++) {
 			zips.children[i].lookAt(c);
-			let z = zips.children[i].position;
+			const z = zips.children[i].position;
 			if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(dist.zip, 2)) {
-				hit = true;
+				hit = i;
 				break;
 			}
 		}
-		if (hit) {
+		if (hit < zips.children.length) {
 			document.querySelector("#plate").style.display = "block";
 		} else {
 			document.querySelector("#plate").style.display = "none";
