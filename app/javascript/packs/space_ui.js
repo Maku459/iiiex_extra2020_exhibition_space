@@ -1,5 +1,4 @@
 import 'modaal';
-import 'modaal/dist/css/modaal.css'
 
 $(document).ready(function(){
     $('.glass__buttons').modaal({
