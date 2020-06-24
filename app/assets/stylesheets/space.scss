@@ -12,6 +12,7 @@ body {
 a {
 	text-decoration: none;
 }
+
 button {
 	visibility: hidden;
 
@@ -79,6 +80,7 @@ button {
 			}
 		}
 	}
+
 	.map__modal{
 		position: absolute;
 		top: 10px;
@@ -108,4 +110,17 @@ button {
 .stick-cursor img{
 	border-radius: 50%;
 }
+}
+
+#plate {
+	display: none;
+	position: absolute;
+	top: 100px;
+	right: 100px;
+	width: 200px;
+	height: 100px;
+	background: #ffffff;
+	font-size: 60px;
+	text-align: center;
+	line-height: 100px;
 }
