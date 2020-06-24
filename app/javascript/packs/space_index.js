@@ -224,6 +224,15 @@ import * as iNoBounce from './inobounce.min';
 		return sum;
 	}
 	
+	document.querySelectorAll("#glass__buttons a").forEach((target) => {
+		target.addEventListener("click", (e) => {
+			e.preventDefault();
+			let n = target.dataset.no;
+			document.querySelector("#screen").style.backgroundColor = color[n].bg;
+			for (let i=0; i<color.length; i++) {
+				color[i].obj.visible = false;
+			}
+		}       
 	const moving = () => {
 		const delta = clock.getDelta();
 		if (dirs[0]) dirLR++;
