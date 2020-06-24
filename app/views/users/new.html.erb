@@ -1,0 +1,6 @@
+<h1>Test Create New User</h1>
+
+<%= form_for @user, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
+  <%= f.text_field :isExist %>
+  <%= f.submit "Create Another User" %>
+<% end %>
