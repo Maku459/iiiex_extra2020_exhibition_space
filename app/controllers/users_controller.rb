@@ -11,8 +11,20 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @userv = User.find_by(id: params[:id])
+    respond_to do |format|
+      if !@user.nil? && !@user[:id].nil?
+        notice = 'Your user id : ' + @user[:id].to_s
+        format.html { redirect_to action: 'index', notice: notice}
+        format.json { render json: { user: @user, status: 200, description: 'ok' }, status: :ok }
+      else
+        notice = params[:id].to_s + 'was not found.'
+        format.html { redirect_to action: 'index', notice: notice}
+        format.json { render json: { user: @user, status: 404, description: 'Not Found' }, status: :not_found }
+      end
+    end
   end
-
+  
   # GET /users/new
   def new
     @user = User.new
@@ -70,20 +82,22 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    if !@user.nil?
+    if @user.nil?
+      respond_to do |format|
+        notice = 'User ' + params[:id].to_s + ' was not found.'
+        format.html { redirect_to users_url, notice: notice }
+        format.json { render json: { user: @user, status: 404, description: 'Not Found' }, status: :not_found }
+      end
+    else
       respond_to do |format|
         if @user.update(user_params)
-          format.html { redirect_to @user, notice: 'User was successfully updated.' }
+          notice = 'User ' +  @user[:id].to_s + ' was successfully updated.'
+          format.html { redirect_to @user, notice: notice }
           format.json { render json: { user: @user, status: 200, description: 'No Content' }, status: :no_content }
         else
           format.html { render :edit }
           format.json { render json: { user: @user, status: 500, description: 'Internal server error : faliled to save' }, status: :internal_server_error }
         end
-      end
-    else
-      respond_to do |format|
-        format.html { redirect_to users_url, notice: 'User was not found.' }
-        format.json { render json: { user: @user, status: 404, description: 'Not Found' }, status: :not_found }
       end
     end
   end
@@ -91,24 +105,35 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    if !@user.nil?
-      @user[:isExist] = false
-      if @user.save
-        respond_to do |format|
-          format.html { redirect_to users_url, notice: 'User was successfully logically destroyed.' }
-          format.json { render json: { user: @user, status: 200, description: 'No Content' }, status: :no_content }
-        end
-      else 
-        respond_to do |format|
-          format.html { redirect_to users_url, notice: 'User was already logically destroyed.' }
-          format.json { render json: { user: @user, status: 500, description: 'Internal server error : faliled to save' }, status: :internal_server_error }
-        end
+    if @user.nil?
+      respond_to do |format|
+        notice = 'User ' + params[:id].to_s + ' was not found.'
+        format.html { redirect_to users_url, notice: notice }
+        format.json { render json: { user: @user, status: 404, description: 'Not Found' }, status: :not_found }
       end
-    end
-  else
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was not found.' }
-      format.json { render json: { user: @user, status: 404, description: 'Not Found' }, status: :not_found }
+    else
+      if @user[:isExist] == false
+        respond_to do |format|
+          notice = 'User ' + params[:id].to_s + ' was already deleted.' 
+          format.html { redirect_to users_url, notice: notice}
+          format.json { render json: { user: @user, status: 404, description: 'Already Deleted' }, status: :not_found }
+        end
+      else
+        @user[:isExist] = false
+        if @user.save
+          respond_to do |format|
+            notice = 'User ' + @user[:id].to_s + ' was successfully logically deleted.'
+            format.html { redirect_to users_url, notice: notice }
+            format.json { render json: { user: @user, status: 200, description: 'No Content' }, status: :no_content }
+          end
+        else 
+          respond_to do |format|
+            notice = 'User' + @user[:id].to_s + ' was already logically deleted.'
+            format.html { redirect_to users_url, notice: notice }
+            format.json { render json: { user: @user, status: 500, description: 'Internal server error : faliled to save' }, status: :internal_server_error }
+          end
+        end
+      end      
     end
   end
 
