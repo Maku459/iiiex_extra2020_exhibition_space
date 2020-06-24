@@ -14,6 +14,7 @@ class UserpositionsTest < ApplicationSystemTestCase
     visit userpositions_url
     click_on "New Userposition"
 
+    fill_in "Userid", with: @userposition.userid
     fill_in "X", with: @userposition.x
     fill_in "Y", with: @userposition.y
     fill_in "Z", with: @userposition.z
@@ -27,6 +28,7 @@ class UserpositionsTest < ApplicationSystemTestCase
     visit userpositions_url
     click_on "Edit", match: :first
 
+    fill_in "Userid", with: @userposition.userid
     fill_in "X", with: @userposition.x
     fill_in "Y", with: @userposition.y
     fill_in "Z", with: @userposition.z

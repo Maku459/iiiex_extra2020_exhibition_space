@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  resources :users
   resources :userpositions
+  resources :users
   get 'space/index'
   get 'space/feedback1'
   get 'space/works/:name', to: 'space#works'

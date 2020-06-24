@@ -5,6 +5,8 @@
 <table>
   <thead>
     <tr>
+      <th>Id</th>
+      <th>Userid</th>
       <th>X</th>
       <th>Y</th>
       <th>Z</th>
@@ -15,6 +17,8 @@
   <tbody>
     <% @userpositions.each do |userposition| %>
       <tr>
+        <td><%= userposition.id %></td>
+        <td><%= userposition.userid %></td>
         <td><%= userposition.x %></td>
         <td><%= userposition.y %></td>
         <td><%= userposition.z %></td>

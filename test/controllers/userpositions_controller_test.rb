@@ -17,7 +17,7 @@ class UserpositionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create userposition" do
     assert_difference('Userposition.count') do
-      post userpositions_url, params: { userposition: { x: @userposition.x, y: @userposition.y, z: @userposition.z } }
+      post userpositions_url, params: { userposition: { userid: @userposition.userid, x: @userposition.x, y: @userposition.y, z: @userposition.z } }
     end
 
     assert_redirected_to userposition_url(Userposition.last)
@@ -34,7 +34,7 @@ class UserpositionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update userposition" do
-    patch userposition_url(@userposition), params: { userposition: { x: @userposition.x, y: @userposition.y, z: @userposition.z } }
+    patch userposition_url(@userposition), params: { userposition: { userid: @userposition.userid, x: @userposition.x, y: @userposition.y, z: @userposition.z } }
     assert_redirected_to userposition_url(@userposition)
   end
 
