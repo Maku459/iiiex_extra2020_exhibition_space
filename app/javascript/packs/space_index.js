@@ -31,10 +31,10 @@ import * as iNoBounce from './inobounce.min';
 			
 			gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_landmark8.gltf", (data) => {
 				const landmark = data.scene;
-				const matArray = [new THREE.MeshBasicMaterial({color: 0xff4444, roughness: 0.5}), new THREE.MeshBasicMaterial({ color: 0x44ff44, roughness: 0.5 }), new THREE.MeshBasicMaterial({ color: 0x4444ff, roughness: 0.5 })];
+				const matArray = [new THREE.MeshBasicMaterial({color: 0xff4444}), new THREE.MeshBasicMaterial({color: 0x44ff44}), new THREE.MeshBasicMaterial({color: 0x4444ff})];
 				for (let i=0; i <landmark.children.length; i++){
 					if (landmark.children[i].name == "tree") {
-						landmark.children[i].material = new THREE.MeshBasicMaterial({color: 0x8F4B38, roughness: 0.5});
+						landmark.children[i].material = new THREE.MeshBasicMaterial({color: 0x8F4B38});
 					} else {
 						landmark.children[i].material = matArray[i%3];
 					}
@@ -45,7 +45,6 @@ import * as iNoBounce from './inobounce.min';
 				
 				const txLoader = new THREE.TextureLoader();
 				txLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/texture/zipper__.png", function (texture) {
-//				txLoader.load("/texture/zipper.png", function (texture) {
 					const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
 					for (let i=0; i<10; i++){
 						zipMat.map = texture;
@@ -55,7 +54,7 @@ import * as iNoBounce from './inobounce.min';
 						const plane = new THREE.Mesh(zipGeo, zipMat);
 						const radius = 120;
 						plane.position.set(radius*Math.sin(i*2*Math.PI/10),10,radius*Math.cos(i*2*Math.PI/10));
-//						plane.rotation.y = i*2*Math.PI/10;
+						plane.rotation.y = i*2*Math.PI/10;
 //						plane.rotation.z = - Math.PI / 2;
 						plane.scale.set(w, h, 1);
 						zips.add(plane);
@@ -69,7 +68,7 @@ import * as iNoBounce from './inobounce.min';
 	});
 	
 	const init = () => {
-		camera.position.set(0, camY, 0);
+		camera.position.set(-60, camY, 10);
 		pitch = camY;
 		
 		const geo = new THREE.SphereGeometry(0.2), mat = new THREE.MeshBasicMaterial({color: "#3366ff"});
@@ -84,10 +83,9 @@ import * as iNoBounce from './inobounce.min';
 		const light = new THREE.PointLight(0xFFFFFF, 1.4, 0, 0);
 		light.position.set(0, 150, 0);
 		scene.add(light);
-		renderer.gammaInput = true;
-		renderer.gammaOutput = true;
+		renderer.outputEncoding = THREE.GammaEncoding;
 
-		const axes = new THREE.AxesHelper(100);
+/*		const axes = new THREE.AxesHelper(100);
 		scene.add(axes);
 		
 		const obj0 = new THREE.Mesh(new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
@@ -110,7 +108,7 @@ import * as iNoBounce from './inobounce.min';
 		for (let i=0; i<color.length; i++) {
 			color[i].obj.visible = false;
 		}
-		color[0].obj.visible = true;
+		color[0].obj.visible = true;*/
 		
 		update();
 		
@@ -193,7 +191,7 @@ import * as iNoBounce from './inobounce.min';
 		});
 		*/
 
-		document.querySelectorAll("#glass__buttons a").forEach((target) => {
+/*		document.querySelectorAll("#glass__buttons a").forEach((target) => {
 			target.addEventListener("click", (e) => {
 				e.preventDefault();
 				let n = target.dataset.no;
@@ -202,7 +200,7 @@ import * as iNoBounce from './inobounce.min';
 					color[i].obj.visible = false;
 				}
 			});
-		});
+		});*/
 	}
 	
 /*	const loadModel = (pass) => {
@@ -276,7 +274,7 @@ import * as iNoBounce from './inobounce.min';
 		
 		let hit = zips.children.length;
 		for (let i=0; i<zips.children.length; i++) {
-			zips.children[i].lookAt(c);
+//			zips.children[i].lookAt(c);
 			const z = zips.children[i].position;
 			if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(dist.zip, 2)) {
 				hit = i;
