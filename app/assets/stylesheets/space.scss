@@ -100,6 +100,7 @@ button {
 		left: 10px;
 		height: 160px;
 		width: 160px;
+		display: none;
 	}
 
 	#stick__container{
@@ -108,12 +109,14 @@ button {
 		left: 46px;
 		height: 88px;
 		width: 88px;
+		display: none;
 	}
 
 	.stick-cursor img{
 		border-radius: 50%;
 	}
 }
+
 #works {
 	.open {
 		display: none;
