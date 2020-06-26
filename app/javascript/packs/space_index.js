@@ -56,8 +56,6 @@ import 'modaal';
 						const plane = new THREE.Mesh(zipGeo, zipMat);
 						const radius = 120;
 						plane.position.set(radius*Math.sin(i*2*Math.PI/10),10,radius*Math.cos(i*2*Math.PI/10));
-						plane.rotation.y = i*2*Math.PI/10;
-//						plane.rotation.z = - Math.PI / 2;
 						plane.scale.set(w, h, 1);
 						zips.add(plane);
 					}
@@ -180,7 +178,10 @@ import 'modaal';
 			dragging = false;
 		});
 		
-		$(".open").modaal({is_locked: true});
+		$("#works .open").modaal({
+			is_locked: true,
+			overlay_opacity: 0
+			});
 		
 		/*
 		document.querySelectorAll("#glass a").forEach((target) => {
@@ -279,14 +280,14 @@ import 'modaal';
 		
 		let hitNo = zips.children.length;
 		for (let i=0; i<zips.children.length; i++) {
-//			zips.children[i].lookAt(c);
+			zips.children[i].lookAt(c);
 			const z = zips.children[i].position;
 			if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(dist.zip, 2)) {
 				hitNo = i;
 				break;
 			}
 		}
-//		console.log(hitFlag, hitNo);
+		
 		if (hitNo < zips.children.length) {
 			if (hitFlag == zips.children.length) {
 				$("#open" + hitNo).modaal("open");
