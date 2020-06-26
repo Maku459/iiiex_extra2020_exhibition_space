@@ -22,7 +22,7 @@ class SpaceController < ApplicationController
     uri = URI.parse("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/works/%s/index.html" % params[:name])
     response = Net::HTTP.get_response(uri)
 
-    @body = response.body
+    @body = response.body.gsub(/="\.\//, "=\"https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/works/%s/" % params[:name])
     @name = params[:name]
 
     render template: 'space/works', status: 200, layout: false, content_type: 'text/html'
