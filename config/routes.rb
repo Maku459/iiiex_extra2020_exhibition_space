@@ -2,8 +2,7 @@ Rails.application.routes.draw do
   resources :userpositions
   resources :users
   get 'space/index'
-  get 'space/feedback1'
-  get 'space/works/:name', to: 'space#works'
+  get 'works/:name', to: 'space#works'
 
   root 'space#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

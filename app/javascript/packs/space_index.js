@@ -27,11 +27,11 @@ import 'modaal';
 		document.querySelector("#world").appendChild(renderer.domElement);
 		
 		const gltfLoader = new GLTFLoader();
-		gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_doom3.gltf", (data) => {
+		gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_doom3.gltf", (data) => {
 			const gltf = data.scene;
 			scene.add(gltf);
 			
-			gltfLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/model/iiiEx_landmark8.gltf", (data) => {
+			gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_landmark8.gltf", (data) => {
 				const landmark = data.scene;
 				const matArray = [new THREE.MeshBasicMaterial({color: 0xff4444}), new THREE.MeshBasicMaterial({color: 0x44ff44}), new THREE.MeshBasicMaterial({color: 0x4444ff})];
 				for (let i=0; i <landmark.children.length; i++){
@@ -46,7 +46,7 @@ import 'modaal';
 				scene.add(obsts);
 				
 				const txLoader = new THREE.TextureLoader();
-				txLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/texture/zipper.png", function (texture) {
+				txLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/texture/zipper.png", function (texture) {
 					const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
 					for (let i=0; i<10; i++){
 						zipMat.map = texture;
