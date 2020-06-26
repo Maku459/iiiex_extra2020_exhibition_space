@@ -25,6 +25,6 @@ class SpaceController < ApplicationController
     @body = response.body
     @name = params[:name]
 
-    render template: 'space/works_page', status: 200, layout: false, content_type: 'text/html'
+    render template: 'space/works', status: 200, layout: false, content_type: 'text/html'
   end
 end
