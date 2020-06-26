@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as iNoBounce from './inobounce.min';
+import 'modaal';
 
 (function() {
 	let W, H;
@@ -12,6 +13,7 @@ import * as iNoBounce from './inobounce.min';
 	const LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 	const pmouse = new THREE.Vector3();
 	const dist = {zip: 20, area: 203 - 10, obst: 20};
+	let hitFlag;
 	
 	iNoBounce.enable();
 	
@@ -44,7 +46,7 @@ import * as iNoBounce from './inobounce.min';
 				scene.add(obsts);
 				
 				const txLoader = new THREE.TextureLoader();
-				txLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/texture/zipper__.png", function (texture) {
+				txLoader.load("https://objectstore-r1nd1001.cnode.jp/v1/nc_6ddd44b3effa451b9ee2e663f54565a4/iiiex/texture/zipper.png", function (texture) {
 					const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
 					for (let i=0; i<10; i++){
 						zipMat.map = texture;
@@ -70,6 +72,7 @@ import * as iNoBounce from './inobounce.min';
 	const init = () => {
 		camera.position.set(-60, camY, 10);
 		pitch = camY;
+		hitFlag = zips.children.length;
 		
 		const geo = new THREE.SphereGeometry(0.2), mat = new THREE.MeshBasicMaterial({color: "#3366ff"});
 		for (var i=0; i<3000; i++) {
@@ -177,6 +180,8 @@ import * as iNoBounce from './inobounce.min';
 			dragging = false;
 		});
 		
+		$(".open").modaal({is_locked: true});
+		
 		/*
 		document.querySelectorAll("#glass a").forEach((target) => {
 			target.addEventListener("click", (e) => {
@@ -272,19 +277,26 @@ import * as iNoBounce from './inobounce.min';
 			}
 		}
 		
-		let hit = zips.children.length;
+		let hitNo = zips.children.length;
 		for (let i=0; i<zips.children.length; i++) {
 //			zips.children[i].lookAt(c);
 			const z = zips.children[i].position;
 			if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(dist.zip, 2)) {
-				hit = i;
+				hitNo = i;
 				break;
 			}
 		}
-		if (hit < zips.children.length) {
-			document.querySelector("#plate").style.display = "block";
+//		console.log(hitFlag, hitNo);
+		if (hitNo < zips.children.length) {
+			if (hitFlag == zips.children.length) {
+				$("#open" + hitNo).modaal("open");
+				hitFlag = hitNo;
+			}
 		} else {
-			document.querySelector("#plate").style.display = "none";
+			if (hitFlag < zips.children.length) {
+				$("#open" + hitFlag).modaal("close");
+				hitFlag = zips.children.length;
+			}
 		}
 		
 		dirFB = 0;
