@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'admins/dailyco'
   resources :userpositions
   resources :users
   get 'space/index'
