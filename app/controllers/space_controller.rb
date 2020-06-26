@@ -5,7 +5,7 @@ class SpaceController < ApplicationController
   end
 
   def works
-    works_name = ["boyakerukyoukai", "kehai", "Inside-Out_Outside-In_Or"]
+    works_name = ["boyakerukyoukai", "kehai", "Super_Audio_Racing", "Graviter", "Inside-Out_Outside-In_Or", "A_flog_in_his_house", "Projections_of_impressions", "emotional_distance", "NUM", "with_rain"]
 
     if params[:name] == "list" then
       @list = works_name
