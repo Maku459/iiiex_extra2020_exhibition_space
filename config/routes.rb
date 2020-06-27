@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :logins
   get 'admins/dailyco'
   resources :userpositions
   resources :users
