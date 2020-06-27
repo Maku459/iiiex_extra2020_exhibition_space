@@ -4,7 +4,7 @@ let callFrame = DailyIframe.createFrame({
     showLeaveButton: true,
 });
 
-let participants = callFrame.join({ url: 'https://yuchi.daily.co/private' })
+let participants = callFrame.join({ url: 'https://iiiex.daily.co/test-call' })
 
 $("#remove_user").click( () => {
     let id = $("#user_to_be_removed").val()
