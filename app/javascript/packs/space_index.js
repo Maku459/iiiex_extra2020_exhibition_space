@@ -13,7 +13,7 @@ import 'modaal';
 	const LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 	const pmouse = new THREE.Vector3();
 	const dist = {zip: 20, area: 203 - 10, obst: 20};
-	let hitFlag;
+	let hitFlag = true;
 	
 	iNoBounce.enable();
 	
@@ -70,7 +70,6 @@ import 'modaal';
 	const init = () => {
 		camera.position.set(-60, camY, 10);
 		pitch = camY;
-		hitFlag = zips.children.length;
 		
 		const geo = new THREE.SphereGeometry(0.2), mat = new THREE.MeshBasicMaterial({color: "#3366ff"});
 		for (var i=0; i<3000; i++) {
@@ -178,10 +177,12 @@ import 'modaal';
 			dragging = false;
 		});
 		
-		$("#works .open").modaal({
-			is_locked: true,
-			overlay_opacity: 0
+		$("#works .close").on("click", function(e) {
+			e.preventDefault();
+			$("#works").stop(true).fadeOut(200, function() {
+				$(".works").hide();
 			});
+		});
 		
 		/*
 		document.querySelectorAll("#glass a").forEach((target) => {
@@ -222,6 +223,7 @@ import 'modaal';
 		document.getElementById("world").style.height = H + "px";
 		document.getElementById("screen").style.width = W + "px";
 		document.getElementById("screen").style.height = H + "px";
+		$("#works, #works .back").height(H);
 		renderer.setSize(W, H);
 		if (camera) {
 			camera.aspect = W/H;
@@ -287,16 +289,23 @@ import 'modaal';
 				break;
 			}
 		}
-		
+		console.log(hitNo, hitFlag);
 		if (hitNo < zips.children.length) {
-			if (hitFlag == zips.children.length) {
-				$("#open" + hitNo).modaal("open");
-				hitFlag = hitNo;
+			if (hitFlag) {
+				if ($("#works").css("display") == "none") {
+					$("#works" + hitNo).show();
+					$("#works").stop(true).fadeIn(400);
+					hitFlag = false;
+				}
 			}
 		} else {
-			if (hitFlag < zips.children.length) {
-				$("#open" + hitFlag).modaal("close");
-				hitFlag = zips.children.length;
+			if (!hitFlag) {
+				if ($("#works").css("opacity") > 0) {
+					$("#works").stop(true).fadeOut(200, function() {
+						$(".works").hide();
+					});
+				}
+				hitFlag = true;
 			}
 		}
 		
