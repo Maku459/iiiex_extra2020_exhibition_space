@@ -309,7 +309,6 @@ import 'modaal';
 			}
 		}
 		
-//		console.log(c);
 		$("#map_point").css({
 			top: c.z * 1.5 + 300 - 5,
 			left: c.x * 1.5 + 300 - 5
