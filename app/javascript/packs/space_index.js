@@ -222,11 +222,11 @@ import 'modaal';
 		};
 
 		if (mobileFlag){
-
-			$('#stick__cursor').on('touchstart',function(){
+			function stickTouchStart(event) {
 				var clickpos = [];
 				clickpos = event.touches[0];
-				$('#stick__cursor').on('touchmove',function(){
+
+				function stickTouchMove (event) {
 					var deltaX, deltaY;
 					deltaX = event.touches[0].clientX - clickpos.clientX;
 					deltaY = event.touches[0].clientY - clickpos.clientY;
@@ -257,17 +257,23 @@ import 'modaal';
 						dirs[2]=false;
 						dirs[3]=false;
 					}
-				})
-			})
-			
-			$('#stick__cursor').on('touchend',function(){
+				}
+
+				document.addEventListener('touchmove', stickTouchMove, { passive: true });
+
+			}
+
+			function stickTouchEnd (event) {
 				$('#stick__cursor').offset($('.stick-cursor').offset());
 				dirs[0]=false;
 				dirs[1]=false;
 				dirs[2]=false;
 				dirs[3]=false;
-			})	
+			}
 
+			document.addEventListener('touchstart', stickTouchStart, { passive: true });
+			document.addEventListener('touchend', stickTouchEnd, { passive: true });
+			
 		}
 	
 	};
