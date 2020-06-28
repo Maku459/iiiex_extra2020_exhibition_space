@@ -21,7 +21,7 @@ services:
       - frontend
     environment:
       WEBPACKER_DEV_SERVER_HOST: "frontend"
-      DAILYCO_APIKEY: "F5df309611205a8b2ad406fc943f1cffb8269e6f54b908c0d6017d8a2b1fcd70"
+      DAILYCO_APIKEY: "Ef1c738aede03c3073df084f62d7b8bc0e379f55f30c9d08d158d63b34c9264b"
 
   frontend:
     build: .
