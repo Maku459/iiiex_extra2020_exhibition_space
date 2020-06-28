@@ -38,15 +38,18 @@ button {
 		}
 	}
 }
-
 #world {
+	position: absolute;
 	width: 100%;
+	height: 100%;
 	overflow: hidden;
 }
 #screen {
 	position: absolute;
 	left: 0;
 	top: 0;
+	width: 100%;
+	height:100%;
 	overflow: hidden;
 	pointer-events: none;
 }
@@ -81,12 +84,17 @@ button {
 				}
 			}
 		}
+		.glass__buttons {
+			cursor: pointer;
+		}
+
 	}
 
 	.map__modal{
 		position: absolute;
 		top: 10px;
 		right: 10px;
+		cursor: pointer;
 	}
 
 	#map__modal{
@@ -116,73 +124,90 @@ button {
 		border-radius: 50%;
 	}
 }
+#map_pos {
+	position: relative;
+	
+	#map_point {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 10px;
+		height: 10px;
+		background: #FF0000;
+		border-radius: 5px;
+	}
+}
 
 #works {
-	.open {
-		display: none;
-	}
-}
-.works_container {
+	position: absolute;
 	display: none;
-}
-.works {
-	border: 1px solid #A6A6A6;
-	color: #191919;
-	padding: 40px;
-	background: #FFFFFF;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 	
-	&_head {
-		overflow: hidden;
-		padding-bottom: 38px;
-		border-bottom: 1px solid #A6A6A6;
-		
-		.works_icon {
-			float: left;
-			width: 130px;
-			height: auto;
-			border: 1px solid #A6A6A6;
-		}
-		.works_title {
-			float: left;
-			width: calc(100% - 132px);
-			text-align: center;
-			
-			&_jp {
-				font-size: 45px;
-			}
-			&_en {
-				margin-top: -30px;
-				font-size: 40px;
-			}
-		}
+	.back {
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: block;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.8);
 	}
-	&_main {
-		padding: 0 165px;
-		min-width: 284px;
+	.works {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateY(-50%) translateX(-50%);
+		display: none;
+		width: 600px;
+		border: 1px solid #A6A6A6;
+		color: #191919;
+		padding: 30px;
+		background: #FFFFFF;
 		
-		p {
-			font-size: 30px;
-			line-height: 1.5;
-		}
-		.works_img {
-			display: block;
-			max-width: 430px;
-			margin: 24px auto;
+		&_head {
+			padding-bottom: 20px;
+			border-bottom: 1px solid #A6A6A6;
+			text-align: center;
 			
-			img {
-				width: 100%;
+			.works_title_jp {
+				font-size: 18px;
+			}
+			.works_title_en {
+				font-size: 16px;
 			}
 		}
-		.works_btn {
-			display: block;
-			width: 284px;
-			height: 66px;
-			margin: 0 auto;
-			background: #FFD85C;
-			color: #191919;
-			font-size: 30px;
-			line-height: 66px;
-			text-align: center;
+		&_main {
+			min-width: 320px;
+			
+			p {
+				width: 500px;
+				margin: 1em auto;
+				font-size: 16px;
+				line-height: 1.5;
+			}
+			.works_img {
+				display: block;
+				max-width: 320px;
+				margin: 36px auto;
+				
+				img {
+					width: 100%;
+				}
+			}
+			.works_btn {
+				display: block;
+				width: 154px;
+				height: 36px;
+				margin: 0 auto;
+				background: #FFD85C;
+				color: #191919;
+				font-size: 16px;
+				line-height: 36px;
+				text-align: center;
+			}
 		}
 	}
 }

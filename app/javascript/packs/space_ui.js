@@ -1,17 +1,6 @@
 import 'modaal';
 
 $(document).ready(function(){
-    $('.glass__buttons').modaal({
-        content_source: '#glass__buttons'
-    });
-
-	$('#glass__buttons a').on('click',function(e){
-        e.preventDefault();
-        let src = $(this).children('img').attr('src');
-        $('.glass__buttons').children('img').attr('src', src);
-        $('.glass__buttons').modaal('close');
-    });
-
     $('#stick__cursor').on('touchstart',function(){
         var clickpos = [];
         clickpos = event.touches[0];
@@ -35,6 +24,6 @@ $(document).ready(function(){
 
     $('.map__modal').modaal({
         content_source: '#map__modal',
-        width: 700
+//        width: 700
     });   
 })

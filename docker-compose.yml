@@ -21,6 +21,8 @@ services:
       - frontend
     environment:
       WEBPACKER_DEV_SERVER_HOST: "frontend"
+      DAILYCO_APIKEY: "F5df309611205a8b2ad406fc943f1cffb8269e6f54b908c0d6017d8a2b1fcd70"
+
   frontend:
     build: .
     command: bash -c "/myapp/bin/webpack-dev-server --config /myapp/config/webpack/development --host 0.0.0.0 --port 3035"

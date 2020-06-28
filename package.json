@@ -11,8 +11,7 @@
     "modaal": "^0.4.4",
     "sweetalert2": "^9.14.4",
     "meshwalk": "https://github.com/FlechaMaker/meshwalk.js#master",
-    "three": "^0.117.1",
-    "turbolinks": "^5.2.0"
+    "three": "^0.117.1"
   },
   "version": "0.1.0",
   "devDependencies": {

@@ -88,7 +88,7 @@ Bootstrapみたいなものはyarnでパッケージとして追加できるの�
 読み込むときは`space.html.erb`などで以下のように記述してください．
 
 ```ruby
-<%= stylesheet_link_tag '/css/your_stylesheet.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag '/css/your_stylesheet.css', media: 'all' %>
 ```
 
 ### モデル

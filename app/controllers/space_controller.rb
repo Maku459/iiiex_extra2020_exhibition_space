@@ -1,12 +1,11 @@
+require 'net/http'
+
 class SpaceController < ApplicationController
   def index
   end
 
-  def feedback1
-  end
-
   def works
-    works_name = ["audioracing", "omiage"]
+    works_name = ["boyakerukyoukai", "kehai", "Super_Audio_Racing", "Graviter", "Inside-Out_Outside-In_Or", "A_flog_in_his_house", "Projections_of_impressions", "emotional_distance", "NUM", "with_rain"]
 
     if params[:name] == "list" then
       @list = works_name
@@ -19,6 +18,13 @@ class SpaceController < ApplicationController
       return
     end
 
+    # Get works page's html
+    uri = URI.parse("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/works/%s/index.html" % params[:name])
+    response = Net::HTTP.get_response(uri)
+
+    @body = response.body.gsub(/="\.\//, "=\"https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/works/%s/" % params[:name])
     @name = params[:name]
+
+    render template: 'space/works', status: 200, layout: false, content_type: 'text/html'
   end
 end
