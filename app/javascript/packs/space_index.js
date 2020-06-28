@@ -14,6 +14,11 @@ import 'modaal';
 	const pmouse = new THREE.Vector3();
 	const dist = {zip: 20, area: 203 - 10, obst: 20};
 	let hitFlag = true;
+	let mobileFlag = 
+		navigator.userAgent.indexOf('iPhone') > 0 ||
+		navigator.userAgent.indexOf('iPad') > 0 ||
+		navigator.userAgent.indexOf('iPod') > 0 ||
+		navigator.userAgent.indexOf('Android') > 0 ;
 	
 	iNoBounce.enable();
 	
@@ -210,7 +215,62 @@ import 'modaal';
 				$(".works").hide();
 			});
 		});
-	}
+
+		if (mobileFlag && $('#stickpad__container').css("display")=="none"){
+			$('#stickpad__container').css("display", "block");
+			$('#stick__container').css("display", "block");
+		};
+
+		if (mobileFlag){
+
+			$('#stick__cursor').on('touchstart',function(){
+				var clickpos = [];
+				clickpos = event.touches[0];
+				$('#stick__cursor').on('touchmove',function(){
+					var deltaX, deltaY;
+					deltaX = event.touches[0].clientX - clickpos.clientX;
+					deltaY = event.touches[0].clientY - clickpos.clientY;
+					// var scale = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) * 2 / parseFloat($('#stickpad__container').css('width'));
+					// deltaX /= Math.max(1, scale);
+					// deltaY /= Math.max(1, scale);
+					var obj = $('.stick-cursor').offset();
+					obj.left += deltaX;
+					obj.top += deltaY;
+					$('#stick__cursor').offset(obj);
+					if (deltaX>20){
+						dirs[0]=true;
+						dirs[1]=false;
+					} else if (deltaX<-20){
+						dirs[0]=false;
+						dirs[1]=true;
+					} else {
+						dirs[0]=false;
+						dirs[1]=false;
+					}
+					if (deltaY>20){
+						dirs[2]=false;
+						dirs[3]=true;
+					} else if (deltaY<-20){
+						dirs[2]=true;
+						dirs[3]=false;
+					} else {
+						dirs[2]=false;
+						dirs[3]=false;
+					}
+				})
+			})
+			
+			$('#stick__cursor').on('touchend',function(){
+				$('#stick__cursor').offset($('.stick-cursor').offset());
+				dirs[0]=false;
+				dirs[1]=false;
+				dirs[2]=false;
+				dirs[3]=false;
+			})	
+
+		}
+	
+	};
 	
 /*	const loadModel = (pass) => {
 		gltfLoader.load(pass, (data) => {
