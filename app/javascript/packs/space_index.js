@@ -7,7 +7,7 @@ import 'modaal';
 	let W, H;
 	const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
 	const zips = new THREE.Group(), obsts = new THREE.Group();
-	const color = [{bg: "transparent", obj: new THREE.Group()}, {bg: "rgba(255, 0, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 255, 0, 0.2)", obj: new THREE.Group()}, {bg: "rgba(0, 0, 255, 0.2)", obj: new THREE.Group()}];
+	const color = [{bg: "transparent", mat: new THREE.MeshBasicMaterial({color: 0xffffff}), balls: new THREE.Group()}, {bg: "rgba(255, 68, 68, 0.2)", mat: new THREE.MeshBasicMaterial({color: 0xff4444}), balls: new THREE.Group()}, {bg: "rgba(68, 255, 68, 0.2)", mat: new THREE.MeshBasicMaterial({color: 0x44ff44}), balls: new THREE.Group()}, {bg: "rgba(68, 68, 255, 0.2)", mat: new THREE.MeshBasicMaterial({color: 0x4444ff}), balls: new THREE.Group()}];
 	let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 10, dragging = false;
 	const spFB = 40, spLR = 0.3, spUD = 10, exLR = 1, len = 30;
 	const LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
@@ -71,14 +71,19 @@ import 'modaal';
 		camera.position.set(-60, camY, 10);
 		pitch = camY;
 		
-		const geo = new THREE.SphereGeometry(0.2), mat = new THREE.MeshBasicMaterial({color: "#3366ff"});
+		const geo = new THREE.SphereGeometry(0.2);
 		for (var i=0; i<3000; i++) {
-			const sphere = new THREE.Mesh(geo, mat);
+			const sphere = new THREE.Mesh(geo, color[(i%3)+1].mat);
 			let rot = Math.random() * Math.PI * 2;
 			let range = Math.random() * dist.area;
 			sphere.position.set(Math.cos(rot)*range, Math.random()*150, Math.sin(rot)*range);
-			scene.add(sphere);
+			color[(i%3)+1].balls.add(sphere)
 		}
+		for (let i=0; i<color.length; i++) {
+			scene.add(color[i].balls);
+			color[i].balls.visible = false;
+		}
+		color[0].balls.visible = true;
 		
 		const light = new THREE.PointLight(0xFFFFFF, 1.4, 0, 0);
 		light.position.set(0, 150, 0);
@@ -177,37 +182,29 @@ import 'modaal';
 			dragging = false;
 		});
 		
+	    $('.glass__buttons').modaal({
+	        content_source: '#glass__buttons'
+	    });
+	
+		$('#glass__buttons a').on('click',function(e){
+	        e.preventDefault();
+	        let src = $(this).children('img').attr('src');
+	        $('.glass__buttons').children('img').attr('src', src);
+	        $('.glass__buttons').modaal('close');
+	        let n = this.dataset.no;
+	        document.querySelector("#screen").style.backgroundColor = color[n].bg;
+			for (let i=0; i<color.length; i++) {
+				color[i].balls.visible = false;
+			}
+			color[n].balls.visible = true;
+	    });
+	
 		$("#works .close").on("click", function(e) {
 			e.preventDefault();
 			$("#works").stop(true).fadeOut(200, function() {
 				$(".works").hide();
 			});
 		});
-		
-		/*
-		document.querySelectorAll("#glass a").forEach((target) => {
-			target.addEventListener("click", (e) => {
-				e.preventDefault();
-				let n = target.dataset.no;
-				document.querySelector("#screen").style.backgroundColor = color[n].bg;
-				for (let i=0; i<color.length; i++) {
-					color[i].obj.visible = false;
-				}
-				color[n].obj.visible = true;
-			});
-		});
-		*/
-
-/*		document.querySelectorAll("#glass__buttons a").forEach((target) => {
-			target.addEventListener("click", (e) => {
-				e.preventDefault();
-				let n = target.dataset.no;
-				document.querySelector("#screen").style.backgroundColor = color[n].bg;
-				for (let i=0; i<color.length; i++) {
-					color[i].obj.visible = false;
-				}
-			});
-		});*/
 	}
 	
 /*	const loadModel = (pass) => {
