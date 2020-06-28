@@ -7,7 +7,7 @@ import 'modaal';
 	let W, H;
 	const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
 	const zips = new THREE.Group(), obsts = new THREE.Group();
-	const color = [{bg: "transparent", mat: new THREE.MeshBasicMaterial({color: 0xffffff}), balls: new THREE.Group()}, {bg: "rgba(255, 68, 68, 0.2)", mat: new THREE.MeshBasicMaterial({color: 0xff4444}), balls: new THREE.Group()}, {bg: "rgba(68, 255, 68, 0.2)", mat: new THREE.MeshBasicMaterial({color: 0x44ff44}), balls: new THREE.Group()}, {bg: "rgba(68, 68, 255, 0.2)", mat: new THREE.MeshBasicMaterial({color: 0x4444ff}), balls: new THREE.Group()}];
+	const color = [{bg: "transparent", mat: new THREE.MeshBasicMaterial({color: 0xffffff}), balls: new THREE.Group()}, {bg: "rgba(255, 68, 68, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0xff4444}), balls: new THREE.Group()}, {bg: "rgba(68, 255, 68, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0x44ff44}), balls: new THREE.Group()}, {bg: "rgba(68, 68, 255, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0x4444ff}), balls: new THREE.Group()}];
 	let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 10, dragging = false;
 	const spFB = 40, spLR = 0.3, spUD = 10, exLR = 1, len = 30;
 	const LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
@@ -72,7 +72,7 @@ import 'modaal';
 		pitch = camY;
 		
 		const geo = new THREE.SphereGeometry(0.2);
-		for (var i=0; i<3000; i++) {
+		for (var i=0; i<9000; i++) {
 			const sphere = new THREE.Mesh(geo, color[(i%3)+1].mat);
 			let rot = Math.random() * Math.PI * 2;
 			let range = Math.random() * dist.area;
@@ -192,11 +192,16 @@ import 'modaal';
 	        $('.glass__buttons').children('img').attr('src', src);
 	        $('.glass__buttons').modaal('close');
 	        let n = this.dataset.no;
-	        document.querySelector("#screen").style.backgroundColor = color[n].bg;
+	        $("#screen").css({background: color[n].bg});
 			for (let i=0; i<color.length; i++) {
 				color[i].balls.visible = false;
 			}
 			color[n].balls.visible = true;
+			$("#screen").stop(true).fadeOut(2000, function() {
+				$("#screen").css({background: color[0].bg});
+				$("#screen").show();
+			});
+
 	    });
 	
 		$("#works .close").on("click", function(e) {
