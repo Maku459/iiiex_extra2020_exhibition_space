@@ -38,7 +38,9 @@ button {
 		}
 	}
 }
-
+#wrapper {
+	overflow: hidden;
+}
 #world {
 	width: 100%;
 	overflow: hidden;
