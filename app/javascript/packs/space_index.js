@@ -45,23 +45,70 @@ import 'modaal';
 				obsts.add(landmark);
 				scene.add(obsts);
 				
-				const txLoader = new THREE.TextureLoader();
-				txLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/texture/zipper.png", function (texture) {
-					const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
-					for (let i=0; i<10; i++){
-						zipMat.map = texture;
-						zipMat.needsUpdate = true;
-						const w = 25;
-						const h = texture.image.height/(texture.image.width/w);
-						const plane = new THREE.Mesh(zipGeo, zipMat);
-						const radius = 120;
-						plane.position.set(radius*Math.sin(i*2*Math.PI/10),10,radius*Math.cos(i*2*Math.PI/10));
-						plane.scale.set(w, h, 1);
-						zips.add(plane);
+				const nesMat = new THREE.MeshBasicMaterial({color: 0xf4ae3b});
+				gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_who.gltf", (data) => {
+					const north = data.scene;
+					north.position.set(180,0,0);
+					north.rotation.y = - Math.PI / 2;
+					for (let i=0; i <north.children.length; i++){
+						north.children[i].material = nesMat;
 					}
-					scene.add(zips);
+					obsts.add(north);
 					
-					init();
+					gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_zips.gltf", (data) => {
+						const east = data.scene;
+						east.position.set(0,0,180);
+						east.rotation.y = Math.PI;
+						for (let i=0; i <east.children.length; i++){
+							east.children[i].material = nesMat;
+						}
+						obsts.add(east);
+						
+						gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_youhatena.gltf", (data) => {
+							const south = data.scene;
+							south.position.set(-180,0,0);
+							south.rotation.y = Math.PI / 2;
+							for (let i=0; i <south.children.length; i++){
+								south.children[i].material = nesMat;
+							}
+							obsts.add(south);
+							
+							const txLoader = new THREE.TextureLoader();
+							txLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/texture/zipper.png", function (tex) {
+								const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
+								const w = 25, radius = 120;
+								for (let i=0; i<10; i++){
+									zipMat.map = tex;
+									zipMat.needsUpdate = true;
+									const h = tex.image.height/(tex.image.width/w);
+									const plane = new THREE.Mesh(zipGeo, zipMat);
+									plane.position.set(radius*Math.sin(i*2*Math.PI/10),10,radius*Math.cos(i*2*Math.PI/10));
+									plane.scale.set(w, h, 1);
+									zips.add(plane);
+								}
+								scene.add(zips);
+								
+								let c = 0
+								let image_index = ["816.jpg", "819.png", "817.png", "811.jpg", "815.jpg", "818.png", "812.png", "810.jpg", "820.png", "814.jpg"];
+/*								for (let i=0; i<10; i++){
+									txLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/texture/" + image_index[i] , (tex) => {
+										zipMat.map = tex;
+										zipMat.needsUpdate = true;
+										const h = tex.image.height/(tex.image.width/w);
+										const plane = new THREE.Mesh(zipGeo, zipMat);
+										plane.position.set(radius*Math.sin(i*2*Math.PI/10),25,radius*Math.cos(i*2*Math.PI/10));
+										plane.rotation.y = i*2*Math.PI/10;
+										plane.rotation.z = 0;
+										plane.scale.set(w/5, h/5, 1);
+										szips.add(plane);
+										c++;
+										if (c >= 10) init();
+									});
+								}*/
+								init();
+							});
+						});
+					});
 				});
 			});
 		});
@@ -182,17 +229,17 @@ import 'modaal';
 			dragging = false;
 		});
 		
-	    $('.glass__buttons').modaal({
-	        content_source: '#glass__buttons'
-	    });
+			$('.glass__buttons').modaal({
+					content_source: '#glass__buttons'
+			});
 	
 		$('#glass__buttons a').on('click',function(e){
-	        e.preventDefault();
-	        let src = $(this).children('img').attr('src');
-	        $('.glass__buttons').children('img').attr('src', src);
-	        $('.glass__buttons').modaal('close');
-	        let n = this.dataset.no;
-	        $("#screen").css({background: color[n].bg});
+					e.preventDefault();
+					let src = $(this).children('img').attr('src');
+					$('.glass__buttons').children('img').attr('src', src);
+					$('.glass__buttons').modaal('close');
+					let n = this.dataset.no;
+					$("#screen").css({background: color[n].bg});
 			for (let i=0; i<color.length; i++) {
 				color[i].balls.visible = false;
 			}
@@ -202,7 +249,7 @@ import 'modaal';
 				$("#screen").show();
 			});
 
-	    });
+			});
 	
 		$("#works .close").on("click", function(e) {
 			e.preventDefault();
@@ -240,7 +287,7 @@ import 'modaal';
 		}
 		sum /= array.length;
 		return sum;
-	}	       
+	}			   
 	
 	const moving = () => {
 		const delta = clock.getDelta();
@@ -273,8 +320,8 @@ import 'modaal';
 			const o = obsts.children[i].position;
 			if (Math.pow(o.x-c.x, 2) + Math.pow(o.z-c.z, 2) <= Math.pow(dist.obst, 2)) {
 				const rot = Math.atan2(c.z-o.z, c.x-o.x);
-				c.x = Math.cos(rot) * dist.obst;
-				c.z = Math.sin(rot) * dist.obst;
+				c.x = Math.cos(rot) * dist.obst + o.x;
+				c.z = Math.sin(rot) * dist.obst + o.z;
 			}
 		}
 		
