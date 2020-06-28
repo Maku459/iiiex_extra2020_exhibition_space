@@ -6,6 +6,10 @@
 </ul>
 
 <input type="text" id="user_to_be_removed">
-<button id="remove_user">追い出す</button>
+<button id="remove_user">追い出す</button><br/>
+
+<% @rooms['data'].each do |r| %>
+  <%= ("<input type=\"radio\" name=\"rooms\" value=\"%s\">%s</input><br/>" % [r['id'], r['name']]).html_safe %>
+<% end %>
 
 <%= javascript_packs_with_chunks_tag 'admins_dailyco' %>
