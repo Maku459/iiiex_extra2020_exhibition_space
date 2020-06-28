@@ -119,6 +119,19 @@ button {
 		border-radius: 50%;
 	}
 }
+#map_pos {
+	position: relative;
+	
+	#map_point {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 10px;
+		height: 10px;
+		background: #FF0000;
+		border-radius: 5px;
+	}
+}
 #works {
 	position: absolute;
 	display: none;

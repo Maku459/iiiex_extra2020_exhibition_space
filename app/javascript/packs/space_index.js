@@ -289,7 +289,7 @@ import 'modaal';
 				break;
 			}
 		}
-		console.log(hitNo, hitFlag);
+		
 		if (hitNo < zips.children.length) {
 			if (hitFlag) {
 				if ($("#works").css("display") == "none") {
@@ -308,6 +308,12 @@ import 'modaal';
 				hitFlag = true;
 			}
 		}
+		
+//		console.log(c);
+		$("#map_point").css({
+			top: c.z * 1.5 + 300 - 5,
+			left: c.x * 1.5 + 300 - 5
+		});
 		
 		dirFB = 0;
 		dirLR = 0;
