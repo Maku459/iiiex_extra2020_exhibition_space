@@ -27,11 +27,11 @@ import 'modaal';
 		document.querySelector("#world").appendChild(renderer.domElement);
 		
 		const gltfLoader = new GLTFLoader();
-		gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_doom3.gltf", (data) => {
+		gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_doom.gltf", (data) => {
 			const gltf = data.scene;
 			scene.add(gltf);
 			
-			gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_landmark8.gltf", (data) => {
+			gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_landmark.gltf", (data) => {
 				const landmark = data.scene;
 				const matArray = [new THREE.MeshBasicMaterial({color: 0xff4444}), new THREE.MeshBasicMaterial({color: 0x44ff44}), new THREE.MeshBasicMaterial({color: 0x4444ff})];
 				for (let i=0; i <landmark.children.length; i++){
