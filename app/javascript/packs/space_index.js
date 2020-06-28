@@ -222,10 +222,6 @@ import 'modaal';
 	const setMain = () => {
 		W = window.innerWidth;
 		H = window.innerHeight;
-/*		document.getElementById("world").style.height = H + "px";
-		document.getElementById("screen").style.width = W + "px";
-		document.getElementById("screen").style.height = H + "px";
-		$("#works, #works .back").height(H);*/
 		renderer.setSize(W, H);
 		if (camera) {
 			camera.aspect = W/H;
