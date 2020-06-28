@@ -220,8 +220,8 @@ import 'modaal';
 	}*/
 	
 	const setMain = () => {
-		W = document.getElementById("world").clientWidth;
-		H = window.innerHeight;
+		W = $("#world").width();
+		H = $(window).height();
 		document.getElementById("world").style.height = H + "px";
 		document.getElementById("screen").style.width = W + "px";
 		document.getElementById("screen").style.height = H + "px";
