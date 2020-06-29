@@ -15,7 +15,6 @@ class SouvenirsTest < ApplicationSystemTestCase
     click_on "New Souvenir"
 
     fill_in "Impression", with: @souvenir.impression
-    fill_in "Iris24 ", with: @souvenir.iris24_
     fill_in "Iris 11", with: @souvenir.iris_11
     fill_in "Iris 12", with: @souvenir.iris_12
     fill_in "Iris 13", with: @souvenir.iris_13
@@ -23,6 +22,7 @@ class SouvenirsTest < ApplicationSystemTestCase
     fill_in "Iris 21", with: @souvenir.iris_21
     fill_in "Iris 22", with: @souvenir.iris_22
     fill_in "Iris 23", with: @souvenir.iris_23
+    fill_in "Iris 24", with: @souvenir.iris_24
     fill_in "Iris 31", with: @souvenir.iris_31
     fill_in "Iris 32", with: @souvenir.iris_32
     fill_in "Iris 33", with: @souvenir.iris_33
@@ -41,7 +41,6 @@ class SouvenirsTest < ApplicationSystemTestCase
     click_on "Edit", match: :first
 
     fill_in "Impression", with: @souvenir.impression
-    fill_in "Iris24 ", with: @souvenir.iris24_
     fill_in "Iris 11", with: @souvenir.iris_11
     fill_in "Iris 12", with: @souvenir.iris_12
     fill_in "Iris 13", with: @souvenir.iris_13
@@ -49,6 +48,7 @@ class SouvenirsTest < ApplicationSystemTestCase
     fill_in "Iris 21", with: @souvenir.iris_21
     fill_in "Iris 22", with: @souvenir.iris_22
     fill_in "Iris 23", with: @souvenir.iris_23
+    fill_in "Iris 24", with: @souvenir.iris_24
     fill_in "Iris 31", with: @souvenir.iris_31
     fill_in "Iris 32", with: @souvenir.iris_32
     fill_in "Iris 33", with: @souvenir.iris_33

@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
+  resources :souvenirs
   # dailyco
   get 'admins/dailyco'
 
   # database
-  resources :souvenirs
   resources :logins
   resources :userpositions
   resources :users
