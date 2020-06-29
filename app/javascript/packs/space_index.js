@@ -13,6 +13,7 @@ import 'modaal';
 	const LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 	const pmouse = new THREE.Vector3();
 	const dist = {zip: 20, area: 203 - 10, obst: 20};
+	const timer = {interval: 5000};
 	let hitFlag = true;
 	
 	iNoBounce.enable();
@@ -74,6 +75,7 @@ import 'modaal';
 							obsts.add(south);
 							
 							const txLoader = new THREE.TextureLoader();
+							txLoader.setCrossOrigin('*');
 							txLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/texture/zipper.png", function (tex) {
 								const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
 								const w = 25, radius = 120;
@@ -90,22 +92,22 @@ import 'modaal';
 								
 								let c = 0
 								let image_index = ["816.jpg", "819.png", "817.png", "811.jpg", "815.jpg", "818.png", "812.png", "810.jpg", "820.png", "814.jpg"];
-/*								for (let i=0; i<10; i++){
-									txLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/texture/" + image_index[i] , (tex) => {
-										zipMat.map = tex;
-										zipMat.needsUpdate = true;
+								let textures = new Array(10);
+								for (let i=0; i<10; i++){
+									textures[i] = new THREE.TextureLoader();
+									textures[i].setCrossOrigin('*');
+									textures[i].load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/texture/" + image_index[i] , (tex) => {
+										const material = new THREE.MeshBasicMaterial({map:tex, transparent:true, side:THREE.DoubleSide});
+										material.needsUpdate = true;
 										const h = tex.image.height/(tex.image.width/w);
-										const plane = new THREE.Mesh(zipGeo, zipMat);
+										const plane = new THREE.Mesh(zipGeo, material);
 										plane.position.set(radius*Math.sin(i*2*Math.PI/10),25,radius*Math.cos(i*2*Math.PI/10));
-										plane.rotation.y = i*2*Math.PI/10;
-										plane.rotation.z = 0;
 										plane.scale.set(w/5, h/5, 1);
-										szips.add(plane);
+										zips.add(plane);
 										c++;
 										if (c >= 10) init();
 									});
-								}*/
-								init();
+								}
 							});
 						});
 					});
@@ -137,32 +139,46 @@ import 'modaal';
 		scene.add(light);
 		renderer.outputEncoding = THREE.GammaEncoding;
 
-/*		const axes = new THREE.AxesHelper(100);
-		scene.add(axes);
-		
-		const obj0 = new THREE.Mesh(new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
-		obj0.position.set(25, 5, 25);
-		color[0].obj.add(obj0);
-		scene.add(color[0].obj);
-		const obj1 = new THREE.Mesh(new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
-		obj1.position.set(25, 5, -25);
-		color[1].obj.add(obj1);
-		scene.add(color[1].obj);
-		const obj2 = new THREE.Mesh(new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
-		obj2.position.set(-25, 5, 25);
-		color[2].obj.add(obj2);
-		scene.add(color[2].obj);
-		const obj3 = new THREE.Mesh(new THREE.ConeGeometry(2, 10), new THREE.MeshStandardMaterial({color: 0xffffff, roughness:0.5}));
-		obj3.position.set(-25, 5, -25);
-		color[3].obj.add(obj3);
-		scene.add(color[3].obj);
-	
-		for (let i=0; i<color.length; i++) {
-			color[i].obj.visible = false;
-		}
-		color[0].obj.visible = true;*/
-		
 		update();
+		
+/*		timer.get = setInterval(() => {
+			$.ajaxPrefilter( (options, originalOptions, jqXHR) => {
+				if (!options.crossDomain) {
+					const token = $('meta[name="csrf-token"]').attr('content');
+					if (token) {
+						return jqXHR.setRequestHeader('X-CSRF-Token', token);
+					}
+				}
+			});
+			$.getJSON("/userpositions.json", (data) => {
+//				console.log("g ", data)
+			});
+		}, timer.interval);
+		setTimeout(() => {
+			timer.post = setInterval(() => {
+				console.log(camera.position.x, camera.position.y, camera.position.z);
+				$.ajaxPrefilter( (options, originalOptions, jqXHR) => {
+					if (!options.crossDomain) {
+						const token = $('meta[name="csrf-token"]').attr('content');
+						if (token) {
+							return jqXHR.setRequestHeader('X-CSRF-Token', token);
+						}
+					}
+				});
+				$.ajax({
+					url: "/userpositions.json",
+					type: "POST",
+					data: {"x": camera.position.x, "y": camera.position.y, "z": camera.position.z}
+				})
+				.done( (data, textStatus, jqXHR) => {
+					console.log("p ", data)
+				});
+
+				$.post("/userpositions.json", {"x": camera.position.x, "y": camera.position.y, "z": camera.position.z}, (data) => {
+//					console.log("p ", data)
+				});
+			}, timer.interval);
+		}, timer.interval/2);*/
 		
 		document.addEventListener("keydown", (e) => {
 			switch (e.code) {
@@ -229,17 +245,17 @@ import 'modaal';
 			dragging = false;
 		});
 		
-			$('.glass__buttons').modaal({
-					content_source: '#glass__buttons'
-			});
-	
+		$('.glass__buttons').modaal({
+			content_source: '#glass__buttons'
+		});
+		
 		$('#glass__buttons a').on('click',function(e){
-					e.preventDefault();
-					let src = $(this).children('img').attr('src');
-					$('.glass__buttons').children('img').attr('src', src);
-					$('.glass__buttons').modaal('close');
-					let n = this.dataset.no;
-					$("#screen").css({background: color[n].bg});
+			e.preventDefault();
+			let src = $(this).children('img').attr('src');
+			$('.glass__buttons').children('img').attr('src', src);
+			$('.glass__buttons').modaal('close');
+			let n = this.dataset.no;
+			$("#screen").css({background: color[n].bg});
 			for (let i=0; i<color.length; i++) {
 				color[i].balls.visible = false;
 			}
@@ -248,8 +264,7 @@ import 'modaal';
 				$("#screen").css({background: color[0].bg});
 				$("#screen").show();
 			});
-
-			});
+		});
 	
 		$("#works .close").on("click", function(e) {
 			e.preventDefault();
@@ -258,13 +273,6 @@ import 'modaal';
 			});
 		});
 	}
-	
-/*	const loadModel = (pass) => {
-		gltfLoader.load(pass, (data) => {
-			const model = data.scene;
-			scene.add(model);
-		});
-	}*/
 	
 	const setMain = () => {
 		W = window.innerWidth;
