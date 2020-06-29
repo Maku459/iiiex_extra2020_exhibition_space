@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
-  resources :logins
+  # dailyco
   get 'admins/dailyco'
+
+  # database
+  resources :logins
   resources :userpositions
   resources :users
+
+  # space
   get 'space/index'
   get 'works/:name', to: 'space#works'
 
