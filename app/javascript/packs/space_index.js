@@ -6,7 +6,7 @@ import 'modaal';
 (function() {
 	let W, H;
 	const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
-	const zips = new THREE.Group(), obsts = new THREE.Group();
+	const zips = new THREE.Group(), obsts = new THREE.Group(), foots = new THREE.Group();
 	const color = [{bg: "transparent", mat: new THREE.MeshBasicMaterial({color: 0xffffff}), balls: new THREE.Group()}, {bg: "rgba(255, 68, 68, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0xff4444}), balls: new THREE.Group()}, {bg: "rgba(68, 255, 68, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0x44ff44}), balls: new THREE.Group()}, {bg: "rgba(68, 68, 255, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0x4444ff}), balls: new THREE.Group()}];
 	let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 10, dragging = false;
 	const spFB = 40, spLR = 0.3, spUD = 10, exLR = 1, len = 30;
@@ -15,6 +15,8 @@ import 'modaal';
 	const dist = {zip: 20, area: 203 - 10, obst: 20};
 	const timer = {interval: 5000};
 	let hitFlag = true;
+	let id;
+	const footstamp = new THREE.Mesh(new THREE.CircleGeometry(5), new THREE.MeshBasicMaterial({color: 0x666666}));
 	
 	iNoBounce.enable();
 	
@@ -138,63 +140,16 @@ import 'modaal';
 		light.position.set(0, 150, 0);
 		scene.add(light);
 		renderer.outputEncoding = THREE.GammaEncoding;
-
+		
+		scene.add(foots);
+		setPos();
+		getPos();
+		
 		update();
 		
-		timer.post = setInterval(() => {
-//			console.log(camera.position.x, camera.position.y, camera.position.z);
-/*			$.ajaxPrefilter( (options, originalOptions, jqXHR) => {
-				if (!options.crossDomain) {
-					const token = $('meta[name="csrf-token"]').attr('content');
-					if (token) {
-						return jqXHR.setRequestHeader('X-CSRF-Token', token);
-					}
-				}
-			});*/
-/*			$.ajax({
-				url: "/userpositions.json",
-				type: "POST",
-				data: {"x": camera.position.x, "y": camera.position.y, "z": camera.position.z}
-			})
-			.done( (data, textStatus, jqXHR) => {
-				console.log("p ", data)
-			});*/
-			
-			$.post("/userpositions.json", {"userid": -1, "x": camera.position.x, "y": camera.position.y, "z": camera.position.z}, (data) => {
-				console.log("p ", data)
-			});
-			
-			$.ajax({
-				type: 'POST',
-				url: "/userpositions.json",
-				data: JSON.stringify({
-					"userid":-1,
-					"x":camera.position.x,
-					"y":camera.position.y,
-					"z":camera.position.z
-				}),
-				error: function(e) {
-					console.log(e);
-				},
-				dataType: "json",
-				contentType: "application/json"
-			});
-			
-		}, timer.interval);
+		timer.post = setInterval(setPos, timer.interval);
 		setTimeout(() => {
-			timer.get = setInterval(() => {
-				$.ajaxPrefilter( (options, originalOptions, jqXHR) => {
-					if (!options.crossDomain) {
-						const token = $('meta[name="csrf-token"]').attr('content');
-						if (token) {
-							return jqXHR.setRequestHeader('X-CSRF-Token', token);
-						}
-					}
-				});
-				$.getJSON("/userpositions.json", (data) => {
-					console.log("g ", data)
-				});
-			}, timer.interval);
+			timer.get = setInterval(getPos, timer.interval);
 		}, timer.interval/2);
 		
 		document.addEventListener("keydown", (e) => {
@@ -299,6 +254,40 @@ import 'modaal';
 			camera.aspect = W/H;
 			camera.updateProjectionMatrix();
 		}
+	}
+	
+	const setPos = () => {
+		$.ajax({
+			type: "POST",
+			url: "/userpositions.json",
+			data: JSON.stringify({"userid": -1, "x": camera.position.x, "y": camera.position.y, "z":camera.position.z}),
+			dataType: "json",
+			contentType: "application/json",
+			error: function(e) {
+				console.log(e);
+			}
+		})
+		.done((data, textStatus, jqXHR) => {
+//			console.log("p ", data)
+			id = data.user.id;
+		});
+	}
+	
+	const getPos = () => {
+		$.getJSON("/userpositions.json", (data) => {
+			while (foots.children.length > 0) {
+				foots.remove(foots.children[0])
+			}
+			for (let i=0; i<data.length; i++) {
+				if (id != data[i].id) {
+					const foot = footstamp.clone();
+					foot.position.set(data[i].x, 0.1, data[i].z);
+					foot.rotation.set(-Math.PI/2, 0, 0);
+					foots.add(foot);
+				}
+			}
+//			console.log("g ", data)
+		});
 	}
 	
 	const getSum = (array, value) => {
