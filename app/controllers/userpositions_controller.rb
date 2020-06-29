@@ -31,10 +31,10 @@ class UserpositionsController < ApplicationController
       respond_to do |format|
         if @userposition.save
           format.html { redirect_to @userposition, notice: 'Userposition was successfully created.' }
-          format.json { render json: { user: @userposition, status: 200, description: 'Created, no userid' }, status: :created }
+          format.json { render json: { user: @userposition, status: 200, message: 'Created, no userid' }, status: :ok }
         else
           format.html { render :new }
-          format.json { render json: { user: @userposition, status: 500, description: 'Internal server error : faliled to save' }, status: :internal_server_error }
+          format.json { render json: { user: @userposition, status: 500, message: 'Internal server error : faliled to save' }, status: :internal_server_error }
         end
       end
     else
@@ -42,10 +42,10 @@ class UserpositionsController < ApplicationController
       respond_to do |format|
         if @userposition.save
           format.html { redirect_to @userposition, notice: 'Userposition was successfully created.' }
-          format.json { render json: { user: @userposition, status: 200, description: 'Created' }, status: :created }
+          format.json { render json: { user: @userposition, status: 200, message: 'Created' }, status: :ok }
         else
           format.html { render :new }
-          format.json { render json: { user: @userposition, status: 500, description: 'Internal server error : faliled to save' }, status: :internal_server_error }
+          format.json { render json: { user: @userposition, status: 500, message: 'Internal server error : faliled to save' }, status: :internal_server_error }
         end
       end
     end
@@ -57,21 +57,21 @@ class UserpositionsController < ApplicationController
     if cookies[:user_id].nil?
       respond_to do |format|
         format.html { redirect_to users_url, notice: 'Unauthorized user.' }
-        format.json { render json: { user: @userposition, status: 401, description: 'Unauthorized' }, status: :unauthorized }
+        format.json { render json: { user: @userposition, status: 401, message: 'Unauthorized' }, status: :unauthorized }
       end
     else
       if @userposition[:userid] != cookies[:user_id]
         respond_to do |format|
           format.html { redirect_to users_url, notice: 'Unauthorized user.' }
-          format.json { render json: { user: @userposition, status: 401, description: 'Unauthorized' }, status: :unauthorized }
+          format.json { render json: { user: @userposition, status: 401, message: 'Unauthorized' }, status: :unauthorized }
         end
       else
         if @userposition.update(userposition_params)
           format.html { redirect_to @userposition, notice: 'Userposition was successfully updated.' }
-          format.json { render json: { user: @userposition, status: 200, description: 'No Content' }, status: :no_content }
+          format.json { render json: { user: @userposition, status: 200, message: 'Updated' }, status: :ok }
         else
           format.html { render :edit }
-          format.json { render json: { user: @userposition, status: 500, description: 'Internal server error : faliled to save' }, status: :internal_server_error }
+          format.json { render json: { user: @userposition, status: 500, message: 'Internal server error : faliled to save' }, status: :internal_server_error }
         end
       end
     end
