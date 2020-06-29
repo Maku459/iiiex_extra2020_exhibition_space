@@ -141,22 +141,31 @@ import 'modaal';
 
 		update();
 		
-/*		timer.get = setInterval(() => {
-			$.ajaxPrefilter( (options, originalOptions, jqXHR) => {
+		timer.post = setInterval(() => {
+//			console.log(camera.position.x, camera.position.y, camera.position.z);
+/*			$.ajaxPrefilter( (options, originalOptions, jqXHR) => {
 				if (!options.crossDomain) {
 					const token = $('meta[name="csrf-token"]').attr('content');
 					if (token) {
 						return jqXHR.setRequestHeader('X-CSRF-Token', token);
 					}
 				}
-			});
-			$.getJSON("/userpositions.json", (data) => {
-//				console.log("g ", data)
+			});*/
+/*			$.ajax({
+				url: "/userpositions.json",
+				type: "POST",
+				data: {"x": camera.position.x, "y": camera.position.y, "z": camera.position.z}
+			})
+			.done( (data, textStatus, jqXHR) => {
+				console.log("p ", data)
+			});*/
+			
+			$.post("/userpositions.json", {"userid": -1, "x": camera.position.x, "y": camera.position.y, "z": camera.position.z}, (data) => {
+				console.log("p ", data)
 			});
 		}, timer.interval);
 		setTimeout(() => {
-			timer.post = setInterval(() => {
-				console.log(camera.position.x, camera.position.y, camera.position.z);
+			timer.get = setInterval(() => {
 				$.ajaxPrefilter( (options, originalOptions, jqXHR) => {
 					if (!options.crossDomain) {
 						const token = $('meta[name="csrf-token"]').attr('content');
@@ -165,20 +174,11 @@ import 'modaal';
 						}
 					}
 				});
-				$.ajax({
-					url: "/userpositions.json",
-					type: "POST",
-					data: {"x": camera.position.x, "y": camera.position.y, "z": camera.position.z}
-				})
-				.done( (data, textStatus, jqXHR) => {
-					console.log("p ", data)
-				});
-
-				$.post("/userpositions.json", {"x": camera.position.x, "y": camera.position.y, "z": camera.position.z}, (data) => {
-//					console.log("p ", data)
+				$.getJSON("/userpositions.json", (data) => {
+					console.log("g ", data)
 				});
 			}, timer.interval);
-		}, timer.interval/2);*/
+		}, timer.interval/2);
 		
 		document.addEventListener("keydown", (e) => {
 			switch (e.code) {
