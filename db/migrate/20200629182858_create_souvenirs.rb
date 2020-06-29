@@ -12,7 +12,7 @@ class CreateSouvenirs < ActiveRecord::Migration[6.0]
       t.float :iris_21
       t.float :iris_22
       t.float :iris_23
-      t.float :iris24_
+      t.float :iris_24
       t.float :iris_31
       t.float :iris_32
       t.float :iris_33

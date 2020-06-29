@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_27_145143) do
+ActiveRecord::Schema.define(version: 2020_06_29_182858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2020_06_27_145143) do
     t.float "iris_21"
     t.float "iris_22"
     t.float "iris_23"
-    t.float "iris24_"
+    t.float "iris_24"
     t.float "iris_31"
     t.float "iris_32"
     t.float "iris_33"

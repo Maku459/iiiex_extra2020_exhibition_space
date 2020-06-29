@@ -70,6 +70,6 @@ class SouvenirsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def souvenir_params
-      params.require(:souvenir).permit(:impression, :works_1, :works_2, :works_3, :iris_11, :iris_12, :iris_13, :iris_14, :iris_21, :iris_22, :iris_23, :iris24_, :iris_31, :iris_32, :iris_33, :iris_34)
+      params.require(:souvenir).permit(:impression, :works_1, :works_2, :works_3, :iris_11, :iris_12, :iris_13, :iris_14, :iris_21, :iris_22, :iris_23, :iris_24, :iris_31, :iris_32, :iris_33, :iris_34)
     end
 end
