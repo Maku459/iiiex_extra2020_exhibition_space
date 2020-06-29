@@ -163,6 +163,23 @@ import 'modaal';
 			$.post("/userpositions.json", {"userid": -1, "x": camera.position.x, "y": camera.position.y, "z": camera.position.z}, (data) => {
 				console.log("p ", data)
 			});
+			
+			$.ajax({
+				type: 'POST',
+				url: "/userpositions.json",
+				data: JSON.stringify({
+					"userid":-1,
+					"x":camera.position.x,
+					"y":camera.position.y,
+					"z":camera.position.z
+				}),
+				error: function(e) {
+					console.log(e);
+				},
+				dataType: "json",
+				contentType: "application/json"
+			});
+			
 		}, timer.interval);
 		setTimeout(() => {
 			timer.get = setInterval(() => {
