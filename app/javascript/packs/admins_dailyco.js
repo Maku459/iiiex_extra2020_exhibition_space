@@ -42,6 +42,33 @@ const updateUsers = () => {
 	let participants = callFrame.participants();
 	$("#room").text("ルーム：https://iiiex.daily.co/" + room);
 	console.log(participants)
-	$("#users_list").html(Object.keys(participants).map(key => `<label>&nbsp;<input type="radio" name="users" value="${key}">${key}</label><br>`));
+	$("#users_list").html(Object.keys(participants).map(key => `<label>&nbsp;<input type="radio" name="users" value="${key}">${showUserlist(key, participants)}</label><br>`));
 	$("#kick").show();
+}
+
+function showUserlist(key, participants) {
+	// session id
+	let id ="<strong>id:</strong> ";
+	if(key == "local"){
+		id +=  "<font color=\"red\"><strong>local</strong></font>";
+		id += "(" + participants[key].session_id + ")"
+	} else {
+		id += key;
+	}
+
+	// user name
+	let name = "<strong>表示名:</strong> ";
+	 if (participants[key].user_name == ""){
+		 name += "なし";
+	 } else {
+		name += participants[key].user_name; 
+	 }
+
+	 // owner
+	 let owner = "";
+	 if(participants[key].owner){
+		 owner+= "(<font color=\"red\"><strong>owner</strong></font>)";
+	 } 
+
+	 return id + ", " + name + " " +owner;
 }
