@@ -10,13 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_27_145143) do
+ActiveRecord::Schema.define(version: 2020_06_29_182858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "logins", force: :cascade do |t|
     t.boolean "isExist"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "souvenirs", force: :cascade do |t|
+    t.text "impression"
+    t.float "works_1"
+    t.float "works_2"
+    t.float "works_3"
+    t.float "iris_11"
+    t.float "iris_12"
+    t.float "iris_13"
+    t.float "iris_14"
+    t.float "iris_21"
+    t.float "iris_22"
+    t.float "iris_23"
+    t.float "iris_24"
+    t.float "iris_31"
+    t.float "iris_32"
+    t.float "iris_33"
+    t.float "iris_34"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

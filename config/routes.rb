@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'admins/dailyco'
 
   # database
+  resources :souvenirs
   resources :logins
   resources :userpositions
   resources :users
