@@ -1,5 +1,5 @@
 class UserpositionsController < ApplicationController
-  protect_from_forgery
+  protect_from_forgery with: :null_session
   before_action :set_userposition, only: [:show, :edit, :update, :destroy]
 
   # GET /userpositions
