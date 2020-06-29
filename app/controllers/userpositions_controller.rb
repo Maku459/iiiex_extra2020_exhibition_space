@@ -54,13 +54,10 @@ class UserpositionsController < ApplicationController
   # PATCH/PUT /userpositions/1
   # PATCH/PUT /userpositions/1.json
   def update
-    prev_uid = @userposition[:userid]
     if @userposition.update(userposition_params)
-      @userposition[:userid] = prev_uid
       format.html { redirect_to @userposition, notice: 'Userposition was successfully updated.' }
       format.json { render json: { user: @userposition, status: 200, message: 'Updated' }, status: :ok }
     else
-      @userposition[:userid] = prev_uid
       format.html { render :edit }
       format.json { render json: { user: @userposition, status: 500, message: 'Internal server error : faliled to save' }, status: :internal_server_error }
     end
