@@ -20,7 +20,7 @@ $("#enter_room").on("click", () => {
 $("#remove_user").on("click", () => {
 	let id = $("input[name='users']:checked").val();
 	let kick = callFrame.updateParticipant(id, {eject: true});
-//	console.log(kick);
+	console.log(kick.participants())
 	updateUsers();
 })
 
