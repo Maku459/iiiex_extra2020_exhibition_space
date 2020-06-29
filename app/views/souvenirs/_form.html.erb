@@ -1,0 +1,97 @@
+<%= form_with(model: souvenir, local: true) do |form| %>
+  <% if souvenir.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(souvenir.errors.count, "error") %> prohibited this souvenir from being saved:</h2>
+
+      <ul>
+        <% souvenir.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :impression %>
+    <%= form.text_area :impression %>
+  </div>
+
+  <div class="field">
+    <%= form.label :works_1 %>
+    <%= form.text_field :works_1 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :works_2 %>
+    <%= form.text_field :works_2 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :works_3 %>
+    <%= form.text_field :works_3 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :iris_11 %>
+    <%= form.text_field :iris_11 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :iris_12 %>
+    <%= form.text_field :iris_12 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :iris_13 %>
+    <%= form.text_field :iris_13 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :iris_14 %>
+    <%= form.text_field :iris_14 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :iris_21 %>
+    <%= form.text_field :iris_21 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :iris_22 %>
+    <%= form.text_field :iris_22 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :iris_23 %>
+    <%= form.text_field :iris_23 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :iris24_ %>
+    <%= form.text_field :iris24_ %>
+  </div>
+
+  <div class="field">
+    <%= form.label :iris_31 %>
+    <%= form.text_field :iris_31 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :iris_32 %>
+    <%= form.text_field :iris_32 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :iris_33 %>
+    <%= form.text_field :iris_33 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :iris_34 %>
+    <%= form.text_field :iris_34 %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

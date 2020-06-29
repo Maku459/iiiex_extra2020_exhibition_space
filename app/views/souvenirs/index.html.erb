@@ -1,0 +1,57 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Souvenirs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Impression</th>
+      <th>Works 1</th>
+      <th>Works 2</th>
+      <th>Works 3</th>
+      <th>Iris 11</th>
+      <th>Iris 12</th>
+      <th>Iris 13</th>
+      <th>Iris 14</th>
+      <th>Iris 21</th>
+      <th>Iris 22</th>
+      <th>Iris 23</th>
+      <th>Iris24 </th>
+      <th>Iris 31</th>
+      <th>Iris 32</th>
+      <th>Iris 33</th>
+      <th>Iris 34</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @souvenirs.each do |souvenir| %>
+      <tr>
+        <td><%= souvenir.impression %></td>
+        <td><%= souvenir.works_1 %></td>
+        <td><%= souvenir.works_2 %></td>
+        <td><%= souvenir.works_3 %></td>
+        <td><%= souvenir.iris_11 %></td>
+        <td><%= souvenir.iris_12 %></td>
+        <td><%= souvenir.iris_13 %></td>
+        <td><%= souvenir.iris_14 %></td>
+        <td><%= souvenir.iris_21 %></td>
+        <td><%= souvenir.iris_22 %></td>
+        <td><%= souvenir.iris_23 %></td>
+        <td><%= souvenir.iris24_ %></td>
+        <td><%= souvenir.iris_31 %></td>
+        <td><%= souvenir.iris_32 %></td>
+        <td><%= souvenir.iris_33 %></td>
+        <td><%= souvenir.iris_34 %></td>
+        <td><%= link_to 'Show', souvenir %></td>
+        <td><%= link_to 'Edit', edit_souvenir_path(souvenir) %></td>
+        <td><%= link_to 'Destroy', souvenir, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Souvenir', new_souvenir_path %>

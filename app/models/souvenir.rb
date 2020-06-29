@@ -1,0 +1,2 @@
+class Souvenir < ApplicationRecord
+end
