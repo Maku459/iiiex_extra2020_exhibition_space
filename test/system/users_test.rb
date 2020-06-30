@@ -14,6 +14,7 @@ class UsersTest < ApplicationSystemTestCase
     visit users_url
     click_on "New User"
 
+    check "Agreecookie" if @user.agreeCookie
     check "Isexist" if @user.isExist
     click_on "Create User"
 
@@ -25,6 +26,7 @@ class UsersTest < ApplicationSystemTestCase
     visit users_url
     click_on "Edit", match: :first
 
+    check "Agreecookie" if @user.agreeCookie
     check "Isexist" if @user.isExist
     click_on "Update User"
 

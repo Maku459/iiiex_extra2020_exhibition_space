@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  protect_from_forgery
+  protect_from_forgery with: :null_session
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
       end
     end
   end
-  
+
   # GET /users/new
   def new
     @user = User.new
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
           format.json { render json: { user: @user, status: 200, message: 'Created' }, status: :ok }
         else
           format.html { render :new }
-          format.json { render json: { user: @user, status: 500, message: 'Internal server error : faliled to save' }, status: :internal_server_error }
+          format.json { render json: { user: @user, status: 500, message: 'Internal server error : faliled to save' }, status: :internal_server_error }
         end
       end
     else
@@ -72,7 +72,7 @@ class UsersController < ApplicationController
             format.json { render json: { user: @user, status: 200, message: 'Created Again' }, status: :ok }
           else
             format.html { render :new }
-            format.json { render json: { user: @user, status: 500, message: 'Internal server error : faliled to save' }, status: :internal_server_error }
+            format.json { render json: { user: @user, status: 500, message: 'Internal server error : faliled to save' }, status: :internal_server_error }
           end
         end
       end
@@ -96,7 +96,7 @@ class UsersController < ApplicationController
           format.json { render json: { user: @user, status: 200, message: 'OK' }, status: :ok }
         else
           format.html { render :edit }
-          format.json { render json: { user: @user, status: 500, message: 'Internal server error : faliled to save' }, status: :internal_server_error }
+          format.json { render json: { user: @user, status: 500, message: 'Internal server error : faliled to save' }, status: :internal_server_error }
         end
       end
     end
@@ -130,7 +130,7 @@ class UsersController < ApplicationController
           respond_to do |format|
             notice = 'User' + @user[:id].to_s + ' was already logically deleted.'
             format.html { redirect_to users_url, notice: notice }
-            format.json { render json: { user: @user, status: 500, message: 'Internal server error : faliled to save' }, status: :internal_server_error }
+            format.json { render json: { user: @user, status: 500, message: 'Internal server error : faliled to save' }, status: :internal_server_error }
           end
         end
       end      
@@ -140,12 +140,11 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find_by(id: params[:id])
+      @user = User.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def user_params
-
-      params.require(:user).permit(:isExist)
+      params.require(:user).permit(:agreeCookie, :isExist)
     end
 end
