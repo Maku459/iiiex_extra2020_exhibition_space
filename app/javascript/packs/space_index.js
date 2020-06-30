@@ -237,9 +237,15 @@ import 'modaal';
 				$("#screen").show();
 			});
 		});
-	
+		
 		$("#works .close").on("click", function(e) {
 			e.preventDefault();
+			$("#works").stop(true).fadeOut(200, function() {
+				$(".works").hide();
+			});
+		});
+		
+		$("#works .works_btn").on("click", function(e) {
 			$("#works").stop(true).fadeOut(200, function() {
 				$(".works").hide();
 			});
@@ -278,7 +284,7 @@ import 'modaal';
 			while (foots.children.length > 0) {
 				foots.remove(foots.children[0])
 			}
-			for (let i=0; i<data.length; i++) {
+			for (let i=data.length-1; i>=data.length-100; i--) {
 				if (id != data[i].id) {
 					const foot = footstamp.clone();
 					foot.position.set(data[i].x, 0.1, data[i].z);
