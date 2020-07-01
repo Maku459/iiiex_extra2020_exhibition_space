@@ -4,9 +4,18 @@ import * as iNoBounce from './inobounce.min';
 import 'modaal';
 
 (function() {
+	const queries  = window.location.search.slice(1).split("&");
+	let referer = 10;
+	for (let i=0; i<queries.length; i++) {
+		if (queries[i].split("=")[0] == "space") {
+			referer = queries[i].split("=")[1];
+			break;
+		}
+	}
+	
 	let W, H;
 	const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
-	const zips = new THREE.Group(), obsts = new THREE.Group(), foots = new THREE.Group();
+	const zips = new THREE.Group(), obsts = new THREE.Group(), foots = new THREE.Group(), birds = new THREE.Group(), fish = new THREE.Group(), snakes = new THREE.Group();
 	const color = [{bg: "transparent", mat: new THREE.MeshBasicMaterial({color: 0xffffff}), balls: new THREE.Group()}, {bg: "rgba(255, 68, 68, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0xff4444}), balls: new THREE.Group()}, {bg: "rgba(68, 255, 68, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0x44ff44}), balls: new THREE.Group()}, {bg: "rgba(68, 68, 255, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0x4444ff}), balls: new THREE.Group()}];
 	let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 10, dragging = false;
 	const spFB = 40, spLR = 0.3, spUD = 10, exLR = 1, len = 30;
@@ -17,6 +26,9 @@ import 'modaal';
 	let hitFlag = true;
 	let id = 0;
 	const footstamp = new THREE.Mesh();
+	const mixers = new Array();
+	const animal = 3, snakePos = {center: new THREE.Vector3(0, 1, -160), range: new THREE.Vector3(20, 0, 10)};
+
 	const conohaUrl = "https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/";
 	const corsToken = "?Origin=" + "http://"+ $(location).attr('host');
 	console.log("corstoken :",corsToken)
@@ -49,7 +61,6 @@ import 'modaal';
 				}
 				landmark.scale.set(10, 10, 10);
 				obsts.add(landmark);
-				scene.add(obsts);
 				
 				const nesMat = new THREE.MeshBasicMaterial({color: 0xf4ae3b});
 				gltfLoader.load(conohaUrl + "model/iiiEx_who.gltf" + corsToken, (data) => {
@@ -79,48 +90,128 @@ import 'modaal';
 							}
 							obsts.add(south);
 							
-							const txLoader = new THREE.TextureLoader();
-							txLoader.setCrossOrigin('*');
-							txLoader.load(conohaUrl + "texture/footprint.png" + corsToken, function (tex) {
-								const geo = new THREE.PlaneGeometry(3, 3);
-								const mat = new THREE.MeshBasicMaterial({map: tex, transparent:true, side:THREE.DoubleSide});
-								footstamp.geometry = geo;
-								footstamp.material = mat;
-								
-								txLoader.load(conohaUrl + "texture/zipper.png" + corsToken, function (tex) {
-									const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
-									const w = 25, radius = 120;
-									for (let i=0; i<10; i++){
-										zipMat.map = tex;
-										zipMat.needsUpdate = true;
-										const h = tex.image.height/(tex.image.width/w);
-										const plane = new THREE.Mesh(zipGeo, zipMat);
-										plane.position.set(radius*Math.sin(i*2*Math.PI/10),10,radius*Math.cos(i*2*Math.PI/10));
-										plane.scale.set(w, h, 1);
-										zips.add(plane);
+							
+							
+							
+							
+							
+							
+							let c = 0;
+							for (let i=0; i<animal; i++) {
+								gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_snake.gltf", (data) => {
+									const model = data.scene;
+									const anims = data.animations;
+									const mixer = new THREE.AnimationMixer(model);
+									const rot = Math.random()*Math.PI*2;
+									const pos = new THREE.Vector3(Math.cos(rot) * snakePos.range.x, 0, Math.sin(rot) * snakePos.range.z);
+									model.position.copy(pos.add(snakePos.center));
+									for (let j=0; j<anims.length; j++) {
+										mixer.clipAction(anims[j]).play();
 									}
-									scene.add(zips);
+									mixer.clipAction(anims[0]).time += 0.5*i;
+									mixer.time += 0.5*i;
+									mixers.push(mixer);
+									snakes.add(model);
+									snakes.children[snakes.children.length-1].rot = rot;
 									
-									let c = 0
-									let image_index = ["816.jpg", "819.png", "817.png", "811.jpg", "815.jpg", "818.png", "812.png", "810.jpg", "820.png", "814.jpg"];
-									let textures = new Array(10);
-									for (let i=0; i<10; i++){
-										textures[i] = new THREE.TextureLoader();
-										textures[i].setCrossOrigin('*');
-										textures[i].load(conohaUrl + "texture/" + image_index[i] , (tex) => {
-											const material = new THREE.MeshBasicMaterial({map:tex, transparent:true, side:THREE.DoubleSide});
-											material.needsUpdate = true;
-											const h = tex.image.height/(tex.image.width/w);
-											const plane = new THREE.Mesh(zipGeo, material);
-											plane.position.set(radius*Math.sin(i*2*Math.PI/10),25,radius*Math.cos(i*2*Math.PI/10));
-											plane.scale.set(w/5, h/5, 1);
-											zips.add(plane);
-											c++;
-											if (c >= 10) init();
-										});
+									c++
+									if (c >= animal) {
+										c = 0;
+										for (let i=0; i<animal; i++) {
+											gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_fish.gltf", (data) => {
+/*												const model = data.scene;
+												const anims = data.animations;
+												const mixer = new THREE.AnimationMixer(model);
+												const rot = Math.random()*Math.PI*2;
+												const pos = new THREE.Vector3(Math.cos(rot) * 40, 0, Math.sin(rot) * 20);
+												model.position.copy(pos.add(center.snake));
+												for (let j=0; j<anims.length; j++) {
+													console.log(anims[j])
+													mixer.clipAction(anims[j]).play();
+												}
+												mixers.push(mixer);
+												snakes.add(model);
+												console.log(snakes);*/
+												
+												c++
+												if (c >= animal) {
+													c = 0;
+													for (let i=0; i<animal; i++) {
+														gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_bird.gltf", (data) => {
+/*															const model = data.scene;
+															const anims = data.animations;
+															const mixer = new THREE.AnimationMixer(model);
+															const rot = Math.random()*Math.PI*2;
+															const pos = new THREE.Vector3(Math.cos(rot) * 40, 0, Math.sin(rot) * 20);
+															model.position.copy(pos.add(center.snake));
+															for (let j=0; j<anims.length; j++) {
+																console.log(anims[j])
+																mixer.clipAction(anims[j]).play();
+															}
+															mixers.push(mixer);
+															snakes.add(model);
+															console.log(snakes);*/
+															
+															c++
+															if (c >= animal) {
+																c = 0;
+							
+							
+							
+							
+							
+							
+							
+							
+																const txLoader = new THREE.TextureLoader();
+																txLoader.setCrossOrigin('*');
+																txLoader.load(conohaUrl + "texture/footprint.png" + corsToken, function (tex) {
+																	const geo = new THREE.PlaneGeometry(3, 3);
+																	const mat = new THREE.MeshBasicMaterial({map: tex, transparent:true, side:THREE.DoubleSide});
+																	footstamp.geometry = geo;
+																	footstamp.material = mat;
+																	
+																	txLoader.load(conohaUrl + "texture/zipper.png" + corsToken, function (tex) {
+																		const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
+																		const w = 25, radius = 120;
+																		for (let i=0; i<10; i++){
+																			zipMat.map = tex;
+																			zipMat.needsUpdate = true;
+																			const h = tex.image.height/(tex.image.width/w);
+																			const plane = new THREE.Mesh(zipGeo, zipMat);
+																			plane.position.set(radius*Math.sin(i*2*Math.PI/10),10,radius*Math.cos(i*2*Math.PI/10));
+																			plane.scale.set(w, h, 1);
+																			zips.add(plane);
+																		}
+																		
+																		let image_index = ["816.jpg", "819.png", "817.png", "811.jpg", "815.jpg", "818.png", "812.png", "810.jpg", "820.png", "814.jpg"];
+																		let textures = new Array(10);
+																		for (let i=0; i<10; i++){
+																			textures[i] = new THREE.TextureLoader();
+																			textures[i].setCrossOrigin('*');
+																			textures[i].load(conohaUrl + "texture/" + image_index[i] , (tex) => {
+																				const material = new THREE.MeshBasicMaterial({map:tex, transparent:true, side:THREE.DoubleSide});
+																				material.needsUpdate = true;
+																				const h = tex.image.height/(tex.image.width/w);
+																				const plane = new THREE.Mesh(zipGeo, material);
+																				plane.position.set(radius*Math.sin(i*2*Math.PI/10),25,radius*Math.cos(i*2*Math.PI/10));
+																				plane.scale.set(w/5, h/5, 1);
+																				zips.add(plane);
+																				c++;
+																				if (c >= 10) init();
+																			});
+																		}
+																	});
+																});
+															}
+														});
+													}
+												}
+											});
+										}
 									}
 								});
-							});
+							}
 						});
 					});
 				});
@@ -129,7 +220,14 @@ import 'modaal';
 	});
 	
 	const init = () => {
-		camera.position.set(-60, camY, 10);
+		if (referer < 10) {
+			const radius = 60;
+			const rot = referer*2*Math.PI/10;
+			yaw = -referer*2*Math.PI/10 + Math.PI/2;
+			camera.position.set(radius*Math.sin(rot), camY, radius*Math.cos(rot));
+		} else {
+			camera.position.set(-60, camY, 10);
+		}
 		pitch = camY;
 		
 		const geo = new THREE.SphereGeometry(0.2);
@@ -151,7 +249,10 @@ import 'modaal';
 		scene.add(light);
 		renderer.outputEncoding = THREE.GammaEncoding;
 		
+		scene.add(zips);
+		scene.add(obsts);
 		scene.add(foots);
+		scene.add(snakes);
 		getPos();
 		setPos();
 		
@@ -294,10 +395,8 @@ import 'modaal';
 			const max = 100;
 			for (let i=0; i<data.length; i++) {
 				if (data[i].id > id) {
-					console.log(id, data[i].id);
 					id = data[i].id;
 					const foot = footstamp.clone();
-					console.log(i)
 					foot.position.set(data[i].x, 0.1, data[i].z);
 					foot.rotation.set(-Math.PI/2, 0, Math.random()*Math.PI*2);
 					foots.add(foot);
@@ -392,7 +491,19 @@ import 'modaal';
 			top: -c.x * 214/203 + 555/2,
 			left: c.z * 214/203 + 940/2
 		});
-		//428/203
+		
+		for (let i=0; i<snakes.children.length; i++) {
+			const s = snakes.children[i];
+			const prev = new THREE.Vector3(s.position.x, 0, s.position.z);
+			s.rot += delta/20;
+			const pos = new THREE.Vector3(Math.cos(s.rot) * snakePos.range.x, Math.sin(s.rot*10)/2+0.5, Math.sin(s.rot) * snakePos.range.z);
+			s.position.copy(pos.add(snakePos.center));
+			s.lookAt(snakePos.center);
+		}
+		for (let i=0; i<mixers.length; i++) {
+			mixers[i].update(delta);
+		}
+		
 		dirFB = 0;
 		dirLR = 0;
 		dirUD = 0;
