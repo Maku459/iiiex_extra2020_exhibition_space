@@ -1,0 +1,8 @@
+<h1>Works#list</h1>
+<p>Find me in app/views/works/list.html.erb</p>
+
+<ul>
+  <% Work::WORKS_NAMES.each do |w| w %>
+    <li><a href="/works/<%= w %>/"><%= w %></a></li>
+  <% end %>
+</ul>

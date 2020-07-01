@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   # dailyco
   get 'admins/dailyco'
 
@@ -10,7 +11,10 @@ Rails.application.routes.draw do
 
   # space
   get 'space/index'
-  get 'works/:name', to: 'space#works'
+
+  # works
+  get 'works/list'
+  get 'works/:name', to: 'works#pages'
 
   root 'space#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
