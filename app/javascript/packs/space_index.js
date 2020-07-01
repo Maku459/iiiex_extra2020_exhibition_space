@@ -379,10 +379,10 @@ import 'modaal';
 		}
 		
 		$("#map_point").css({
-			top: c.z * 1.5 + 300 - 5 - 40,
-			left: c.x * 1.5 + 300 - 5 + 260
+			top: -c.x * 214/203 + 555/2,
+			left: c.z * 214/203 + 940/2
 		});
-		
+		//428/203
 		dirFB = 0;
 		dirLR = 0;
 		dirUD = 0;
