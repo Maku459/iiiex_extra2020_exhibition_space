@@ -28,7 +28,11 @@
                  gaInitialize.innerHTML = `
                     window.dataLayer = window.dataLayer || [];
                     function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());gtag('config', '${GA_MEASUREMENT_ID}');
+                    gtag('js', new Date());gtag('config', '${GA_MEASUREMENT_ID}', {
+                      'linker': {
+                        'domains': ['iiiexhibition.com', 'www.iiiexhibition.com']
+                      }
+                    });
                  `;
                  document.head.appendChild(gaInitialize);
              }
