@@ -26,6 +26,15 @@ class UserpositionsController < ApplicationController
   # POST /userpositions.json
   def create
     @userposition = Userposition.new(userposition_params)
+    # not save the same position.
+    if same_position_exists()
+      respond_to do |format|
+        format.html { redirect_to @userposition, notice: 'this position is already exists.' }
+        format.json { render json: { user: @userposition, status: 200, message: 'this position is already exists.' }, status: :ok }
+      end
+      return
+    end
+
     if cookies[:user_id].nil?
       @userposition[:userid] = -1
       respond_to do |format|
@@ -82,5 +91,9 @@ class UserpositionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def userposition_params
       params.require(:userposition).permit(:userid, :x, :y, :z)
+    end
+
+    def same_position_exists
+      !@userposition.nil? && Userposition.where(x: @userposition.x).where(y: @userposition.y).where(z: @userposition.z).exists? ? true : false
     end
 end
