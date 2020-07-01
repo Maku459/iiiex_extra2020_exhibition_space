@@ -223,6 +223,7 @@ import 'modaal';
 		
 		$('#glass__buttons a').on('click',function(e){
 			e.preventDefault();
+			gtag('event', 'glass_button');
 			let src = $(this).children('img').attr('src');
 			$('.glass__buttons').children('img').attr('src', src);
 			$('.glass__buttons').modaal('close');
