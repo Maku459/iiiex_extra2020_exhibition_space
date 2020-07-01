@@ -17,6 +17,9 @@ import 'modaal';
 	let hitFlag = true;
 	let id;
 	const footstamp = new THREE.Mesh(new THREE.CircleGeometry(5), new THREE.MeshBasicMaterial({color: 0x666666}));
+	const conohaUrl = "https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/";
+	const corsToken = "?Origin=" + $(location).attr('host');
+	console.log("corstoken :",corsToken)
 	
 	iNoBounce.enable();
 	
@@ -30,11 +33,11 @@ import 'modaal';
 		document.querySelector("#world").appendChild(renderer.domElement);
 		
 		const gltfLoader = new GLTFLoader();
-		gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_doom.gltf", (data) => {
+		gltfLoader.load(conohaUrl + "model/iiiEx_doom.gltf", (data) => {
 			const gltf = data.scene;
 			scene.add(gltf);
 			
-			gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_landmark.gltf", (data) => {
+			gltfLoader.load(conohaUrl +  "model/iiiEx_landmark.gltf" + corsToken, (data) => {
 				const landmark = data.scene;
 				const matArray = [new THREE.MeshBasicMaterial({color: 0xff4444}), new THREE.MeshBasicMaterial({color: 0x44ff44}), new THREE.MeshBasicMaterial({color: 0x4444ff})];
 				for (let i=0; i <landmark.children.length; i++){
@@ -49,7 +52,7 @@ import 'modaal';
 				scene.add(obsts);
 				
 				const nesMat = new THREE.MeshBasicMaterial({color: 0xf4ae3b});
-				gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_who.gltf", (data) => {
+				gltfLoader.load(conohaUrl + "model/iiiEx_who.gltf" + corsToken, (data) => {
 					const north = data.scene;
 					north.position.set(180,0,0);
 					north.rotation.y = - Math.PI / 2;
@@ -58,7 +61,7 @@ import 'modaal';
 					}
 					obsts.add(north);
 					
-					gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_zips.gltf", (data) => {
+					gltfLoader.load(conohaUrl + "model/iiiEx_zips.gltf" + corsToken, (data) => {
 						const east = data.scene;
 						east.position.set(0,0,180);
 						east.rotation.y = Math.PI;
@@ -67,7 +70,7 @@ import 'modaal';
 						}
 						obsts.add(east);
 						
-						gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_youhatena.gltf", (data) => {
+						gltfLoader.load(conohaUrl + "model/iiiEx_youhatena.gltf" + corsToken, (data) => {
 							const south = data.scene;
 							south.position.set(-180,0,0);
 							south.rotation.y = Math.PI / 2;
@@ -78,7 +81,7 @@ import 'modaal';
 							
 							const txLoader = new THREE.TextureLoader();
 							txLoader.setCrossOrigin('*');
-							txLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/texture/zipper.png", function (tex) {
+							txLoader.load(conohaUrl + "texture/zipper.png" + corsToken, function (tex) {
 								const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
 								const w = 25, radius = 120;
 								for (let i=0; i<10; i++){
