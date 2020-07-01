@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   # database
   resources :souvenirs
   resources :logins
-  resources :userpositions
+  resources :userpositions do
+    collection do 
+      get 'regularly_delete'
+    end
+  end
   resources :users
 
   # space

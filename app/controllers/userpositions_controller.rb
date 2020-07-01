@@ -1,3 +1,4 @@
+require "date"
 class UserpositionsController < ApplicationController
   protect_from_forgery with: :null_session
   before_action :set_userposition, only: [:show, :edit, :update, :destroy]
@@ -80,6 +81,27 @@ class UserpositionsController < ApplicationController
       format.html { redirect_to userpositions_url, notice: 'Userposition was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  # 	2020-06-30 04:31:37 UTC
+  def regularly_delete
+    threshold = 15
+    if Userposition.count < threshold
+      render json: { status: 200, message: 'userposition table is too few (' + Userposition.count.to_s + ' records ) . failed to delete' }, status: :ok
+      return
+    end
+
+    Userposition.first(Userposition.count - threshold).each do | userposition |
+      now = DateTime.now
+      created_time = DateTime.parse(userposition[:created_at].to_s)
+      if now - Rational(10, 24*60) > created_time
+        unless userposition.destroy
+          render json: { status: 500, message: 'Internal server error : faliled to regularly delete' }, status: :internal_server_error 
+        end
+      end
+    end
+
+    render json: { status: 200, message: 'Completed regularly delete' }, status: :ok
   end
 
   private
