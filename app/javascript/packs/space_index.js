@@ -27,7 +27,7 @@ import 'modaal';
 	let id = 0;
 	const footstamp = new THREE.Mesh();
 	const mixers = new Array();
-	const animal = 3, snakePos = {center: new THREE.Vector3(0, 1, -160), range: new THREE.Vector3(20, 0, 10)};
+	const animal = 5, snakePos = {center: new THREE.Vector3(0, 1, 0), range: new THREE.Vector3(15, 0, 15)}, fishPos = {center: new THREE.Vector3(0, 1, 0), range: new THREE.Vector3(100, 0, 100)}, birdPos = {center: new THREE.Vector3(0, 0, 0), range: new THREE.Vector3(60, 0, 60)};
 
 	const conohaUrl = "https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/";
 	const corsToken = "?Origin=" + "http://"+ $(location).attr('host');
@@ -90,15 +90,9 @@ import 'modaal';
 							}
 							obsts.add(south);
 							
-							
-							
-							
-							
-							
-							
 							let c = 0;
-							for (let i=0; i<animal; i++) {
-								gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_snake.gltf", (data) => {
+							for (let i=0; i<5; i++) {
+								gltfLoader.load(conohaUrl + "model/iiiEx_snake.gltf", (data) => {
 									const model = data.scene;
 									const anims = data.animations;
 									const mixer = new THREE.AnimationMixer(model);
@@ -115,54 +109,48 @@ import 'modaal';
 									snakes.children[snakes.children.length-1].rot = rot;
 									
 									c++
-									if (c >= animal) {
+									if (c >= 5) {
 										c = 0;
-										for (let i=0; i<animal; i++) {
-											gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_fish.gltf", (data) => {
-/*												const model = data.scene;
+										for (let i=0; i<15; i++) {
+											gltfLoader.load(conohaUrl + "model/iiiEx_fish.gltf", (data) => {
+												const model = data.scene;
 												const anims = data.animations;
 												const mixer = new THREE.AnimationMixer(model);
 												const rot = Math.random()*Math.PI*2;
-												const pos = new THREE.Vector3(Math.cos(rot) * 40, 0, Math.sin(rot) * 20);
-												model.position.copy(pos.add(center.snake));
+												const pos = new THREE.Vector3(Math.cos(rot) * fishPos.range.x, 0, Math.sin(rot) * fishPos.range.z);
+												model.position.copy(pos.add(fishPos.center));
 												for (let j=0; j<anims.length; j++) {
-													console.log(anims[j])
 													mixer.clipAction(anims[j]).play();
 												}
+												mixer.clipAction(anims[0]).time += 0.5*i;
+												mixer.time += 0.5*i;
 												mixers.push(mixer);
-												snakes.add(model);
-												console.log(snakes);*/
+												fish.add(model);
+												fish.children[fish.children.length-1].rot = rot;
 												
 												c++
-												if (c >= animal) {
+												if (c >= 15) {
 													c = 0;
-													for (let i=0; i<animal; i++) {
-														gltfLoader.load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/model/iiiEx_bird.gltf", (data) => {
-/*															const model = data.scene;
+													for (let i=0; i<10; i++) {
+														gltfLoader.load(conohaUrl + "model/iiiEx_bird.gltf", (data) => {
+															const model = data.scene;
 															const anims = data.animations;
 															const mixer = new THREE.AnimationMixer(model);
 															const rot = Math.random()*Math.PI*2;
-															const pos = new THREE.Vector3(Math.cos(rot) * 40, 0, Math.sin(rot) * 20);
-															model.position.copy(pos.add(center.snake));
+															const pos = new THREE.Vector3(Math.cos(rot) * birdPos.range.x, 30, Math.sin(rot) * birdPos.range.z);
+															model.position.copy(pos.add(birdPos.center));
 															for (let j=0; j<anims.length; j++) {
-																console.log(anims[j])
 																mixer.clipAction(anims[j]).play();
 															}
+															mixer.clipAction(anims[0]).time += 0.5*i;
+															mixer.time += 0.5*i;
 															mixers.push(mixer);
-															snakes.add(model);
-															console.log(snakes);*/
+															birds.add(model);
+															birds.children[birds.children.length-1].rot = rot;
 															
 															c++
-															if (c >= animal) {
+															if (c >= 10) {
 																c = 0;
-							
-							
-							
-							
-							
-							
-							
-							
 																const txLoader = new THREE.TextureLoader();
 																txLoader.setCrossOrigin('*');
 																txLoader.load(conohaUrl + "texture/footprint.png" + corsToken, function (tex) {
@@ -253,6 +241,8 @@ import 'modaal';
 		scene.add(obsts);
 		scene.add(foots);
 		scene.add(snakes);
+		scene.add(fish);
+		scene.add(birds);
 		getPos();
 		setPos();
 		
@@ -386,7 +376,7 @@ import 'modaal';
 			}
 		})
 		.done((data, textStatus, jqXHR) => {
-//			console.log("p ", data)
+//			console.log("post ", data)
 		});
 	}
 	
@@ -405,7 +395,7 @@ import 'modaal';
 			while (foots.children.length > max) {
 				foots.remove(foots.children[0])
 			}
-//			console.log("g ", data)
+//			console.log("get ", data)
 		});
 	}
 	
@@ -422,7 +412,7 @@ import 'modaal';
 		return sum;
 	}			   
 	
-	const moving = () => {
+	const update = () =>  {
 		const delta = clock.getDelta();
 		if (dirs[0]) dirLR++;
 		if (dirs[1]) dirLR--;
@@ -493,12 +483,28 @@ import 'modaal';
 		});
 		
 		for (let i=0; i<snakes.children.length; i++) {
-			const s = snakes.children[i];
-			const prev = new THREE.Vector3(s.position.x, 0, s.position.z);
-			s.rot += delta/20;
-			const pos = new THREE.Vector3(Math.cos(s.rot) * snakePos.range.x, Math.sin(s.rot*10)/2+0.5, Math.sin(s.rot) * snakePos.range.z);
-			s.position.copy(pos.add(snakePos.center));
-			s.lookAt(snakePos.center);
+			const a = snakes.children[i];
+			const prev = new THREE.Vector3(a.position.x, 0, a.position.z);
+			a.rot += delta/20;
+			const pos = new THREE.Vector3(Math.cos(a.rot) * snakePos.range.x, Math.sin(a.rot*10)/2+0.5, Math.sin(a.rot) * snakePos.range.z);
+			a.position.copy(pos.add(snakePos.center));
+			a.lookAt(snakePos.center);
+		}
+		for (let i=0; i<fish.children.length; i++) {
+			const a = fish.children[i];
+			const prev = new THREE.Vector3(a.position.x, 0, a.position.z);
+			a.rot += delta/20;
+			const pos = new THREE.Vector3(Math.cos(a.rot) * fishPos.range.x, Math.sin(a.rot*20)*2, Math.sin(a.rot) * fishPos.range.z);
+			a.position.copy(pos.add(fishPos.center));
+			a.lookAt(fishPos.center);
+		}
+		for (let i=0; i<birds.children.length; i++) {
+			const a = birds.children[i];
+			const prev = new THREE.Vector3(a.position.x, 0, a.position.z);
+			a.rot += delta/5;
+			const pos = new THREE.Vector3(Math.cos(a.rot) * birdPos.range.x, Math.sin(a.rot*10)*2 + 30, Math.sin(a.rot) * birdPos.range.z);
+			a.position.copy(pos.add(birdPos.center));
+			a.lookAt(birdPos.center);
 		}
 		for (let i=0; i<mixers.length; i++) {
 			mixers[i].update(delta);
@@ -507,10 +513,6 @@ import 'modaal';
 		dirFB = 0;
 		dirLR = 0;
 		dirUD = 0;
-	}
-	
-	const update = () =>  {
-		moving();
 		renderer.render(scene, camera);
 		requestAnimationFrame(update);
 	}
