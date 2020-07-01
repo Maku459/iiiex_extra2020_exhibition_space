@@ -18,7 +18,7 @@ import 'modaal';
 	let id;
 	const footstamp = new THREE.Mesh(new THREE.CircleGeometry(5), new THREE.MeshBasicMaterial({color: 0x666666}));
 	const conohaUrl = "https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/";
-	const corsToken = "?X-Container-Meta-Access-Control-Allow-Origin=" +$(location).protocol+ "://"+ $(location).attr('host') + ":"	+ $(location).port ;
+	const corsToken = "?X-Container-Meta-Access-Control-Allow-Origin=" + "https://"+ $(location).attr('host');
 	console.log("corstoken :",corsToken)
 	
 	iNoBounce.enable();
