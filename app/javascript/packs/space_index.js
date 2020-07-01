@@ -15,8 +15,8 @@ import 'modaal';
 	const dist = {zip: 20, area: 203 - 10, obst: 20};
 	const timer = {interval: 5000};
 	let hitFlag = true;
-	let id;
-	const footstamp = new THREE.Mesh(new THREE.CircleGeometry(5), new THREE.MeshBasicMaterial({color: 0x666666}));
+	let id = 0;
+	const footstamp = new THREE.Mesh();
 	const conohaUrl = "https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/";
 	const corsToken = "?Origin=" + "http://"+ $(location).attr('host');
 	console.log("corstoken :",corsToken)
@@ -81,38 +81,45 @@ import 'modaal';
 							
 							const txLoader = new THREE.TextureLoader();
 							txLoader.setCrossOrigin('*');
-							txLoader.load(conohaUrl + "texture/zipper.png" + corsToken, function (tex) {
-								const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
-								const w = 25, radius = 120;
-								for (let i=0; i<10; i++){
-									zipMat.map = tex;
-									zipMat.needsUpdate = true;
-									const h = tex.image.height/(tex.image.width/w);
-									const plane = new THREE.Mesh(zipGeo, zipMat);
-									plane.position.set(radius*Math.sin(i*2*Math.PI/10),10,radius*Math.cos(i*2*Math.PI/10));
-									plane.scale.set(w, h, 1);
-									zips.add(plane);
-								}
-								scene.add(zips);
+							txLoader.load(conohaUrl + "texture/footprint.png" + corsToken, function (tex) {
+								const geo = new THREE.PlaneGeometry(3, 3);
+								const mat = new THREE.MeshBasicMaterial({map: tex, transparent:true, side:THREE.DoubleSide});
+								footstamp.geometry = geo;
+								footstamp.material = mat;
 								
-								let c = 0
-								let image_index = ["816.jpg", "819.png", "817.png", "811.jpg", "815.jpg", "818.png", "812.png", "810.jpg", "820.png", "814.jpg"];
-								let textures = new Array(10);
-								for (let i=0; i<10; i++){
-									textures[i] = new THREE.TextureLoader();
-									textures[i].setCrossOrigin('*');
-									textures[i].load("https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/texture/" + image_index[i] , (tex) => {
-										const material = new THREE.MeshBasicMaterial({map:tex, transparent:true, side:THREE.DoubleSide});
-										material.needsUpdate = true;
+								txLoader.load(conohaUrl + "texture/zipper.png" + corsToken, function (tex) {
+									const zipMat = new THREE.MeshBasicMaterial({transparent:true, side:THREE.DoubleSide}), zipGeo = new THREE.PlaneGeometry(1,1);
+									const w = 25, radius = 120;
+									for (let i=0; i<10; i++){
+										zipMat.map = tex;
+										zipMat.needsUpdate = true;
 										const h = tex.image.height/(tex.image.width/w);
-										const plane = new THREE.Mesh(zipGeo, material);
-										plane.position.set(radius*Math.sin(i*2*Math.PI/10),25,radius*Math.cos(i*2*Math.PI/10));
-										plane.scale.set(w/5, h/5, 1);
+										const plane = new THREE.Mesh(zipGeo, zipMat);
+										plane.position.set(radius*Math.sin(i*2*Math.PI/10),10,radius*Math.cos(i*2*Math.PI/10));
+										plane.scale.set(w, h, 1);
 										zips.add(plane);
-										c++;
-										if (c >= 10) init();
-									});
-								}
+									}
+									scene.add(zips);
+									
+									let c = 0
+									let image_index = ["816.jpg", "819.png", "817.png", "811.jpg", "815.jpg", "818.png", "812.png", "810.jpg", "820.png", "814.jpg"];
+									let textures = new Array(10);
+									for (let i=0; i<10; i++){
+										textures[i] = new THREE.TextureLoader();
+										textures[i].setCrossOrigin('*');
+										textures[i].load(conohaUrl + "texture/" + image_index[i] , (tex) => {
+											const material = new THREE.MeshBasicMaterial({map:tex, transparent:true, side:THREE.DoubleSide});
+											material.needsUpdate = true;
+											const h = tex.image.height/(tex.image.width/w);
+											const plane = new THREE.Mesh(zipGeo, material);
+											plane.position.set(radius*Math.sin(i*2*Math.PI/10),25,radius*Math.cos(i*2*Math.PI/10));
+											plane.scale.set(w/5, h/5, 1);
+											zips.add(plane);
+											c++;
+											if (c >= 10) init();
+										});
+									}
+								});
 							});
 						});
 					});
@@ -145,8 +152,8 @@ import 'modaal';
 		renderer.outputEncoding = THREE.GammaEncoding;
 		
 		scene.add(foots);
-		setPos();
 		getPos();
+		setPos();
 		
 		update();
 		
@@ -279,22 +286,25 @@ import 'modaal';
 		})
 		.done((data, textStatus, jqXHR) => {
 //			console.log("p ", data)
-			id = data.user.id;
 		});
 	}
 	
 	const getPos = () => {
 		$.getJSON("/userpositions.json", (data) => {
-			while (foots.children.length > 0) {
-				foots.remove(foots.children[0])
-			}
-			for (let i=data.length-1; i>=data.length-100; i--) {
-				if (id != data[i].id) {
+			const max = 100;
+			for (let i=0; i<data.length; i++) {
+				if (data[i].id > id) {
+					console.log(id, data[i].id);
+					id = data[i].id;
 					const foot = footstamp.clone();
+					console.log(i)
 					foot.position.set(data[i].x, 0.1, data[i].z);
-					foot.rotation.set(-Math.PI/2, 0, 0);
+					foot.rotation.set(-Math.PI/2, 0, Math.random()*Math.PI*2);
 					foots.add(foot);
 				}
+			}
+			while (foots.children.length > max) {
+				foots.remove(foots.children[0])
 			}
 //			console.log("g ", data)
 		});
