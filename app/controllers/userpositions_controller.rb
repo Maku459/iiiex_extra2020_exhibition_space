@@ -6,7 +6,15 @@ class UserpositionsController < ApplicationController
   # GET /userpositions
   # GET /userpositions.json
   def index
-    @userpositions = Userposition.all
+    dst = []
+    now = DateTime.now
+    threshold = now - Rational(30, 24 * 60)
+    Userposition.all.each do |userposition|
+      if DateTime.parse(userposition[:created_at].to_s) > threshold
+        dst.push(userposition)
+      end
+    end
+    @userpositions = dst
   end
 
   # GET /userpositions/1

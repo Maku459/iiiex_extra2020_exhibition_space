@@ -23,21 +23,174 @@ button {
 	}
 }
 
-.modaal-content-container {
-	list-style: none;
-	display: flex;
-	justify-content: space-between;
+#header {
+	position: fixed;
+	width: 100vw;
+	height: 60px;
+    background-color: rgba(255, 255, 255, 1.0);
+	border-bottom: 1px solid #B1B1B1;
+	
+	.logo {
+		color: #fff;
+		font-weight: bold;
+		text-align: undefined;
+		max-height: 40px;
+		float: left;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		margin-left: 2%;
+		letter-spacing: 4px;
+	}
 
-	ul{
-		list-style: none;
-		padding-right: 100px;
+	nav {
+		float: right;
+		width: 80%;
+		text-align: right;
 
-		li {
-			padding-top: 5px;
-			padding-bottom: 5px;
+		ul {
+			list-style: none;
+			display: flex;
+			align-items: center;
+			margin-top: 15px;
+			margin-bottom: 15px;
+			justify-content: flex-end;
+
+			li {
+				float: left;
+				color: #000000;
+				font-size: 13px;
+				text-align: left;
+				margin-right: 15px;
+				letter-spacing: 2px;
+				font-weight: bold;
+				transition: all 0.3s linear;
+
+				.button_speak {
+					line-height: 26px;
+					letter-spacing: 2px;
+					text-align: center;
+					font-size: 12px;
+					display: inline-block;
+					position: relative;
+					margin: auto;
+					width: 145px;
+					background: #FFFFFF;
+					visibility: visible;
+					display: block;
+					box-sizing: border-box;
+					height: 30px;
+					border: 2px solid #ffaf1b;
+					border-radius: 15px;
+					background: #ffaf1b;
+
+					span:after {
+						content: "説明を聞く";
+						color: #FFFFFF;
+					}
+				}
+
+				.modaal-content-container {
+					display: block;
+				}
+
+				.button_speak_launch {
+					margin-right: auto;
+					margin-left: auto;
+					display: block;
+				}
+
+				.switchArea {
+					line-height: 26px;
+					letter-spacing: 2px;
+					text-align: center;
+					font-size: 12px;
+					display: inline-block;
+					position: relative;
+					margin: auto;
+					width: 145px;
+					background: #FFFFFF;
+
+					label {
+						display: block;
+						box-sizing: border-box;
+						height: 30px;
+						border: 2px solid #ffaf1b;
+						border-radius: 15px;
+						background: #ffaf1b;
+
+						span:after {
+							content: "本サイトに戻る";
+							padding: 0 15px 0 0;
+							color: #FFFFFF;
+						}
+					}
+
+					input[type="checkbox"] {
+						display: none;
+					}
+
+					input[type="checkbox"]:checked +label {
+						border-color: #80807F;
+						background: #80807F;
+					}
+
+					input[type="checkbox"]:checked + label span:after {
+						content: "GOODBYE!";
+						padding: 0 0 0 3px;
+						color: #FFFFFF;
+					}
+
+					#swImg {
+						pointer-events: none;
+						position: absolute;
+						width: 24px;
+						height: 24px;
+						background: #FFFFFF;
+						top: 3px;
+						right: 3px;
+						border-radius: 11px;
+						transition: .2s;
+					}
+
+					input[type="checkbox"]:checked ~ #swImg {
+						transform: translateX(-115px); 
+						background: #FFFFFF;
+					}
+				}
+
+				.twitter {
+					width: 32px;
+					height: 32px;
+					margin-right: -5px;
+					background: url(/images/twitter.png) no-repeat;
+					background-size: cover;
+					display: block;
+					text-indent: -9999px;
+				}
+
+				.facebook {
+					width: 32px;
+					height: 32px;
+					margin-right: -5px;
+					background: url(/images/facebook.png) no-repeat;
+					background-size: cover;
+					display: block;
+					text-indent: -9999px;
+				}
+
+				.instagram {
+					width: 32px;
+					height: 32px;
+					background: url(/images/instagram.png) no-repeat;
+					background-size: cover;
+					display: block;
+					text-indent: -9999px;
+				}
+			}
 		}
 	}
 }
+
 #world {
 	position: absolute;
 	width: 100%;
@@ -53,18 +206,43 @@ button {
 	overflow: hidden;
 	pointer-events: none;
 }
+
+.modaal-wrapper ul {
+	display: flex;
+	list-style: none;
+	padding: 10px;
+
+	li {
+		padding: 10px;
+	}
+}
+
 #ui {
 	#glass__container{
 		position: absolute;
-		top: 120px;
+		top: 180px;
 		right: 19px;
 
 		#glass__buttons {
 			overflow: hidden;
 			background: rgba(255, 255, 255, 0.3);
 			padding-left: 0px;
+			display: flex;
 			display: none;
 			list-style: none;
+
+			ul{
+				list-style: none;
+				padding-right: 100px;
+				display: flex;
+				justify-content: space-between;
+		
+				li {
+					padding-top: 5px;
+					padding-bottom: 5px;
+				}
+			}
+		}
 	
 			li {
 				float: none;
@@ -92,7 +270,7 @@ button {
 
 	.map__modal{
 		position: absolute;
-		top: 10px;
+		top: 70px;
 		right: 10px;
 		cursor: pointer;
 	}
@@ -121,7 +299,7 @@ button {
 	.stick-cursor img{
 		border-radius: 50%;
 	}
-}
+
 #map_pos {
 	position: relative;
 	
@@ -206,5 +384,16 @@ button {
 				text-align: center;
 			}
 		}
+	}
+}
+
+.tutorial_div{
+	text-align: center;
+    margin-left: auto;
+	margin-right: auto;
+	
+	span {
+		color: red;
+		font-weight: bold;
 	}
 }
