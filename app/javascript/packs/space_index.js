@@ -15,7 +15,7 @@ import 'modaal';
 	
 	let W, H;
 	const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
-	const zips = new THREE.Group(), obsts = new THREE.Group(), foots = new THREE.Group(), birds = new THREE.Group(), fish = new THREE.Group(), snakes = new THREE.Group();
+	const zips = new THREE.Group(), zipsArray = new Array(), obsts = new THREE.Group(), foots = new THREE.Group(), birds = new THREE.Group(), fish = new THREE.Group(), snakes = new THREE.Group();
 	const color = [{bg: "transparent", mat: new THREE.MeshBasicMaterial({color: 0xffffff}), balls: new THREE.Group()}, {bg: "rgba(255, 68, 68, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0xff4444}), balls: new THREE.Group()}, {bg: "rgba(68, 255, 68, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0x44ff44}), balls: new THREE.Group()}, {bg: "rgba(68, 68, 255, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0x4444ff}), balls: new THREE.Group()}];
 	let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 10, dragging = false;
 	const spFB = 40, spLR = 0.3, spUD = 10, exLR = 1, len = 30;
@@ -95,7 +95,6 @@ import 'modaal';
 								gltfLoader.load(conohaUrl + "model/iiiEx_snake.gltf", (data) => {
 									const model = new THREE.Object3D();
 									model.add(data.scene);
-//									const model = data.scene;
 									const anims = data.animations;
 									const mixer = new THREE.AnimationMixer(model);
 									const rot = Math.random()*Math.PI*2;
@@ -117,7 +116,6 @@ import 'modaal';
 											gltfLoader.load(conohaUrl + "model/iiiEx_fish.gltf", (data) => {
 												const model = new THREE.Object3D();
 												model.add(data.scene);
-			//									const model = data.scene;
 												const anims = data.animations;
 												const mixer = new THREE.AnimationMixer(model);
 												const rot = Math.random()*Math.PI*2;
@@ -139,7 +137,6 @@ import 'modaal';
 														gltfLoader.load(conohaUrl + "model/iiiEx_bird.gltf", (data) => {
 															const model = new THREE.Object3D();
 															model.add(data.scene);
-						//									const model = data.scene;
 															const anims = data.animations;
 															const mixer = new THREE.AnimationMixer(model);
 															const rot = Math.random()*Math.PI*2;
@@ -240,6 +237,9 @@ import 'modaal';
 			color[i].balls.visible = false;
 		}
 		color[0].balls.visible = true;
+		for (let i=0; i<zips.children.length; i++) {
+			zipsArray.push(zips.children[i]);
+		}
 		
 		const light = new THREE.PointLight(0xFFFFFF, 1.4, 0, 0);
 		light.position.set(0, 150, 0);
@@ -257,9 +257,9 @@ import 'modaal';
 		
 		update();
 		
-		timer.post = setInterval(setPos, timer.interval);
+//		timer.post = setInterval(setPos, timer.interval);
 		setTimeout(() => {
-			timer.get = setInterval(getPos, timer.interval);
+//			timer.get = setInterval(getPos, timer.interval);
 		}, timer.interval/2);
 		
 		document.addEventListener("keydown", (e) => {
@@ -325,6 +325,24 @@ import 'modaal';
 		
 		document.querySelector("#world").addEventListener("pointerup", (e) => {
 			dragging = false;
+		});
+		
+		$("#world canvas").on("click", function(e) {
+			const rect = e.target.getBoundingClientRect();
+			let mouse = {x: 0, y: 0};
+			mouse.x = e.clientX - rect.left;
+			mouse.y = e.clientY - rect.top;
+			mouse.x =  (mouse.x / W) * 2 - 1;
+			mouse.y = -(mouse.y / H) * 2 + 1;
+			var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
+			vector.unproject(camera);
+			var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+			var obj = ray.intersectObjects(zipsArray);
+			console.log(obj);
+			if (obj.length > 0){
+				$("#alert").show();
+				$("#works").stop(true).fadeIn(400);
+			}
 		});
 		
 		$('.glass__buttons').modaal({
