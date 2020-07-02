@@ -22,6 +22,29 @@ $(document).ready(function(){
         $('#stick__cursor').offset($('.stick-cursor').offset());
     })
 
+    $('.button_speak').modaal({
+		content_source: '#button_speak'
+	});
+
+	$('.speak_active > a > img').on('click',function(e){
+		console.log("close")
+		$('.button_speak').modaal('close');
+    });
+    
+    var now_hour = new Date().getHours();
+    if ( 11 <= now_hour && now_hour <= 22 ){
+        $('.button_speak').css('background', '#ffaf1b');
+        $('.button_speak').css('border-color', '#ffaf1b');
+		$('.speak_inactive').css('display','none');
+		$('.speak_active').css('display','block');
+    } else {
+        $('.button_speak').css('background', '#80807F');
+        $('.button_speak').css('border-color', '#80807F');
+		$('.speak_active').css('display','none');
+		$('.speak_inactive').css('display','block');
+    }
+
+
     $('.map__modal').modaal({
         content_source: '#map__modal',
 //        width: 700
