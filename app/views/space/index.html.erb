@@ -1,6 +1,7 @@
 <%= stylesheet_link_tag 'space', media: 'all' %>
 <%= javascript_pack_tag 'space_index' %>
 <%= javascript_pack_tag 'space_ui' %>
+<%= javascript_packs_with_chunks_tag 'dailyco' %>
 <script>
   (function(d) {
     var config = {
@@ -11,7 +12,6 @@
     h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
   })(document);
 </script>
-<script type="text/javascript" src="https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/works/src/dailyco.js"></script>
 		<div id="world"></div>
 		<div id="screen"></div>
 		<div id="ui">
@@ -55,12 +55,14 @@
 			</div>
 			<div id="glass__container">
 				<button class="glass__buttons" type="button"><img src="/images/colorglass_transparent.png" alt="" width="80px" height="" border="0" /></button>
-				<ul id="glass__buttons">
-					<li><a href="#" data-no="0" id="button__normal"><img src="/images/colorglass_transparent.png" alt="" width="200px" height="" border="0" /></a></li>
-					<li><a href="#" data-no="1" id="button__red"><img src="/images/colorglass_red.png" alt="" width="200px" height="" border="0" /></a></li>
-					<li><a href="#" data-no="2" id="button__green"><img src="/images/colorglass_green.png" alt="" width="200px" height="" border="0" /></a></li>
-					<li><a href="#" data-no="3" id="button__blue"><img src="/images/colorglass_blue.png" alt="" width="200px" height="" border="0" /></a></li>
-				</ul>
+				<div id="glass__buttons">
+					<ul class="glass__flex">
+						<li><a href="#" data-no="0" id="button__normal"><img src="/images/colorglass_transparent.png" alt="" width="200px" height="" border="0" /></a></li>
+						<li><a href="#" data-no="1" id="button__red"><img src="/images/colorglass_red.png" alt="" width="200px" height="" border="0" /></a></li>
+						<li><a href="#" data-no="2" id="button__green"><img src="/images/colorglass_green.png" alt="" width="200px" height="" border="0" /></a></li>
+						<li><a href="#" data-no="3" id="button__blue"><img src="/images/colorglass_blue.png" alt="" width="200px" height="" border="0" /></a></li>
+					</ul>
+				</div>
 			</div>
 			<div id="map__container">
 				<button class="map__modal"><img src="/images/map_small.png" alt="" width="100px" height="" border="0" /></button>
@@ -211,8 +213,8 @@
 		<div id="tutorial" style="display:none;">
 			<div class="tutorial_div">東京大学制作展Extra 展示空間へようこそ．</br>
 			ここから全ての作品を体験できます．</br></br>
-			<span>矢印キー</span>または<span>WASDキー</span>でジッパーに近づきましょう．</br>
+			<span>矢印キー</span>または<span>WASDキー</span>で<span>ジッパー</span>に近づきましょう．</br></br>
 			作品は<span>右上のマップ</span>から確認できます．</br>
-			</span>メガネ</span>のボタンを押すと何かが起こるかも...? </br></br>
+			<span>メガネ</span>のボタンを押すと何かが起こるかも...? </br></br>
 			(スマホ又はタブレットをご使用の方は本サイトのWORKSから各作品を体験できます)</div>
 		</div>
