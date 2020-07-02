@@ -250,8 +250,8 @@ import 'modaal';
 		scene.add(obsts);
 		scene.add(foots);
 		color[1].balls.add(snakes);
-		color[2].balls.add(fish);
-		color[3].balls.add(birds);
+		color[2].balls.add(birds);
+		color[3].balls.add(fish);
 		getPos();
 		setPos();
 		
