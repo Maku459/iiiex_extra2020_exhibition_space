@@ -173,7 +173,7 @@ import 'modaal';
 																			const plane = new THREE.Mesh(zipGeo, zipMat);
 																			const rot = i*2*Math.PI/10;
 																			plane.position.set(radius*Math.sin(rot), 10, radius*Math.cos(rot));
-																			plane.scale.set(w, h, 1);
+																			plane.scale.set(25/4, 25, 1);
 																			plane.name = "zip" + i;
 																			zips.add(plane);
 																		}
