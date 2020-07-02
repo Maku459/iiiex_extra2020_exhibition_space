@@ -84,7 +84,7 @@ if (language == 'ja') {
 window.cookieconsent.initialise({
     "palette": {
         "popup": {
-            "background": "#fafafa",
+            "background": "#f0f0f0",
             "text": "#000000"
         },
         "button": {
