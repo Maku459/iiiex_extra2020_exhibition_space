@@ -11,10 +11,48 @@
     h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
   })(document);
 </script>
-		
+<script type="text/javascript" src="https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/works/src/dailyco.js"></script>
 		<div id="world"></div>
 		<div id="screen"></div>
 		<div id="ui">
+			<div id="header">
+				<img src="/images/logo.png" alt="WHO ZIPS YOU?" class="logo">
+				<nav>
+					<ul>
+						<li class="section">
+							<button class="button_speak" type="button"><span></span></button>
+							<div id="button_speak" style="display:none;">
+								<div class="speak_active">
+									<p>ビデオ通話ツール (カメラはオフ) を使って，
+									制作展のメンバーから直接説明を聞くことができます．</p>
+									<h2>【 通話における禁止・注意事項 】</h2>
+									<p>皆様が安全に楽しめるように下記禁止事項および注意事項を設けさせていただいております．ご理解とご協力の程，よろしくお願いいたします．</p>
+									<h3>①撮影・録画について</h3>
+									<p>プライベート情報保護の観点からいかなる撮影·録画·録音も禁止とさせていただきます．</p>
+									<h3>②迷惑・妨げとなる行為について</h3>
+									<p>ビデオ通話は皆様が自由に出入りできる空間のため，他のお客様がいらっしゃる可能性があります．他のお客様·スタッフへの暴言、迷惑行為はご遠慮ください．</p>
+									<h3>③その他の注意事項</h3>
+									<p>※ビデオ通話は一人5分を目安にお願いします．</p>
+									<p>※ビデオオフ，マイクミュートから始まります．</p>
+									<p>※ビデオ通話対応時間は各日 11:00-19:00 です．</p>
+								</div>
+								<div class="speak_active"><a href="#" onclick="run();gtag('event', 'call_展示空間', {'event_category' : 'call',});return false;"><img src="/images/button_speak11@2x.png" class="button_speak_launch" width="200px" alt=""></a></div>
+								<p class="speak_inactive">11:00~19:00の間，制作展メンバーから直接話を聞くことができます．</p>
+							</div>
+						</li>
+						<li class="section">
+							<div class="switchArea">
+								<input type="checkbox" onclick="setTimeout('location.href=\'https://www.iiiexhibition.com/\';',1000)" id="switch1">
+								<label for="switch1"><span></span></label>
+								<div id="swImg"></div>
+							</div>
+						</li>
+						<li class="section"><a class="twitter" href="https://twitter.com/iiiexhibition" target="_blank"></a></li>
+						<li class="section"><a class="facebook" href="https://www.facebook.com/iiiexhibition/" target="_blank"></a></li>
+						<li class="section"><a class="instagram" href="https://www.instagram.com/iiiexhibition/" target="_blank"></a></li>
+					</ul>
+				</nav>
+			</div>
 			<div id="glass__container">
 				<button class="glass__buttons" type="button"><img src="/images/colorglass_transparent.png" alt="" width="80px" height="" border="0" /></button>
 				<ul id="glass__buttons">
@@ -168,4 +206,12 @@
 					<a href="/works/Graviter/?space=9" class="works_btn">展示を見る</a>
 				</div>
 			</div>
+		</div>
+		<button class="tutorial"></button>
+		<div id="tutorial" style="display:none;">
+			<div class="tutorial_div">東京大学制作展Extra 展示空間へようこそ！</br>
+			ここから全ての作品を見ることができます。</br>
+			矢印キーおよびWASDキーで歩き回ってみましょう。</br>
+			どの作品がどこにあるかは、右上のマップボタンから確認できます。</br>
+			メガネのボタンを押すと何か起こるかも…？</div>
 		</div>
