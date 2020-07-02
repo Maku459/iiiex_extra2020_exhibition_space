@@ -1,4 +1,5 @@
 class SouvenirsController < ApplicationController
+  protect_from_forgery with: :null_session
   before_action :set_souvenir, only: [:show, :edit, :update, :destroy]
 
   # GET /souvenirs
