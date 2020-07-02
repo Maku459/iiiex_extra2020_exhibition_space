@@ -1,6 +1,8 @@
 require 'nokogiri'
 
 class WorksController < ApplicationController
+  before_action :basic_auth
+
   def pages
     unless Work::WORKS_NAMES.include?(params[:name]) then
       render file: Rails.root.join('public/404.html'), status: 404, layout: false, content_type: 'text/html'
