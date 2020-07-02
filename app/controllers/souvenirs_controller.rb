@@ -1,5 +1,5 @@
 class SouvenirsController < ApplicationController
-  protect_from_forgery :except => [:index, :create]
+  protect_from_forgery 
   before_action :set_souvenir, only: [:show, :edit, :update, :destroy]
 
   # GET /souvenirs
