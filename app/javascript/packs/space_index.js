@@ -228,7 +228,7 @@ import 'modaal';
 		pitch = camY;
 		
 		const geo = new THREE.SphereGeometry(0.2);
-		for (var i=0; i<9000; i++) {
+		for (var i=0; i<3000; i++) {
 			const sphere = new THREE.Mesh(geo, color[(i%3)+1].mat);
 			let rot = Math.random() * Math.PI * 2;
 			let range = Math.random() * dist.area;
@@ -249,9 +249,9 @@ import 'modaal';
 		scene.add(zips);
 		scene.add(obsts);
 		scene.add(foots);
-		scene.add(snakes);
-		scene.add(fish);
-		scene.add(birds);
+		color[1].balls.add(snakes);
+		color[2].balls.add(birds);
+		color[3].balls.add(fish);
 		getPos();
 		setPos();
 		
@@ -498,7 +498,6 @@ import 'modaal';
 			const pos = new THREE.Vector3(Math.cos(a.rot) * snakePos.range.x, Math.sin(a.rot*10)/2+0.5, Math.sin(a.rot) * snakePos.range.z);
 			a.position.copy(pos.add(snakePos.center));
 			a.lookAt(snakePos.center);
-			a.children[0].rotation.z = Math.sin(a.rot*10+Math.PI/4)/3;
 		}
 		for (let i=0; i<fish.children.length; i++) {
 			const a = fish.children[i];
@@ -516,7 +515,6 @@ import 'modaal';
 			const pos = new THREE.Vector3(Math.cos(a.rot) * birdPos.range.x, Math.sin(a.rot*10)*2 + 30, Math.sin(a.rot) * birdPos.range.z);
 			a.position.copy(pos.add(birdPos.center));
 			a.lookAt(birdPos.center);
-			a.children[0].rotation.z = Math.sin(a.rot*10+Math.PI/4)/3;
 		}
 		for (let i=0; i<mixers.length; i++) {
 			mixers[i].update(delta);
