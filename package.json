@@ -8,6 +8,7 @@
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.2.2",
     "jquery": "^3.5.1",
+    "jquery-ujs": "^1.2.2",
     "meshwalk": "https://github.com/FlechaMaker/meshwalk.js#master",
     "modaal": "^0.4.4",
     "sweetalert2": "^9.14.4",

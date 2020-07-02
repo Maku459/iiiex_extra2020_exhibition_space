@@ -4,22 +4,15 @@
     <title>iiiEx Extra 2020</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <meta name="google-site-verification" content="VETo6o87DVeKuVpRFQt2wSNF8KOxItRisB0veZQTF5I" />
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_packs_with_chunks_tag 'application' %>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
-    <script src="https://www.googletagmanager.com/gtag/js?id=UA-170084949-1" type="text/javascript"></script>
-    <script>
-        const GA_MEASUREMENT_ID = 'UA-170084949-1'
-        window['ga-disable-' + GA_MEASUREMENT_ID] = true;
-        function gtag(){};
-    </script>
+    <%= render 'ga' %>
   </head>
 
   <body>
     <%= yield %>
-    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
-    <%= javascript_packs_with_chunks_tag 'cookie_control' %>
+    <%= render 'cookieconsent' %>
   </body>
 </html>
