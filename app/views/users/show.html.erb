@@ -1,9 +1,18 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Isexist:</strong>
+  <strong>id:</strong>
   <%= @user.id %>
-  <%= @user.isExist %>
+</p>
+
+<p>
+  <strong>agreeCookie:</strong>
+  <%= @user.agreeCookie %>
+</p>
+
+<p>
+  <strong>created_at:</strong>
+  <%= @user.created_at %>
 </p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

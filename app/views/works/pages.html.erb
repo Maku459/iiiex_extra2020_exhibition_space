@@ -1,0 +1,7 @@
+<% @head.add_child(csrf_meta_tags)  %>
+<% @head.add_child("<meta name=\"google-site-verification\" content=\"VETo6o87DVeKuVpRFQt2wSNF8KOxItRisB0veZQTF5I\" />") %>
+<% @head.add_child("<link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css\" />") %>
+<% @head.add_child(render 'application/ga') %>
+<% @body.add_child(render 'application/cookieconsent') %>
+<% @body.add_child(javascript_pack_tag 'works') %>
+<%= @doc.to_html.html_safe %>

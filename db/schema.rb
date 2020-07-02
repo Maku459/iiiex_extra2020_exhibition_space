@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_27_145143) do
+ActiveRecord::Schema.define(version: 2020_07_01_143120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2020_06_27_145143) do
     t.float "iris_21"
     t.float "iris_22"
     t.float "iris_23"
-    t.float "iris24_"
+    t.float "iris_24"
     t.float "iris_31"
     t.float "iris_32"
     t.float "iris_33"
@@ -52,7 +52,13 @@ ActiveRecord::Schema.define(version: 2020_06_27_145143) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.boolean "agreeCookie"
     t.boolean "isExist"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "works", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

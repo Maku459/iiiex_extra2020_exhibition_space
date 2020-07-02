@@ -70,7 +70,7 @@ JavaScriptのなかでimportする形ではなくファイルを追加する場�
 こちらを使うよう注意してください．
 
 ```ruby
-<%= javascript_packs_with_chunks_tag 'space_index' %>
+<%= javascript_pack_tag 'space_index' %>
 ```
 
 ### SCSS

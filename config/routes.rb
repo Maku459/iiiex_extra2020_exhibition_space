@@ -1,10 +1,29 @@
 Rails.application.routes.draw do
-  resources :logins
+
+  # dailyco
   get 'admins/dailyco'
-  resources :userpositions
+
+  # database
+  resources :souvenirs
+  resources :logins
+  resources :userpositions do
+    collection do 
+      get 'regularly_delete'
+    end
+  end
   resources :users
+
+  # space
   get 'space/index'
-  get 'works/:name', to: 'space#works'
+
+  # works
+  get 'works/list'
+  get 'works/:name', to: 'works#pages'
+
+  # Slack
+  post 'slack_notifications/submit'
+  post 'slack_notifications/entered_page', format: 'json'
+  post 'slack_notifications/daily_co_start', format: 'json'
 
   root 'space#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

@@ -1,1 +1,4 @@
 /public/works
+/docker-compose.yml
+/Dockerfile
+/entrypoint.sh

@@ -1,6 +1,6 @@
-<h1>Test Create New User</h1>
+<h1>New User</h1>
 
-<%= form_for @user, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
-  <%= f.text_field :isExist %>
-  <%= f.submit "Create Another User" %>
-<% end %>
+<p>注: isExistは利用していません。</p>
+<%= render 'form', user: @user %>
+
+<%= link_to 'Back', users_path %>

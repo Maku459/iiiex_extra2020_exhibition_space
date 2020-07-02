@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag 'space', media: 'all' %>
-<%= javascript_packs_with_chunks_tag 'space_index' %>
-<%= javascript_packs_with_chunks_tag 'space_ui' %>
+<%= javascript_pack_tag 'space_index' %>
+<%= javascript_pack_tag 'space_ui' %>
 <script>
   (function(d) {
     var config = {
@@ -11,192 +11,161 @@
     h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
   })(document);
 </script>
-
+		
 		<div id="world"></div>
 		<div id="screen"></div>
 		<div id="ui">
 			<div id="glass__container">
-				<button class="glass__buttons" type="button"><img src="/images/normal.png" alt="" width="80px" height="" border="0" /></button>
+				<button class="glass__buttons" type="button"><img src="/images/colorglass_transparent.png" alt="" width="80px" height="" border="0" /></button>
 				<ul id="glass__buttons">
-					<li><a href="#" data-no="0" id="button__normal"><img src="/images/normal.png" alt="" width="200px" height="" border="0" /></a></li>
-					<li><a href="#" data-no="1" id="button__red"><img src="/images/red.png" alt="" width="200px" height="" border="0" /></a></li>
-					<li><a href="#" data-no="2" id="button__green"><img src="/images/green.png" alt="" width="200px" height="" border="0" /></a></li>
-					<li><a href="#" data-no="3" id="button__blue"><img src="/images/blue.png" alt="" width="200px" height="" border="0" /></a></li>
+					<li><a href="#" data-no="0" id="button__normal"><img src="/images/colorglass_transparent.png" alt="" width="200px" height="" border="0" /></a></li>
+					<li><a href="#" data-no="1" id="button__red"><img src="/images/colorglass_red.png" alt="" width="200px" height="" border="0" /></a></li>
+					<li><a href="#" data-no="2" id="button__green"><img src="/images/colorglass_green.png" alt="" width="200px" height="" border="0" /></a></li>
+					<li><a href="#" data-no="3" id="button__blue"><img src="/images/colorglass_blue.png" alt="" width="200px" height="" border="0" /></a></li>
 				</ul>
 			</div>
 			<div id="map__container">
-				<button class="map__modal"><img src="/images/map.png" alt="" width="100px" height="" border="0" /></button>
+				<button class="map__modal"><img src="/images/map_small.png" alt="" width="100px" height="" border="0" /></button>
 				<div id="map__modal">
-					<img src="/images/map.png" alt="" width="300px" height="" border="0" />
-					<ul id="map__title"><li>①ぼやける境界</li><li>②気配のふるまい</li></ul>
+					<div id="map_pos">
+						<img src="/images/map_large.png" alt="" border="0" />
+						<div id="map_point"></div>
+					</div>
 				</div>
 			</div>
+			<!--
 			<div id="stickpad__container">
 				<img src = "/images/stickpad.png" alt="" width="160px" height="" border="0" />
 			</div>
 			<div id="stick__container">
 				<div class="stick-cursor"><img id="stick__cursor" src="/images/stick.png" alt="" width="88px" height="" /></div>
 			</div>
+			-->
 		</div>
 		<div id="works">
-			<div id="works0" class="works_container">
-				<div class="works works0">
-					<div class="works_head">
-						<div class="works_title_jp">000 オーディオレーシングゲーム</div>
-						<div class="works_title_en">Audio Racing Game</div>
+			<div class="back close"></div>
+			<div id="works0" class="works">
+				<div class="works_head">
+					<div class="works_title_jp">居の中の蛙</div>
+					<div class="works_title_en">A flog in his house</div>
+				</div>
+				<div class="works_main">
+					<p>これは井戸の生配信である。限られた素材を使う蛙の表現とはー</p>
+					<div  class="works_img">
+						<img src="https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/img/816.jpg" alt="居の中の蛙">
 					</div>
-					<div class="works_main">
-						<p>あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森</p>
-						<div  class="works_img">
-							<img src="/images/works/main0.png" alt="雨礫">
-						</div>
-						<a href="#" class="works_btn">展示を見る</a>
-					</div>
+					<a href="/works/A_flog_in_his_house/?space=0" class="works_btn">展示を見る</a>
 				</div>
 			</div>
-			<div id="works1" class="works_container">
-				<div class="works works1">
-					<div class="works_head">
-						<div class="works_title_jp">111 オーディオレーシングゲーム</div>
-						<div class="works_title_en">Audio Racing Game</div>
+			<div id="works1" class="works">
+				<div class="works_head">
+					<div class="works_title_jp">NUM. (Ningen Unique Mirror)</div>
+				</div>
+				<div class="works_main">
+					<p>数・數・number・número・संख्या・رقم・Число・সংখ্যা・数字・nummer・nomer・숫자・ਗਿਣਤੀ・సంఖ్య・nombre・संख्या・எண்・numero…</p>
+					<div  class="works_img">
+						<img src="https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/img/819.png" alt="NUM. (Ningen Unique Mirror)">
 					</div>
-					<div class="works_main">
-						<p>あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森</p>
-						<div  class="works_img">
-							<img src="/images/works/main0.png" alt="雨礫">
-						</div>
-						<a href="#" class="works_btn">展示を見る</a>
-					</div>
+					<a href="/works/NUM/?space=1" class="works_btn">展示を見る</a>
 				</div>
 			</div>
-			<div id="works2" class="works_container">
-				<div class="works works2">
-					<div class="works_head">
-						<div class="works_title_jp">222 オーディオレーシングゲーム</div>
-						<div class="works_title_en">Audio Racing Game</div>
+			<div id="works2" class="works">
+				<div class="works_head">
+					<div class="works_title_jp">感情の写像</div>
+					<div class="works_title_en">Projections of impressions</div>
+				</div>
+				<div class="works_main">
+					<p>すべての作品を観ることでこの作品は完成する…</p>
+					<div  class="works_img">
+						<img src="https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/img/817.png" alt="感情の写像">
 					</div>
-					<div class="works_main">
-						<p>あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森</p>
-						<div  class="works_img">
-							<img src="/images/works/main0.png" alt="雨礫">
-						</div>
-						<a href="#" class="works_btn">展示を見る</a>
-					</div>
+					<a href="/works/Projections_of_impressions/?space=2" class="works_btn">展示を見る</a>
 				</div>
 			</div>
-			<div id="works3" class="works_container">
-				<div class="works works3">
-					<div class="works_head">
-						<div class="works_title_jp">333 オーディオレーシングゲーム</div>
-						<div class="works_title_en">Audio Racing Game</div>
+			<div id="works3" class="works">
+				<div class="works_head">
+					<div class="works_title_jp">気配のふるまい</div>
+				</div>
+				<div class="works_main">
+					<p>気配とは何か．この場でのあなたの気配はどうふるまうだろうか．</p>
+					<div  class="works_img">
+						<img src="https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/img/811.jpg" alt="気配のふるまい">
 					</div>
-					<div class="works_main">
-						<p>あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森</p>
-						<div  class="works_img">
-							<img src="/images/works/main0.png" alt="雨礫">
-						</div>
-						<a href="#" class="works_btn">展示を見る</a>
-					</div>
+					<a href="/works/kehai/?space=3" class="works_btn">展示を見る</a>
 				</div>
 			</div>
-			<div id="works4" class="works_container">
-				<div class="works works4">
-					<div class="works_head">
-						<div class="works_title_jp">444 オーディオレーシングゲーム</div>
-						<div class="works_title_en">Audio Racing Game</div>
+			<div id="works4" class="works">
+				<div class="works_head">
+					<div class="works_title_jp">Inside-Out,Outside-In,Or</div>
+				</div>
+				<div class="works_main">
+					<p>内に出る、外に入る、内は外で、外は内。<br>あるいは…</p>
+					<div  class="works_img">
+						<img src="https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/img/815.jpg" alt="Inside-Out,Outside-In,Or">
 					</div>
-					<div class="works_main">
-						<p>あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森</p>
-						<div  class="works_img">
-							<img src="/images/works/main0.png" alt="雨礫">
-						</div>
-						<a href="#" class="works_btn">展示を見る</a>
-					</div>
+					<a href="/works/Inside-Out_Outside-In_Or/?space=4" class="works_btn">展示を見る</a>
 				</div>
 			</div>
-			<div id="works5" class="works_container">
-				<div class="works works5">
-					<div class="works_head">
-						<div class="works_title_jp">555 オーディオレーシングゲーム</div>
-						<div class="works_title_en">Audio Racing Game</div>
+			<div id="works5" class="works">
+				<div class="works_head">
+					<div class="works_title_jp">emotional distance</div>
+				</div>
+				<div class="works_main">
+					<p>感情の色をまとったアバターとなってバーチャル空間で交流しよう</p>
+					<div  class="works_img">
+						<img src="https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/img/818.png" alt="emotional distance">
 					</div>
-					<div class="works_main">
-						<p>あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森</p>
-						<div  class="works_img">
-							<img src="/images/works/main0.png" alt="雨礫">
-						</div>
-						<a href="#" class="works_btn">展示を見る</a>
-					</div>
+					<a href="/works/emotional_distance/?space=5" class="works_btn">展示を見る</a>
 				</div>
 			</div>
-			<div id="works6" class="works_container">
-				<div class="works works6">
-					<div class="works_head">
-						<div class="works_title_jp">666 オーディオレーシングゲーム</div>
-						<div class="works_title_en">Audio Racing Game</div>
+			<div id="works6" class="works">
+				<div class="works_head">
+					<div class="works_title_jp">大爆走！オーディオレーシング</div>
+					<div class="works_title_en">Super Audio Racing</div>
+				</div>
+				<div class="works_main">
+					<p>音だけで疾走するレースゲーム！キミはそこにどんな世界を視る？</p>
+					<div  class="works_img">
+						<img src="https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/img/812.png" alt="大爆走！オーディオレーシング">
 					</div>
-					<div class="works_main">
-						<p>あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森</p>
-						<div  class="works_img">
-							<img src="/images/works/main0.png" alt="雨礫">
-						</div>
-						<a href="#" class="works_btn">展示を見る</a>
-					</div>
+					<a href="/works/Super_Audio_Racing/?space=6" class="works_btn">展示を見る</a>
 				</div>
 			</div>
-			<div id="works7" class="works_container">
-				<div class="works works7">
-					<div class="works_head">
-						<div class="works_title_jp">777 オーディオレーシングゲーム</div>
-						<div class="works_title_en">Audio Racing Game</div>
+			<div id="works7" class="works">
+				<div class="works_head">
+					<div class="works_title_jp">ぼやける境界</div>
+				</div>
+				<div class="works_main">
+					<p>ディスプレイを紙で覆うことで境界を曖昧にする映像作品。</p>
+					<div  class="works_img">
+						<img src="https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/img/810.jpg" alt="ぼやける境界">
 					</div>
-					<div class="works_main">
-						<p>あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森</p>
-						<div  class="works_img">
-							<img src="/images/works/main0.png" alt="雨礫">
-						</div>
-						<a href="#" class="works_btn">展示を見る</a>
-					</div>
+					<a href="/works/boyakerukyoukai/?space=7" class="works_btn">展示を見る</a>
 				</div>
 			</div>
-			<div id="works8" class="works_container">
-				<div class="works works8">
-					<div class="works_head">
-						<div class="works_title_jp">888 オーディオレーシングゲーム</div>
-						<div class="works_title_en">Audio Racing Game</div>
+			<div id="works8" class="works">
+				<div class="works_head">
+					<div class="works_title_jp">対雨</div>
+					<div class="works_title_en">with rain</div>
+				</div>
+				<div class="works_main">
+					<p>ディスプレイを水面に見立て、雨の移ろいを表現した映像作品</p>
+					<div  class="works_img">
+						<img src="https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/img/820.png" alt="対雨">
 					</div>
-					<div class="works_main">
-						<p>あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森</p>
-						<div  class="works_img">
-							<img src="/images/works/main0.png" alt="雨礫">
-						</div>
-						<a href="#" class="works_btn">展示を見る</a>
-					</div>
+					<a href="/works/with_rain/?space=8" class="works_btn">展示を見る</a>
 				</div>
 			</div>
-			<div id="works9" class="works_container">
-				<div class="works works9">
-					<div class="works_head">
-						<div class="works_title_jp">999 オーディオレーシングゲーム</div>
-						<div class="works_title_en">Audio Racing Game</div>
+			<div id="works9" class="works">
+				<div class="works_head">
+					<div class="works_title_jp">Graviter</div>
+				</div>
+				<div class="works_main">
+					<p>重力からの解放は自由か不自由か。</p>
+					<div  class="works_img">
+						<img src="https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/img/814.jpg" alt="Graviter">
 					</div>
-					<div class="works_main">
-						<p>あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森</p>
-						<div  class="works_img">
-							<img src="/images/works/main0.png" alt="雨礫">
-						</div>
-						<a href="#" class="works_btn">展示を見る</a>
-					</div>
+					<a href="/works/Graviter/?space=9" class="works_btn">展示を見る</a>
 				</div>
 			</div>
-			<a href="#works0" id="open0" class="open"></a>
-			<a href="#works1" id="open1" class="open"></a>
-			<a href="#works2" id="open2" class="open"></a>
-			<a href="#works3" id="open3" class="open"></a>
-			<a href="#works4" id="open4" class="open"></a>
-			<a href="#works5" id="open5" class="open"></a>
-			<a href="#works6" id="open6" class="open"></a>
-			<a href="#works7" id="open7" class="open"></a>
-			<a href="#works8" id="open8" class="open"></a>
-			<a href="#works9" id="open9" class="open"></a>
 		</div>

@@ -10,6 +10,7 @@
       <th>X</th>
       <th>Y</th>
       <th>Z</th>
+      <th>created_at</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -22,6 +23,7 @@
         <td><%= userposition.x %></td>
         <td><%= userposition.y %></td>
         <td><%= userposition.z %></td>
+        <td><%= userposition.created_at %></td>
         <td><%= link_to 'Show', userposition %></td>
         <td><%= link_to 'Edit', edit_userposition_path(userposition) %></td>
         <td><%= link_to 'Destroy', userposition, method: :delete, data: { confirm: 'Are you sure?' } %></td>

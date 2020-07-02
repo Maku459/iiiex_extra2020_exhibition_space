@@ -21,6 +21,10 @@ services:
       - frontend
     environment:
       WEBPACKER_DEV_SERVER_HOST: "frontend"
+      DAILYCO_APIKEY: "Ef1c738aede03c3073df084f62d7b8bc0e379f55f30c9d08d158d63b34c9264b"
+      SLACK_INCOMING_WEBHOOK_TOKEN: "T010JCCT0E4/B0171UWNE3S/EAMc9YLj7lupMwCmqxEO7iJV"
+      GA_TRACKING_ID: "UA-170084949-1"
+
   frontend:
     build: .
     command: bash -c "/myapp/bin/webpack-dev-server --config /myapp/config/webpack/development --host 0.0.0.0 --port 3035"

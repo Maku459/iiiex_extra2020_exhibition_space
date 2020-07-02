@@ -1,11 +1,22 @@
 
 <h1>Admins#dailyco</h1>
 <p>Find me in app/views/admins/dailyco.html.erb</p>
+<p>login: <a href="https://dashboard.daily.co/?login-view=true" target="_blank">https://dashboard.daily.co/?login-view=true</a></p>
 
-<ul id="users_list">
-</ul>
+<hr>
+<p>入りたいルームを選択してください</p>
+<% @rooms['data'].each do |r| %>
+  <%= ("<label>&nbsp;<input type=\"radio\" name=\"rooms\" value=\"%s\">%s</label><br>" % [r['name'], r['name']]).html_safe %>
+<% end %>
+<br>
+<button id="enter_room">ルームに入る</button>
+<hr>
 
-<input type="text" id="user_to_be_removed">
-<button id="remove_user">追い出す</button>
+<div id="kick">
+<p id="room"></p>
+<div id="users_list"></div>
+<br>
+<button id="remove_user">追い出す</button><br/>
+</div>
 
-<%= javascript_packs_with_chunks_tag 'admins_dailyco' %>
+<%= javascript_pack_tag 'admins_dailyco' %>
