@@ -156,6 +156,7 @@ import 'modaal';
 																txLoader.load(conohaUrl + "texture/footprint.png" + corsToken, function (tex) {
 																	const geo = new THREE.PlaneGeometry(3, 3);
 																	const mat = new THREE.MeshBasicMaterial({map: tex, transparent:true, side:THREE.DoubleSide});
+																	mat.needsUpdate = true;
 																	footstamp.geometry = geo;
 																	footstamp.material = mat;
 																	
@@ -167,7 +168,8 @@ import 'modaal';
 																			zipMat.needsUpdate = true;
 																			const h = tex.image.height/(tex.image.width/w);
 																			const plane = new THREE.Mesh(zipGeo, zipMat);
-																			plane.position.set(radius*Math.sin(i*2*Math.PI/10),10,radius*Math.cos(i*2*Math.PI/10));
+																			const rot = i*2*Math.PI/10;
+																			plane.position.set(radius*Math.sin(rot), 10, radius*Math.cos(rot));
 																			plane.scale.set(w, h, 1);
 																			zips.add(plane);
 																		}
@@ -182,7 +184,8 @@ import 'modaal';
 																				material.needsUpdate = true;
 																				const h = tex.image.height/(tex.image.width/w);
 																				const plane = new THREE.Mesh(zipGeo, material);
-																				plane.position.set(radius*Math.sin(i*2*Math.PI/10),25,radius*Math.cos(i*2*Math.PI/10));
+																				const rot = i*2*Math.PI/10;
+																				plane.position.set(radius*Math.sin(rot), 25, radius*Math.cos(rot));
 																				plane.scale.set(w/5, h/5, 1);
 																				zips.add(plane);
 																				c++;
@@ -248,9 +251,9 @@ import 'modaal';
 		
 		update();
 		
-		timer.post = setInterval(setPos, timer.interval);
+//		timer.post = setInterval(setPos, timer.interval);
 		setTimeout(() => {
-			timer.get = setInterval(getPos, timer.interval);
+//			timer.get = setInterval(getPos, timer.interval);
 		}, timer.interval/2);
 		
 		document.addEventListener("keydown", (e) => {
@@ -485,7 +488,7 @@ import 'modaal';
 		for (let i=0; i<snakes.children.length; i++) {
 			const a = snakes.children[i];
 			const prev = new THREE.Vector3(a.position.x, 0, a.position.z);
-			a.rot += delta/20;
+			a.rot += -delta/20;
 			const pos = new THREE.Vector3(Math.cos(a.rot) * snakePos.range.x, Math.sin(a.rot*10)/2+0.5, Math.sin(a.rot) * snakePos.range.z);
 			a.position.copy(pos.add(snakePos.center));
 			a.lookAt(snakePos.center);
@@ -493,7 +496,7 @@ import 'modaal';
 		for (let i=0; i<fish.children.length; i++) {
 			const a = fish.children[i];
 			const prev = new THREE.Vector3(a.position.x, 0, a.position.z);
-			a.rot += delta/20;
+			a.rot += -delta/20;
 			const pos = new THREE.Vector3(Math.cos(a.rot) * fishPos.range.x, Math.sin(a.rot*20)*2, Math.sin(a.rot) * fishPos.range.z);
 			a.position.copy(pos.add(fishPos.center));
 			a.lookAt(fishPos.center);
@@ -501,7 +504,7 @@ import 'modaal';
 		for (let i=0; i<birds.children.length; i++) {
 			const a = birds.children[i];
 			const prev = new THREE.Vector3(a.position.x, 0, a.position.z);
-			a.rot += delta/5;
+			a.rot += -delta/5;
 			const pos = new THREE.Vector3(Math.cos(a.rot) * birdPos.range.x, Math.sin(a.rot*10)*2 + 30, Math.sin(a.rot) * birdPos.range.z);
 			a.position.copy(pos.add(birdPos.center));
 			a.lookAt(birdPos.center);
