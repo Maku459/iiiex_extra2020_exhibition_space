@@ -93,7 +93,9 @@ import 'modaal';
 							let c = 0;
 							for (let i=0; i<5; i++) {
 								gltfLoader.load(conohaUrl + "model/iiiEx_snake.gltf", (data) => {
-									const model = data.scene;
+									const model = new THREE.Object3D();
+									model.add(data.scene);
+//									const model = data.scene;
 									const anims = data.animations;
 									const mixer = new THREE.AnimationMixer(model);
 									const rot = Math.random()*Math.PI*2;
@@ -113,7 +115,9 @@ import 'modaal';
 										c = 0;
 										for (let i=0; i<15; i++) {
 											gltfLoader.load(conohaUrl + "model/iiiEx_fish.gltf", (data) => {
-												const model = data.scene;
+												const model = new THREE.Object3D();
+												model.add(data.scene);
+			//									const model = data.scene;
 												const anims = data.animations;
 												const mixer = new THREE.AnimationMixer(model);
 												const rot = Math.random()*Math.PI*2;
@@ -133,7 +137,9 @@ import 'modaal';
 													c = 0;
 													for (let i=0; i<10; i++) {
 														gltfLoader.load(conohaUrl + "model/iiiEx_bird.gltf", (data) => {
-															const model = data.scene;
+															const model = new THREE.Object3D();
+															model.add(data.scene);
+						//									const model = data.scene;
 															const anims = data.animations;
 															const mixer = new THREE.AnimationMixer(model);
 															const rot = Math.random()*Math.PI*2;
@@ -492,6 +498,7 @@ import 'modaal';
 			const pos = new THREE.Vector3(Math.cos(a.rot) * snakePos.range.x, Math.sin(a.rot*10)/2+0.5, Math.sin(a.rot) * snakePos.range.z);
 			a.position.copy(pos.add(snakePos.center));
 			a.lookAt(snakePos.center);
+			a.children[0].rotation.z = Math.sin(a.rot*10+Math.PI/4)/3;
 		}
 		for (let i=0; i<fish.children.length; i++) {
 			const a = fish.children[i];
@@ -500,6 +507,7 @@ import 'modaal';
 			const pos = new THREE.Vector3(Math.cos(a.rot) * fishPos.range.x, Math.sin(a.rot*20)*2, Math.sin(a.rot) * fishPos.range.z);
 			a.position.copy(pos.add(fishPos.center));
 			a.lookAt(fishPos.center);
+			a.children[0].rotation.z = Math.sin(a.rot*20+Math.PI/4)/3;
 		}
 		for (let i=0; i<birds.children.length; i++) {
 			const a = birds.children[i];
@@ -508,6 +516,7 @@ import 'modaal';
 			const pos = new THREE.Vector3(Math.cos(a.rot) * birdPos.range.x, Math.sin(a.rot*10)*2 + 30, Math.sin(a.rot) * birdPos.range.z);
 			a.position.copy(pos.add(birdPos.center));
 			a.lookAt(birdPos.center);
+			a.children[0].rotation.z = Math.sin(a.rot*10+Math.PI/4)/3;
 		}
 		for (let i=0; i<mixers.length; i++) {
 			mixers[i].update(delta);
