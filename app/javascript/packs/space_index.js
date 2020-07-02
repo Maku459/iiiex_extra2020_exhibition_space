@@ -174,6 +174,7 @@ import 'modaal';
 																			const rot = i*2*Math.PI/10;
 																			plane.position.set(radius*Math.sin(rot), 10, radius*Math.cos(rot));
 																			plane.scale.set(w, h, 1);
+																			plane.name = "zip" + i;
 																			zips.add(plane);
 																		}
 																		
@@ -190,6 +191,7 @@ import 'modaal';
 																				const rot = i*2*Math.PI/10;
 																				plane.position.set(radius*Math.sin(rot), 25, radius*Math.cos(rot));
 																				plane.scale.set(w/5, h/5, 1);
+																				plane.name = "zip" + i;
 																				zips.add(plane);
 																				c++;
 																				if (c >= 10) init();
@@ -220,7 +222,8 @@ import 'modaal';
 			yaw = -referer*2*Math.PI/10 + Math.PI/2;
 			camera.position.set(radius*Math.sin(rot), camY, radius*Math.cos(rot));
 		} else {
-			camera.position.set(-60, camY, 10);
+			yaw = -Math.PI*3/4;
+			camera.position.set(145, camY, 105);
 		}
 		pitch = camY;
 		
@@ -327,24 +330,6 @@ import 'modaal';
 			dragging = false;
 		});
 		
-		$("#world canvas").on("click", function(e) {
-			const rect = e.target.getBoundingClientRect();
-			let mouse = {x: 0, y: 0};
-			mouse.x = e.clientX - rect.left;
-			mouse.y = e.clientY - rect.top;
-			mouse.x =  (mouse.x / W) * 2 - 1;
-			mouse.y = -(mouse.y / H) * 2 + 1;
-			var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
-			vector.unproject(camera);
-			var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
-			var obj = ray.intersectObjects(zipsArray);
-			console.log(obj);
-			if (obj.length > 0){
-				$("#alert").show();
-				$("#works").stop(true).fadeIn(400);
-			}
-		});
-		
 		$('.glass__buttons').modaal({
 			content_source: '#glass__buttons'
 		});
@@ -365,6 +350,27 @@ import 'modaal';
 				$("#screen").css({background: color[0].bg});
 				$("#screen").show();
 			});
+		});
+		
+		$("#world canvas").on("click", function(e) {
+			const rect = e.target.getBoundingClientRect();
+			let mouse = {x: 0, y: 0};
+			mouse.x = e.clientX - rect.left;
+			mouse.y = e.clientY - rect.top;
+			mouse.x =  (mouse.x / W) * 2 - 1;
+			mouse.y = -(mouse.y / H) * 2 + 1;
+			var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
+			vector.unproject(camera);
+			var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+			var meshes = ray.intersectObjects(zipsArray);
+			if (meshes.length > 0){
+				console.log(meshes[0])
+				if (meshes[0].distance < 100) {
+					let n = meshes[0].object.name.slice(3);
+					$("#works" + n).show();
+					$("#works").stop(true).fadeIn(400);
+				}
+			}
 		});
 		
 		$("#works .close").on("click", function(e) {
