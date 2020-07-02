@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   get 'works/list'
   get 'works/:name', to: 'works#pages'
 
+  # Slack
+  post 'slack_notifications/submit'
+
   root 'space#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

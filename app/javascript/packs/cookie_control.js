@@ -1,3 +1,6 @@
+// 作品ページでjQueryが上書きされてしまいmodaalが使えなくなる問題対策
+import 'modaal'
+
 const enableGA = () => {
     let gaInitialize = document.createElement('script');
     if (document.getElementById('gaInitialize') === null) {
