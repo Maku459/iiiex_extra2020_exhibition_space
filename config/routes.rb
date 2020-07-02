@@ -18,6 +18,8 @@ Rails.application.routes.draw do
 
   # Slack
   post 'slack_notifications/submit'
+  post 'slack_notifications/entered_page', format: 'json'
+  post 'slack_notifications/daily_co_start', format: 'json'
 
   root 'space#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
