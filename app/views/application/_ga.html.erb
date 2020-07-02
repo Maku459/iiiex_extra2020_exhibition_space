@@ -1,7 +1,8 @@
 <meta name="google-site-verification" content="VETo6o87DVeKuVpRFQt2wSNF8KOxItRisB0veZQTF5I" />
-<script src="https://www.googletagmanager.com/gtag/js?id=UA-170084949-1" type="text/javascript"></script>
+<script src="https://www.googletagmanager.com/gtag/js?id=<%= ENV['GA_TRACKING_ID'] %>" type="text/javascript"></script>
 <script>
-    const GA_MEASUREMENT_ID = 'UA-170084949-1'
+    const GA_MEASUREMENT_ID = '<%= ENV['GA_TRACKING_ID'] %>'
     window['ga-disable-' + GA_MEASUREMENT_ID] = true;
+    // 有効化されるまでは何もしない
     function gtag(){};
 </script>
