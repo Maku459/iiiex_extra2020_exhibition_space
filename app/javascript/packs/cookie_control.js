@@ -73,22 +73,23 @@ let csDenyText = "Decline"
 let csAllowText = "Allow cookies";
 let csLinkText = "Learn more";
 if (language == 'ja') {
-    csMessageText = "クッキーを利用しています．";
+    csMessageText = "本サイトの完全な体験をお楽しみいただくにはcookieの使用を有効化する必要があります。";
     csDismissText = "はい";
     csDenyText = "拒否する"
     csAllowText = "同意する";
-    csLinkText = "クッキーポリシー";
+    csLinkText = "制作展2020Extra Webポリシー";
 }
 
 
 window.cookieconsent.initialise({
     "palette": {
         "popup": {
-            "background": "#eb6c44",
-            "text": "#ffffff"
+            "background": "#fafafa",
+            "text": "#000000"
         },
         "button": {
-            "background": "#f5d948"
+            "background": "#ffaf1b",
+            "text": "#ffffff"
         }
     },
     "theme": "classic",
@@ -100,7 +101,7 @@ window.cookieconsent.initialise({
         "deny": csDenyText,
         "allow": csAllowText,
         "link": csLinkText,
-        "href": "https://www.iiiexhibition.com/cookiepolicy.html"
+        "href": "http://iiiexhibition.com/#modal_cookie_policy"
     },
     onInitialise: function (status) {
         var type = this.options.type;
