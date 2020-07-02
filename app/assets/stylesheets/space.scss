@@ -23,6 +23,22 @@ button {
 	}
 }
 
+.modaal-content-container {
+	list-style: none;
+	display: flex;
+	justify-content: space-between;
+
+	ul{
+		list-style: none;
+		padding-right: 100px;
+
+		li {
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+	}
+}
+
 #header {
 	position: fixed;
 	width: 100vw;
@@ -190,21 +206,6 @@ button {
 	}
 }
 
-.modaal-content-container {
-	list-style: none;
-	display: flex;
-	justify-content: space-between;
-
-	ul{
-		list-style: none;
-		padding-right: 100px;
-
-		li {
-			padding-top: 5px;
-			padding-bottom: 5px;
-		}
-	}
-}
 #world {
 	position: absolute;
 	width: 100%;
@@ -374,4 +375,10 @@ button {
 			}
 		}
 	}
+}
+
+.tutorial_div{
+	text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }

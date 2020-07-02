@@ -1,6 +1,11 @@
 import 'modaal';
 
 $(document).ready(function(){
+    $('.tutorial').modaal({
+        content_source: '#tutorial',
+        start_open: true
+    });
+
     $('#stick__cursor').on('touchstart',function(){
         var clickpos = [];
         clickpos = event.touches[0];
@@ -50,3 +55,4 @@ $(document).ready(function(){
 //        width: 700
     });   
 })
+
