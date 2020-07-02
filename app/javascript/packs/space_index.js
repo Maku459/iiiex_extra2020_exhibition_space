@@ -255,7 +255,6 @@ import 'modaal';
 		for (let i=0; i<obsts.children.length; i++) {
 			obstsArray.push(obsts.children[i]);
 		}
-			console.log(zips.children)
 		
 		const light = new THREE.PointLight(0xFFFFFF, 1.4, 0, 0);
 		light.position.set(0, 150, 0);
@@ -372,10 +371,10 @@ import 'modaal';
 			mouse.y = e.clientY - rect.top;
 			mouse.x =  (mouse.x / W) * 2 - 1;
 			mouse.y = -(mouse.y / H) * 2 + 1;
-			var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
+			const vector = new THREE.Vector3(mouse.x, mouse.y, 1);
 			vector.unproject(camera);
-			var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
-			var meshes = ray.intersectObjects(zipsArray);
+			const ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+			const meshes = ray.intersectObjects(zipsArray);
 			if (meshes.length > 0){
 				if (meshes[0].distance < 100) {
 					let n = meshes[0].object.name.slice(3);
@@ -492,8 +491,19 @@ import 'modaal';
 				c.z = Math.sin(rot) * dist.obst + o.z;
 			}
 		}
-		
+
+
+		const camDir = new THREE.Vector3(0, 0, -1).applyMatrix4(camera.matrixWorld);
+		const ray = new THREE.Raycaster(camera.position, camDir.sub(camera.position).normalize());
 		let hitNo = zips.children.length;
+		const meshes = ray.intersectObjects(zipsArray);
+		if (meshes.length > 0){
+			if (meshes[0].distance < dist.zip) {
+				hitNo = meshes[0].object.name.slice(3);
+			}
+		}
+		
+/*		let hitNo = zips.children.length;
 		for (let i=0; i<zips.children.length; i++) {
 			if (zips.children[i].type != "Group") zips.children[i].lookAt(c);
 			const z = zips.children[i].position;
@@ -501,7 +511,7 @@ import 'modaal';
 				hitNo = zips.children[i].name.slice(3);
 				break;
 			}
-		}
+		}*/
 		
 		if (hitNo < zips.children.length) {
 			if (hitFlag) {
@@ -527,6 +537,9 @@ import 'modaal';
 			left: c.z * 214/203 + 940/2
 		});
 		
+		for (let i=0; i<zips.children.length; i++) {
+			if (zips.children[i].type != "Group") zips.children[i].lookAt(c);
+		}
 		for (let i=0; i<snakes.children.length; i++) {
 			const a = snakes.children[i];
 			const prev = new THREE.Vector3(a.position.x, 0, a.position.z);
