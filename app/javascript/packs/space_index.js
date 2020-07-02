@@ -223,6 +223,10 @@ import 'modaal';
 			yaw = -referer*2*Math.PI/10 + Math.PI/2;
 			camera.position.set(radius*Math.sin(rot), camY, radius*Math.cos(rot));
 		} else {
+				$('.tutorial').modaal({
+					content_source: '#tutorial',
+					start_open: true
+				});
 			camera.position.set(-60, camY, 10);
 		}
 		pitch = camY;

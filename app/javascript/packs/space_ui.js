@@ -1,11 +1,6 @@
 import 'modaal';
 
 $(document).ready(function(){
-    $('.tutorial').modaal({
-        content_source: '#tutorial',
-        start_open: true
-    });
-
     $('#stick__cursor').on('touchstart',function(){
         var clickpos = [];
         clickpos = event.touches[0];
@@ -37,7 +32,7 @@ $(document).ready(function(){
     });
     
     var now_hour = new Date().getHours();
-    if ( 11 <= now_hour && now_hour <= 22 ){
+    if ( 2 <= now_hour && now_hour <= 19 ){
         $('.button_speak').css('background', '#ffaf1b');
         $('.button_speak').css('border-color', '#ffaf1b');
 		$('.speak_inactive').css('display','none');

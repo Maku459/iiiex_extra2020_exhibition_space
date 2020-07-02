@@ -23,22 +23,6 @@ button {
 	}
 }
 
-.modaal-content-container {
-	list-style: none;
-	display: flex;
-	justify-content: space-between;
-
-	ul{
-		list-style: none;
-		padding-right: 100px;
-
-		li {
-			padding-top: 5px;
-			padding-bottom: 5px;
-		}
-	}
-}
-
 #header {
 	position: fixed;
 	width: 100vw;
@@ -130,13 +114,13 @@ button {
 						display: block;
 						box-sizing: border-box;
 						height: 30px;
-						border: 2px solid #80807F;
+						border: 2px solid #ffaf1b;
 						border-radius: 15px;
-						background: #80807F;
+						background: #ffaf1b;
 
 						span:after {
-							content: "本サイトに行く";
-							padding: 0 0 0 15px;
+							content: "本サイトに戻る";
+							padding: 0 15px 0 0;
 							color: #FFFFFF;
 						}
 					}
@@ -146,29 +130,30 @@ button {
 					}
 
 					input[type="checkbox"]:checked +label {
-						border-color: #ffaf1b;
-						background: #ffaf1b;
+						border-color: #80807F;
+						background: #80807F;
 					}
 
 					input[type="checkbox"]:checked + label span:after {
-						content: "WELCOME!";
-						padding: 0 3px 0 0;
+						content: "GOODBYE!";
+						padding: 0 0 0 3px;
 						color: #FFFFFF;
 					}
 
 					#swImg {
+						pointer-events: none;
 						position: absolute;
 						width: 24px;
 						height: 24px;
 						background: #FFFFFF;
 						top: 3px;
-						left: 3px;
+						right: 3px;
 						border-radius: 11px;
 						transition: .2s;
 					}
 
 					input[type="checkbox"]:checked ~ #swImg {
-						transform: translateX(115px);
+						transform: translateX(-115px); 
 						background: #FFFFFF;
 					}
 				}
@@ -221,6 +206,17 @@ button {
 	overflow: hidden;
 	pointer-events: none;
 }
+
+.modaal-wrapper ul {
+	display: flex;
+	list-style: none;
+	padding: 10px;
+
+	li {
+		padding: 10px;
+	}
+}
+
 #ui {
 	#glass__container{
 		position: absolute;
@@ -231,8 +227,22 @@ button {
 			overflow: hidden;
 			background: rgba(255, 255, 255, 0.3);
 			padding-left: 0px;
+			display: flex;
 			display: none;
 			list-style: none;
+
+			ul{
+				list-style: none;
+				padding-right: 100px;
+				display: flex;
+				justify-content: space-between;
+		
+				li {
+					padding-top: 5px;
+					padding-bottom: 5px;
+				}
+			}
+		}
 	
 			li {
 				float: none;
@@ -289,7 +299,7 @@ button {
 	.stick-cursor img{
 		border-radius: 50%;
 	}
-}
+
 #map_pos {
 	position: relative;
 	
@@ -380,5 +390,10 @@ button {
 .tutorial_div{
 	text-align: center;
     margin-left: auto;
-    margin-right: auto;
+	margin-right: auto;
+	
+	span {
+		color: red;
+		font-weight: bold;
+	}
 }
