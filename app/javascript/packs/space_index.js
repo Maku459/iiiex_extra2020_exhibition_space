@@ -15,13 +15,13 @@ import 'modaal';
 	
 	let W, H;
 	const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
-	const zips = new THREE.Group(), zipsArray = new Array(), obsts = new THREE.Group(), foots = new THREE.Group(), birds = new THREE.Group(), fish = new THREE.Group(), snakes = new THREE.Group();
+	const zips = new THREE.Group(), zipsArray = new Array(), obsts = new THREE.Group(), obstsArray = new Array(), foots = new THREE.Group(), birds = new THREE.Group(), fish = new THREE.Group(), snakes = new THREE.Group();
 	const color = [{bg: "transparent", mat: new THREE.MeshBasicMaterial({color: 0xffffff}), balls: new THREE.Group()}, {bg: "rgba(255, 68, 68, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0xff4444}), balls: new THREE.Group()}, {bg: "rgba(68, 255, 68, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0x44ff44}), balls: new THREE.Group()}, {bg: "rgba(68, 68, 255, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0x4444ff}), balls: new THREE.Group()}];
 	let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 10, dragging = false;
 	const spFB = 40, spLR = 0.3, spUD = 10, exLR = 1, len = 30;
 	const LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 	const pmouse = new THREE.Vector3();
-	const dist = {zip: 20, area: 203 - 10, obst: 20};
+	const dist = {zip: 25, area: 203 - 10, obst: 20};
 	const timer = {interval: 5000};
 	let hitFlag = true;
 	let id = 0;
@@ -60,7 +60,16 @@ import 'modaal';
 					}
 				}
 				landmark.scale.set(10, 10, 10);
-				obsts.add(landmark);
+				landmark.name = "zip10";
+				zips.add(landmark);
+				obstsArray.push(landmark);
+				for (let i=0; i<landmark.children.length; i++) {
+					const l = landmark.children[i];
+					if (l.type == "Mesh") {
+						l.name = "zip10";
+						zipsArray.push(l);
+					}
+				}
 				
 				const nesMat = new THREE.MeshBasicMaterial({color: 0xf4ae3b});
 				gltfLoader.load(conohaUrl + "model/iiiEx_who.gltf" + corsToken, (data) => {
@@ -176,6 +185,7 @@ import 'modaal';
 																			plane.scale.set(25/4, 25, 1);
 																			plane.name = "zip" + i;
 																			zips.add(plane);
+																			zipsArray.push(plane);
 																		}
 																		
 																		let image_index = ["816.jpg", "819.png", "817.png", "811.jpg", "815.jpg", "818.png", "812.png", "810.jpg", "820.png", "814.jpg"];
@@ -193,6 +203,7 @@ import 'modaal';
 																				plane.scale.set(w/5, h/5, 1);
 																				plane.name = "zip" + i;
 																				zips.add(plane);
+																				zipsArray.push(plane);
 																				c++;
 																				if (c >= 10) init();
 																			});
@@ -240,9 +251,11 @@ import 'modaal';
 			color[i].balls.visible = false;
 		}
 		color[0].balls.visible = true;
-		for (let i=0; i<zips.children.length; i++) {
-			zipsArray.push(zips.children[i]);
+		
+		for (let i=0; i<obsts.children.length; i++) {
+			obstsArray.push(obsts.children[i]);
 		}
+			console.log(zips.children)
 		
 		const light = new THREE.PointLight(0xFFFFFF, 1.4, 0, 0);
 		light.position.set(0, 150, 0);
@@ -364,7 +377,6 @@ import 'modaal';
 			var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
 			var meshes = ray.intersectObjects(zipsArray);
 			if (meshes.length > 0){
-				console.log(meshes[0])
 				if (meshes[0].distance < 100) {
 					let n = meshes[0].object.name.slice(3);
 					$("#works" + n).show();
@@ -472,8 +484,8 @@ import 'modaal';
 			c.z = Math.sin(rot) * dist.area;
 		}
 		
-		for (let i=0; i<obsts.children.length; i++) {
-			const o = obsts.children[i].position;
+		for (let i=0; i<obstsArray.length; i++) {
+			const o = obstsArray[i].position;
 			if (Math.pow(o.x-c.x, 2) + Math.pow(o.z-c.z, 2) <= Math.pow(dist.obst, 2)) {
 				const rot = Math.atan2(c.z-o.z, c.x-o.x);
 				c.x = Math.cos(rot) * dist.obst + o.x;
@@ -483,10 +495,10 @@ import 'modaal';
 		
 		let hitNo = zips.children.length;
 		for (let i=0; i<zips.children.length; i++) {
-			zips.children[i].lookAt(c);
+			if (zips.children[i].type != "Group") zips.children[i].lookAt(c);
 			const z = zips.children[i].position;
 			if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(dist.zip, 2)) {
-				hitNo = i;
+				hitNo = zips.children[i].name.slice(3);
 				break;
 			}
 		}
