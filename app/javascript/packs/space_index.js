@@ -102,6 +102,9 @@ import 'modaal';
 							let c = 0;
 							for (let i=0; i<5; i++) {
 								gltfLoader.load(conohaUrl + "model/iiiEx_snake.gltf", (data) => {
+									for (let i=0; i<data.scene.children.length; i++) {
+										data.scene.children[i].material = color[1].mat;
+									}
 									const model = new THREE.Object3D();
 									model.add(data.scene);
 									const anims = data.animations;
@@ -123,6 +126,9 @@ import 'modaal';
 										c = 0;
 										for (let i=0; i<15; i++) {
 											gltfLoader.load(conohaUrl + "model/iiiEx_fish.gltf", (data) => {
+												for (let i=0; i<data.scene.children.length; i++) {
+													data.scene.children[i].material = color[3].mat;
+												}
 												const model = new THREE.Object3D();
 												model.add(data.scene);
 												const anims = data.animations;
@@ -144,6 +150,9 @@ import 'modaal';
 													c = 0;
 													for (let i=0; i<10; i++) {
 														gltfLoader.load(conohaUrl + "model/iiiEx_bird.gltf", (data) => {
+															for (let i=0; i<data.scene.children.length; i++) {
+																data.scene.children[i].material = color[2].mat;
+															}
 															const model = new THREE.Object3D();
 															model.add(data.scene);
 															const anims = data.animations;
