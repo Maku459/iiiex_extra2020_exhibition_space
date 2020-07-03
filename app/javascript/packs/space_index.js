@@ -436,7 +436,10 @@ import 'modaal';
 	const getPos = () => {
 		$.getJSON("/userpositions.json", (data) => {
 			const max = 100;
+			let last = 0;
 			for (let i=0; i<data.length; i++) {
+				if (i == 0) last = data[i].id;
+				if (i == data.length-1) console.log("last", last, data[i].id)
 				if (data[i].id > id) {
 					id = data[i].id;
 					const foot = footstamp.clone();
@@ -451,6 +454,7 @@ import 'modaal';
 					foots.remove(foots.children[0])
 				}
 			}
+			console.log("total", foots.children.length)
 //			console.log("get ", data)
 		});
 	}
