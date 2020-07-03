@@ -1,4 +1,6 @@
 import DailyIframe from "@daily-co/daily-js";
+import 'jquery-ujs';
+import 'modaal';
 
 function showEvent(e) {
     console.log("video call event -->", e);
@@ -93,3 +95,23 @@ async function run() {
         "    callFrame.startScreenShare()"
     );
 }
+
+$('.speak_active > a > img').click(() => {
+    $.ajax({
+        type: "post",
+        url: "/slack_notifications/daily_co_start.json",
+        data: JSON.stringify({ 'work_name': 'exhibition_space'}),
+        contentType: 'application/json',
+        dataType: "json",
+
+        success: function (data) {
+            console.log("success");
+            console.log(data);
+            // $("#name").val("");
+        },
+        error: function (data) {
+            console.log("error");
+            console.log(data);
+        }
+    });
+})

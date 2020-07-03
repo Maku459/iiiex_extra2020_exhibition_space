@@ -17,10 +17,17 @@ class SlackNotificationsController < ApplicationController
   def entered_page
     unless Work::WORKS_NAMES.include?(params[:work_name]) then
       render json: {response: 'work not found.'}, status: 404
+      return
+    end
+
+    if params[:work_name] == 'exhibition_space'
+      works_page_url = "https://extra2020.iiiexhibition.com/"
+    else
+      works_page_url = "https://extra2020.iiiexhibition.com/works/" + params[:work_name]
     end
 
     message = <<-EOS
-<https://extra2020.iiiexhibition.com/works/#{params[:work_name]}|#{Work::WORKS_INFO[params[:work_name]]['name']}>にお客さんがきました．
+<#{works_page_url}|#{Work::WORKS_INFO[params[:work_name]]['name']}>にお客さんがきました．
 
 通話リンク: #{Work::WORKS_INFO[params[:work_name]]['daily_co_url']}
     EOS
@@ -46,16 +53,23 @@ class SlackNotificationsController < ApplicationController
     }
 
     res = submit_incoming_webhook post_params
-    render json: {response: res}, status: res.code
+    render json: {response: res.body}, status: res.code
   end
 
   def daily_co_start
     unless Work::WORKS_NAMES.include?(params[:work_name]) then
       render json: {response: 'work not found.'}, status: 404
+      return
+    end
+
+    if params[:work_name] == 'exhibition_space'
+      works_page_url = "https://extra2020.iiiexhibition.com/"
+    else
+      works_page_url = "https://extra2020.iiiexhibition.com/works/" + params[:work_name]
     end
 
     message = <<-EOS
-@here <https://extra2020.iiiexhibition.com/works/#{params[:work_name]}|#{Work::WORKS_INFO[params[:work_name]]['name']}>で通話が開始されました．
+@here <#{works_page_url}|#{Work::WORKS_INFO[params[:work_name]]['name']}>で通話が開始されました．
 お客さんに説明をお願いします．
 
 通話リンク: #{Work::WORKS_INFO[params[:work_name]]['daily_co_url']}
@@ -86,7 +100,7 @@ class SlackNotificationsController < ApplicationController
     }
 
     res = submit_incoming_webhook post_params
-    render json: {response: res}, status: res.code
+    render json: {response: res.body}, status: res.code
   end
 
   private
