@@ -15,13 +15,13 @@ import 'modaal';
 	
 	let W, H;
 	const scene = new THREE.Scene(), renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}), camera = new THREE.PerspectiveCamera(30, W/H, 1, 3000), clock = new THREE.Clock();
-	const zips = new THREE.Group(), obsts = new THREE.Group(), foots = new THREE.Group(), birds = new THREE.Group(), fish = new THREE.Group(), snakes = new THREE.Group();
+	const zips = new THREE.Group(), zipsArray = new Array(), obsts = new THREE.Group(), obstsArray = new Array(), foots = new THREE.Group(), birds = new THREE.Group(), fish = new THREE.Group(), snakes = new THREE.Group();
 	const color = [{bg: "transparent", mat: new THREE.MeshBasicMaterial({color: 0xffffff}), balls: new THREE.Group()}, {bg: "rgba(255, 68, 68, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0xff4444}), balls: new THREE.Group()}, {bg: "rgba(68, 255, 68, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0x44ff44}), balls: new THREE.Group()}, {bg: "rgba(68, 68, 255, 0.5)", mat: new THREE.MeshBasicMaterial({color: 0x4444ff}), balls: new THREE.Group()}];
 	let dirLR = 0, dirFB = 0, dirUD = 0, yaw = 0, pitch = 0, camY = 10, dragging = false;
 	const spFB = 40, spLR = 0.3, spUD = 10, exLR = 1, len = 30;
 	const LRs = new Array(), FBs = new Array(), UDs = new Array(), dirs = [false, false, false, false, false, false];
 	const pmouse = new THREE.Vector3();
-	const dist = {zip: 20, area: 203 - 10, obst: 20};
+	const dist = {zip: 25, area: 203 - 10, obst: 20};
 	const timer = {interval: 5000};
 	let hitFlag = true;
 	let id = 0;
@@ -60,7 +60,16 @@ import 'modaal';
 					}
 				}
 				landmark.scale.set(10, 10, 10);
-				obsts.add(landmark);
+				landmark.name = "zip10";
+				zips.add(landmark);
+				obstsArray.push(landmark);
+				for (let i=0; i<landmark.children.length; i++) {
+					const l = landmark.children[i];
+					if (l.type == "Mesh") {
+						l.name = "zip10";
+						zipsArray.push(l);
+					}
+				}
 				
 				const nesMat = new THREE.MeshBasicMaterial({color: 0xf4ae3b});
 				gltfLoader.load(conohaUrl + "model/iiiEx_who.gltf" + corsToken, (data) => {
@@ -95,7 +104,6 @@ import 'modaal';
 								gltfLoader.load(conohaUrl + "model/iiiEx_snake.gltf", (data) => {
 									const model = new THREE.Object3D();
 									model.add(data.scene);
-//									const model = data.scene;
 									const anims = data.animations;
 									const mixer = new THREE.AnimationMixer(model);
 									const rot = Math.random()*Math.PI*2;
@@ -117,7 +125,6 @@ import 'modaal';
 											gltfLoader.load(conohaUrl + "model/iiiEx_fish.gltf", (data) => {
 												const model = new THREE.Object3D();
 												model.add(data.scene);
-			//									const model = data.scene;
 												const anims = data.animations;
 												const mixer = new THREE.AnimationMixer(model);
 												const rot = Math.random()*Math.PI*2;
@@ -139,7 +146,6 @@ import 'modaal';
 														gltfLoader.load(conohaUrl + "model/iiiEx_bird.gltf", (data) => {
 															const model = new THREE.Object3D();
 															model.add(data.scene);
-						//									const model = data.scene;
 															const anims = data.animations;
 															const mixer = new THREE.AnimationMixer(model);
 															const rot = Math.random()*Math.PI*2;
@@ -176,8 +182,10 @@ import 'modaal';
 																			const plane = new THREE.Mesh(zipGeo, zipMat);
 																			const rot = i*2*Math.PI/10;
 																			plane.position.set(radius*Math.sin(rot), 10, radius*Math.cos(rot));
-																			plane.scale.set(w, h, 1);
+																			plane.scale.set(25/4, 25, 1);
+																			plane.name = "zip" + i;
 																			zips.add(plane);
+																			zipsArray.push(plane);
 																		}
 																		
 																		let image_index = ["816.jpg", "819.png", "817.png", "811.jpg", "815.jpg", "818.png", "812.png", "810.jpg", "820.png", "814.jpg"];
@@ -193,7 +201,9 @@ import 'modaal';
 																				const rot = i*2*Math.PI/10;
 																				plane.position.set(radius*Math.sin(rot), 25, radius*Math.cos(rot));
 																				plane.scale.set(w/5, h/5, 1);
+																				plane.name = "zip" + i;
 																				zips.add(plane);
+																				zipsArray.push(plane);
 																				c++;
 																				if (c >= 10) init();
 																			});
@@ -227,12 +237,13 @@ import 'modaal';
 					content_source: '#tutorial',
 					start_open: true
 				}); 
-			camera.position.set(-60, camY, 10);
+			yaw = -Math.PI*3/4;
+			camera.position.set(145, camY, 105);
 		}
 		pitch = camY;
 		
 		const geo = new THREE.SphereGeometry(0.2);
-		for (var i=0; i<9000; i++) {
+		for (var i=0; i<3000; i++) {
 			const sphere = new THREE.Mesh(geo, color[(i%3)+1].mat);
 			let rot = Math.random() * Math.PI * 2;
 			let range = Math.random() * dist.area;
@@ -245,6 +256,10 @@ import 'modaal';
 		}
 		color[0].balls.visible = true;
 		
+		for (let i=0; i<obsts.children.length; i++) {
+			obstsArray.push(obsts.children[i]);
+		}
+		
 		const light = new THREE.PointLight(0xFFFFFF, 1.4, 0, 0);
 		light.position.set(0, 150, 0);
 		scene.add(light);
@@ -253,9 +268,9 @@ import 'modaal';
 		scene.add(zips);
 		scene.add(obsts);
 		scene.add(foots);
-		scene.add(snakes);
-		scene.add(fish);
-		scene.add(birds);
+		color[1].balls.add(snakes);
+		color[2].balls.add(birds);
+		color[3].balls.add(fish);
 		getPos();
 		setPos();
 		
@@ -351,6 +366,26 @@ import 'modaal';
 				$("#screen").css({background: color[0].bg});
 				$("#screen").show();
 			});
+		});
+		
+		$("#world canvas").on("click", function(e) {
+			const rect = e.target.getBoundingClientRect();
+			let mouse = {x: 0, y: 0};
+			mouse.x = e.clientX - rect.left;
+			mouse.y = e.clientY - rect.top;
+			mouse.x =  (mouse.x / W) * 2 - 1;
+			mouse.y = -(mouse.y / H) * 2 + 1;
+			const vector = new THREE.Vector3(mouse.x, mouse.y, 1);
+			vector.unproject(camera);
+			const ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+			const meshes = ray.intersectObjects(zipsArray);
+			if (meshes.length > 0){
+				if (meshes[0].distance < 100) {
+					let n = meshes[0].object.name.slice(3);
+					$("#works" + n).show();
+					$("#works").stop(true).fadeIn(400);
+				}
+			}
 		});
 		
 		$("#works .close").on("click", function(e) {
@@ -452,24 +487,35 @@ import 'modaal';
 			c.z = Math.sin(rot) * dist.area;
 		}
 		
-		for (let i=0; i<obsts.children.length; i++) {
-			const o = obsts.children[i].position;
+		for (let i=0; i<obstsArray.length; i++) {
+			const o = obstsArray[i].position;
 			if (Math.pow(o.x-c.x, 2) + Math.pow(o.z-c.z, 2) <= Math.pow(dist.obst, 2)) {
 				const rot = Math.atan2(c.z-o.z, c.x-o.x);
 				c.x = Math.cos(rot) * dist.obst + o.x;
 				c.z = Math.sin(rot) * dist.obst + o.z;
 			}
 		}
-		
+
+
+		const camDir = new THREE.Vector3(0, 0, -1).applyMatrix4(camera.matrixWorld);
+		const ray = new THREE.Raycaster(camera.position, camDir.sub(camera.position).normalize());
 		let hitNo = zips.children.length;
-		for (let i=0; i<zips.children.length; i++) {
-			zips.children[i].lookAt(c);
-			const z = zips.children[i].position;
-			if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(dist.zip, 2)) {
-				hitNo = i;
-				break;
+		const meshes = ray.intersectObjects(zipsArray);
+		if (meshes.length > 0){
+			if (meshes[0].distance < dist.zip) {
+				hitNo = meshes[0].object.name.slice(3);
 			}
 		}
+		
+/*		let hitNo = zips.children.length;
+		for (let i=0; i<zips.children.length; i++) {
+			if (zips.children[i].type != "Group") zips.children[i].lookAt(c);
+			const z = zips.children[i].position;
+			if (Math.pow(z.x-c.x, 2) + Math.pow(z.y-c.y, 2) + Math.pow(z.z-c.z, 2) <= Math.pow(dist.zip, 2)) {
+				hitNo = zips.children[i].name.slice(3);
+				break;
+			}
+		}*/
 		
 		if (hitNo < zips.children.length) {
 			if (hitFlag) {
@@ -495,6 +541,9 @@ import 'modaal';
 			left: c.z * 214/203 + 940/2
 		});
 		
+		for (let i=0; i<zips.children.length; i++) {
+			if (zips.children[i].type != "Group") zips.children[i].lookAt(c);
+		}
 		for (let i=0; i<snakes.children.length; i++) {
 			const a = snakes.children[i];
 			const prev = new THREE.Vector3(a.position.x, 0, a.position.z);
@@ -502,7 +551,6 @@ import 'modaal';
 			const pos = new THREE.Vector3(Math.cos(a.rot) * snakePos.range.x, Math.sin(a.rot*10)/2+0.5, Math.sin(a.rot) * snakePos.range.z);
 			a.position.copy(pos.add(snakePos.center));
 			a.lookAt(snakePos.center);
-			a.children[0].rotation.z = Math.sin(a.rot*10+Math.PI/4)/3;
 		}
 		for (let i=0; i<fish.children.length; i++) {
 			const a = fish.children[i];
@@ -520,7 +568,6 @@ import 'modaal';
 			const pos = new THREE.Vector3(Math.cos(a.rot) * birdPos.range.x, Math.sin(a.rot*10)*2 + 30, Math.sin(a.rot) * birdPos.range.z);
 			a.position.copy(pos.add(birdPos.center));
 			a.lookAt(birdPos.center);
-			a.children[0].rotation.z = Math.sin(a.rot*10+Math.PI/4)/3;
 		}
 		for (let i=0; i<mixers.length; i++) {
 			mixers[i].update(delta);
