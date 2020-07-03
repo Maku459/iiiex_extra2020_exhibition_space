@@ -1,8 +1,15 @@
+import DailyIframe from "@daily-co/daily-js";
+
 function showEvent(e) {
     console.log("video call event -->", e);
 }
 
-export async function run() {
+$('.button_speak_launch').click(() => {
+    console.log('run');
+    run();
+});
+
+async function run() {
     console.log('run');
     // create a short-lived demo room. if you just want to
     // hard-code a meeting link for testing you could do something like
@@ -11,16 +18,14 @@ export async function run() {
     //   room = { url: 'https://your-domain.daily.co/hello' }
     //
     // room = await createMtgRoom();
-    let path = location.pathname;
-    let works_name = path.match(/^\/works\/([^\/]+).*/);
-    // room = { url: `https://iiiex.daily.co/${works_name[1]}` }
-    room = { url: `https://iiiex.daily.co/with_rain` }
+
+    let room = { url: 'https://iiiex.daily.co/813_exhibition_space' }
 
     // create a video call iframe and add it to document.body
     // defaults to floating window in the lower right-hand corner
     //
     let date = new Date();
-    window.callFrame = window.DailyIframe.createFrame({
+    let callFrame = DailyIframe.createFrame({
         userName: `visitor${date.toLocaleTimeString()}`,
     });
 
