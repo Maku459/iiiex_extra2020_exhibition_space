@@ -233,6 +233,10 @@ import 'modaal';
 			yaw = -referer*2*Math.PI/10 + Math.PI/2;
 			camera.position.set(radius*Math.sin(rot), camY, radius*Math.cos(rot));
 		} else {
+				$('.tutorial').modaal({
+					content_source: '#tutorial',
+					start_open: true
+				}); 
 			yaw = -Math.PI*3/4;
 			camera.position.set(145, camY, 105);
 		}
