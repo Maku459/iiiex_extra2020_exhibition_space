@@ -1,7 +1,6 @@
 <%= stylesheet_link_tag 'space', media: 'all' %>
 <%= javascript_pack_tag 'space_index' %>
 <%= javascript_pack_tag 'space_ui' %>
-<%= javascript_packs_with_chunks_tag 'dailyco' %>
 <script>
   (function(d) {
     var config = {
@@ -36,7 +35,7 @@
 									<p>※ビデオオフ，マイクミュートから始まります．</p>
 									<p>※ビデオ通話対応時間は各日 11:00-19:00 です．</p>
 								</div>
-								<div class="speak_active"><a href="#" onclick="run();gtag('event', 'call_展示空間', {'event_category' : 'call',});return false;"><img src="/images/button_speak11@2x.png" class="button_speak_launch" width="200px" alt=""></a></div>
+								<div class="speak_active"><a href="#" onclick="gtag('event', 'call_展示空間', {'event_category' : 'call',});return false;"><img src="/images/button_speak11@2x.png" class="button_speak_launch" width="200px" alt=""></a></div>
 								<p class="speak_inactive">11:00~19:00の間，制作展メンバーから直接話を聞くことができます．</p>
 							</div>
 						</li>
@@ -228,3 +227,5 @@
 			<span>メガネ</span>のボタンを押すと何かが起こるかも...? </br></br>
 			(スマホ又はタブレットをご使用の方は本サイトのWORKSから各作品を体験できます)</div>
 		</div>
+
+<%= javascript_pack_tag 'dailyco' %>
