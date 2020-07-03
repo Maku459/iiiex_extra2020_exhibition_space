@@ -443,14 +443,16 @@ import 'modaal';
 				if (data[i].id > id) {
 					id = data[i].id;
 					const foot = footstamp.clone();
+					foot.dataId = data[i].id;
 					foot.position.set(data[i].x, 0.1, data[i].z);
 					foot.rotation.set(-Math.PI/2, 0, Math.random()*Math.PI*2);
 					foots.add(foot);
+					console.log(foots.children[0], data)
 				}
 			}
 			if (foots.children.length > 0) {
-				while (foots.children[0].id < last) {
-					console.log("delete", foots.children[0].id)
+				while (foots.children[0].dataId < last) {
+					console.log("delete", foots.children[0].dataId)
 					foots.remove(foots.children[0])
 				}
 			}
