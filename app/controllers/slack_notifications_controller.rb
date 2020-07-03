@@ -17,6 +17,7 @@ class SlackNotificationsController < ApplicationController
   def entered_page
     unless Work::WORKS_NAMES.include?(params[:work_name]) then
       render json: {response: 'work not found.'}, status: 404
+      return
     end
 
     if params[:work_name] == 'exhibition_space'
@@ -52,12 +53,13 @@ class SlackNotificationsController < ApplicationController
     }
 
     res = submit_incoming_webhook post_params
-    render json: {response: res}, status: res.code
+    render json: {response: res.body}, status: res.code
   end
 
   def daily_co_start
     unless Work::WORKS_NAMES.include?(params[:work_name]) then
       render json: {response: 'work not found.'}, status: 404
+      return
     end
 
     if params[:work_name] == 'exhibition_space'
@@ -98,7 +100,7 @@ class SlackNotificationsController < ApplicationController
     }
 
     res = submit_incoming_webhook post_params
-    render json: {response: res}, status: res.code
+    render json: {response: res.body}, status: res.code
   end
 
   private
