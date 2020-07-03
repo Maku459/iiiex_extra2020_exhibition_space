@@ -272,9 +272,9 @@ import 'modaal';
 		
 		update();
 		
-//		timer.post = setInterval(setPos, timer.interval);
+		timer.post = setInterval(setPos, timer.interval);
 		setTimeout(() => {
-//			timer.get = setInterval(getPos, timer.interval);
+			timer.get = setInterval(getPos, timer.interval);
 		}, timer.interval/2);
 		
 		document.addEventListener("keydown", (e) => {
