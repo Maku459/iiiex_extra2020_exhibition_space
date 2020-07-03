@@ -3,25 +3,25 @@ import {} from 'jquery-ujs';
 import 'modaal'
 
 $(() => {
-    let path = location.pathname;
-    let works_name = path.match(/^\/works\/([^\/]+).*/)[1];
-    $.ajax({
-        type: "post",
-        url: "/slack_notifications/entered_page.json",
-        data: JSON.stringify({ 'work_name': works_name}),
-        contentType: 'application/json',
-        dataType: "json",
-
-        success: function (data) {
-            console.log("success");
-            console.log(data);
-            // $("#name").val("");
-        },
-        error: function (data) {
-            console.log("error");
-            console.log(data);
-        }
-    });
+    // let path = location.pathname;
+    // let works_name = path.match(/^\/works\/([^\/]+).*/)[1];
+    // $.ajax({
+    //     type: "post",
+    //     url: "/slack_notifications/entered_page.json",
+    //     data: JSON.stringify({ 'work_name': works_name}),
+    //     contentType: 'application/json',
+    //     dataType: "json",
+    //
+    //     success: function (data) {
+    //         console.log("success");
+    //         console.log(data);
+    //         // $("#name").val("");
+    //     },
+    //     error: function (data) {
+    //         console.log("error");
+    //         console.log(data);
+    //     }
+    // });
 })
 
 
