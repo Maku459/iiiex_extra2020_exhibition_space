@@ -447,7 +447,6 @@ import 'modaal';
 					foot.position.set(data[i].x, 0.1, data[i].z);
 					foot.rotation.set(-Math.PI/2, 0, Math.random()*Math.PI*2);
 					foots.add(foot);
-					console.log(foots.children[0], data)
 				}
 			}
 			if (foots.children.length > 0) {
