@@ -448,9 +448,11 @@ import 'modaal';
 					foots.add(foot);
 				}
 			}
-			while (foots.children[0].id < last) {
-				console.log("delete", foots.children[0].id)
-				foots.remove(foots.children[0])
+			if (foots.children.length > 0) {
+				while (foots.children[0].id < last) {
+					console.log("delete", foots.children[0].id)
+					foots.remove(foots.children[0])
+				}
 			}
 			console.log("total", foots.children.length)
 //			console.log("get ", data)
