@@ -226,7 +226,7 @@ import 'modaal';
 				$('.tutorial').modaal({
 					content_source: '#tutorial',
 					start_open: true
-				});
+				}); 
 			camera.position.set(-60, camY, 10);
 		}
 		pitch = camY;
