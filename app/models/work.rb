@@ -16,6 +16,11 @@ class Work < ApplicationRecord
           'image' => '812.png',
           'daily_co_url' => "https://iiiex.daily.co/812_super_audio_racing"
       },
+      "exhibition_space" => {
+          'name' => '展示空間',
+          'image' => '813.png',
+          'daily_co_url' => "https://iiiex.daily.co/813_exhibition_space"
+      },
       "Graviter" => {
           'name' => 'Graviter',
           'image' => '814.jpg',
