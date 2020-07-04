@@ -32,7 +32,7 @@ $(document).ready(function(){
     });
     
     var now_hour = new Date().getHours();
-    if ( 2 <= now_hour && now_hour <= 19 ){
+    if ( 11 <= now_hour && now_hour < 19 ){
         $('.button_speak').css('background', '#ffaf1b');
         $('.button_speak').css('border-color', '#ffaf1b');
 		$('.speak_inactive').css('display','none');

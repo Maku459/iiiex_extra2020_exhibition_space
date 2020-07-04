@@ -99,6 +99,30 @@ button {
 					display: block;
 				}
 
+				.button_review {
+					line-height: 26px;
+					letter-spacing: 2px;
+					text-align: center;
+					font-size: 12px;
+					display: inline-block;
+					position: relative;
+					margin: auto;
+					width: 145px;
+					background: #FFFFFF;
+					visibility: visible;
+					display: block;
+					box-sizing: border-box;
+					height: 30px;
+					border: 2px solid #ffaf1b;
+					border-radius: 15px;
+					background: #ffaf1b;
+
+					span:after {
+						content: "感想を送る";
+						color: #FFFFFF;
+					}
+				}
+
 				.switchArea {
 					line-height: 26px;
 					letter-spacing: 2px;
