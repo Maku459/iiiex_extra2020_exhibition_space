@@ -447,7 +447,7 @@ import 'modaal';
 					foots.add(foot);
 				}
 			}
-			while (foots.children[0].dataId > 300) {
+			while (foots.children.length > 300) {
 				foots.remove(foots.children[0])
 			}
 			if (foots.children.length > 0) {
