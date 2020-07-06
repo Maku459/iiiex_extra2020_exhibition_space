@@ -1,7 +1,7 @@
 require 'nokogiri'
 
 class WorksController < ApplicationController
-  # before_action :basic_auth
+  before_action :basic_auth
 
   def pages
     unless Work::WORKS_NAMES.include?(params[:name]) then

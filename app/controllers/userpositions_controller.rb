@@ -10,9 +10,9 @@ class UserpositionsController < ApplicationController
     now = DateTime.now
     threshold = now - Rational(30, 24 * 60)
     Userposition.all.each do |userposition|
-      if DateTime.parse(userposition[:created_at].to_s) > threshold
+      # if DateTime.parse(userposition[:created_at].to_s) > threshold
         dst.push(userposition)
-      end
+      # end
     end
     @userpositions = dst
   end
