@@ -27,7 +27,6 @@ $(document).ready(function(){
 	});
 
 	$('.speak_active > a > img').on('click',function(e){
-		console.log("close")
 		$('.button_speak').modaal('close');
     });
     
@@ -43,6 +42,14 @@ $(document).ready(function(){
 		$('.speak_active').css('display','none');
 		$('.speak_inactive').css('display','block');
     }
+
+    $('.button_good').on('click',function(e){
+		$('.button_good').css('background', 'url(https://object-storage.tyo2.conoha.io/v1/nc_7d0030b822e246239683a325ebfb1974/iiiex/works/src/img/button_redheart_gray%402x.png)');
+        $('.button_good').css('width', '32px');
+        $('.button_good').css('height', '32px');
+        $('.button_good').css('background-size', 'cover');
+        console.log("good");
+    });
 
 
     $('.map__modal').modaal({
