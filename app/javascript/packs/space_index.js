@@ -439,18 +439,25 @@ import 'modaal';
 	
 	const getPos = () => {
 		$.getJSON("/userpositions.json", (data) => {
-			const max = 100;
+			let last = 0;
 			for (let i=0; i<data.length; i++) {
+				if (i == 0) last = data[i].id;
 				if (data[i].id > id) {
 					id = data[i].id;
 					const foot = footstamp.clone();
+					foot.dataId = data[i].id;
 					foot.position.set(data[i].x, 0.1, data[i].z);
 					foot.rotation.set(-Math.PI/2, 0, Math.random()*Math.PI*2);
 					foots.add(foot);
 				}
 			}
-			while (foots.children.length > max) {
+			while (foots.children.length > 300) {
 				foots.remove(foots.children[0])
+			}
+			if (foots.children.length > 0) {
+				while (foots.children[0].dataId < last) {
+					foots.remove(foots.children[0])
+				}
 			}
 //			console.log("get ", data)
 		});
